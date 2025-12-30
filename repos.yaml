@@ -1,0 +1,25 @@
+- name: cef-governance-orchestrator
+  local_path: cef-governance-orchestrator
+  role: Governance orchestrator for coding agents
+  enforcement_capable: true
+  notes: Coordinates governance contracts and context artifacts.
+- name: cef-readme-spec-engine
+  local_path: cef-readme-spec-engine
+  role: Spec-driven README generator/validator
+  enforcement_capable: true
+  notes: Produces deterministic README artifacts from specs.
+- name: cef-spec-compiler
+  local_path: cef-spec-compiler
+  role: Intent-to-spec compiler pipeline
+  enforcement_capable: true
+  notes: Enforces stage gates for capturing and validating intent.
+- name: cef-ui-constitution
+  local_path: cef-ui-constitution
+  role: Visual constitution schemas
+  enforcement_capable: true
+  notes: Supplies machine-readable UI constraints for validation.
+- name: cef-ui-pattern-registry
+  local_path: cef-ui-pattern-registry
+  role: UI pattern registry
+  enforcement_capable: true
+  notes: Publishes approved UI patterns and validation tooling.

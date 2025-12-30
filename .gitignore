@@ -1,0 +1,7 @@
+# Ignore all child repositories (CEF ecosystem components)
+
+cef-governance-orchestrator/
+cef-readme-spec-engine/
+cef-spec-compiler/
+cef-ui-constitution/
+cef-ui-pattern-registry/
