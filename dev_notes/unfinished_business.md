@@ -31,7 +31,7 @@ This is the **mechanical mapping** from layers → repos. No theory.
 
 ## 2️⃣ Governance & Orchestration Repo
 
-(**current `context-engineering-framework` → renamed governance/orchestrator**)
+(**current `ceres-coordinated-emergent-reasoning-system` → renamed governance/orchestrator**)
 
 **Owns:**
 

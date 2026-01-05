@@ -82,15 +82,15 @@ They are not libraries.
 They are **authoritative subsystems**.
 
 ### Governance & Orchestration
-- https://github.com/holaymolay/cef-governance-orchestrator
+- https://github.com/holaymolay/governance-orchestrator
 
 ### Specification & Intent Compilation
-- https://github.com/holaymolay/cef-spec-compiler
-- https://github.com/holaymolay/cef-readme-spec-engine
+- https://github.com/holaymolay/spec-compiler
+- https://github.com/holaymolay/readme-spec-engine
 
 ### UI Legibility & Constraints
-- https://github.com/holaymolay/cef-ui-constitution
-- https://github.com/holaymolay/cef-ui-pattern-registry
+- https://github.com/holaymolay/ui-constitution
+- https://github.com/holaymolay/ui-pattern-registry
 
 No agent may invent rules that conflict with these repos.
 
@@ -124,7 +124,7 @@ If this file still exists, the system is still in bootstrap mode.
 
 ---
 
-## Part 2 — Naming: stop using `context-engineering-framework`
+## Part 2 — Naming: stop using `ceres-coordinated-emergent-reasoning-system`
 
 You’re correct to abandon it.
 
@@ -167,7 +167,7 @@ If it doesn’t plausibly describe **air traffic control for AI**, it’s wrong.
 
 ---
 
-### Core governance repo (currently `cef-governance-orchestrator`)
+### Core governance repo (currently `governance-orchestrator`)
 
 Rename to something that reflects authority, not plumbing.
 
@@ -185,10 +185,10 @@ These are mostly fine, but consistency matters:
 
 | Current                 | Suggested               |
 | ----------------------- | ----------------------- |
-| cef-spec-compiler       | spec-compiler           |
-| cef-readme-spec-engine  | intent-ingestion-engine |
-| cef-ui-constitution     | ui-constitution         |
-| cef-ui-pattern-registry | ui-pattern-registry     |
+| spec-compiler       | spec-compiler           |
+| readme-spec-engine  | intent-ingestion-engine |
+| ui-constitution     | ui-constitution         |
+| ui-pattern-registry | ui-pattern-registry     |
 
 Drop `cef-` once the umbrella name carries the identity.
 
