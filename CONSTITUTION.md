@@ -37,6 +37,7 @@ CERES — Coordinated Emergent Reasoning System — is the canonical umbrella fo
 - **Gap Ledger:** `gap_id`, type, blocking, answerable_by_system, resolution_method, confidence_required, status, evidence_links/assumptions (with risk + expiry).
 - **Task Plan → `todo.md`:** sequenced tasks with concept/phase/acceptance; execution gate.
 - **Audit → `completed.md`:** immutable log of completed tasks with evidence references.
+- **Memory Ledger → `memory.md`:** canonical durable context; `handover.md` is an export snapshot for context transfer (if conflict, `memory.md` wins).
 - **Prompt Debug Report:** YAML with prompt_id, status, detected_intent, scope, risk_level, issues, suggested_fix, decision_rationale; required for all intake before governance.
 - **Assumptions:** explicit, time-bound, risk-rated; never silent.
 
@@ -47,8 +48,11 @@ CERES — Coordinated Emergent Reasoning System — is the canonical umbrella fo
 - Gap resolution requires evidence, user answer, or explicit assumption with risk/expiry.
 - One-question-per-turn protocol enforced; non-compliant questions are rejected.
 - Prompt Debugger gates all intake (file or chat) before governance; no silent auto-fixes.
+- Preflight required: run `scripts/preflight.sh --mode execute` before any execution (Prompt Debugger + lifecycle gate).
 - No cross-repo changes without explicit coordination.
 - Execution cannot bypass observability/security; telemetry cannot be silenced.
+- Push required before closing a task; record the push hash in `completed.md` (auto-push may be used when safe).
+- No credentials in the repo; only placeholder values in env template files (e.g., `.env.example`).
 - Same prompt → same decision; deterministic behavior over permissiveness.
 
 ---

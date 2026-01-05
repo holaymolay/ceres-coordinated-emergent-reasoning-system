@@ -17,7 +17,12 @@ CERES is the umbrella project and governing architecture for this ecosystem. It 
 ## Prompt Debugger & Schemas
 - Pre-governance gate: `prompt-debugger/cli.py` (outputs Prompt Debug Report).
 - Schemas: `schemas/objective_contract.schema.json`, `schemas/gap_ledger.schema.json`, `schemas/task_plan.schema.json`, `schemas/completed_entry.schema.json`, `schemas/prompt_debug_report.schema.json`.
-- All intake (task-inbox/chat) must pass the debugger before governance.
+- All intake (todo-inbox/chat) must pass the debugger before governance.
+
+## Preflight gate
+- Run `scripts/preflight.sh --mode execute` before any execution (runs Prompt Debugger + lifecycle gate).
+- Defaults expect `objective-contract.json` and `gap-ledger.json` in the repo root.
+- Initialize governance artifacts: `scripts/init-artifacts.sh`.
 
 ## Component management
 - Components stay independent; this hub only references them.
@@ -25,8 +30,17 @@ CERES is the umbrella project and governing architecture for this ecosystem. It 
 - Run a command inside a component: `scripts/run-component.sh <component> "<cmd>"`.
 
 ## Todo artifacts
-- Use `scripts/init-todo-files.sh [target-dir]` to copy CERES todo templates (`todo-inbox.md`, `todo.md`, `completed.md`, `handover.md`).
+- Use `scripts/init-todo-files.sh [target-dir]` to copy CERES todo templates (`todo-inbox.md`, `todo.md`, `completed.md`, `memory.md`, `handover.md`).
+- `memory.md` is canonical; `handover.md` is an export snapshot for context transfer.
+- Generate/refresh `handover.md` from `memory.md`: `scripts/export-handover.py`.
+- Auto-sync handover: run `scripts/export-handover.py --watch` or install hooks with `scripts/install-hooks.sh`.
+- Session helper: `scripts/start-session.sh` (starts watch) and `scripts/stop-session.sh` (stops watch).
+- Start each LLM session with `scripts/start-session.sh` to keep handover synced.
+- End-of-task push check: `scripts/push-and-verify.sh` (pushes then runs `scripts/verify-sync.sh`).
+- Auto-push if safe: `scripts/auto-push-if-safe.sh` (installed via `scripts/install-hooks.sh`).
 - Templates live in `templates/todo/`; keep formatting to satisfy governance gates.
+
+- Canonical references: `docs/canonical-layer-model.md`, `docs/repo-assignment.md`.
 
 ## Component routing
 - See `docs/routing.md` for which component to invoke and how to call it via hub scripts.

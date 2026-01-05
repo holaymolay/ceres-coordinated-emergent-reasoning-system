@@ -1,6 +1,6 @@
 # CERES Prompt Debugger
 
-Pre-governance gate for all prompt intake (task-inbox/chat). Runs structural checks, classifies intent, assesses risk, and emits a deterministic debug report before anything reaches governance or execution.
+Pre-governance gate for all prompt intake (todo-inbox/chat). Runs structural checks, classifies intent, assesses risk, and emits a deterministic debug report before anything reaches governance or execution.
 
 ## Artifacts
 - **Prompt Debug Report** (see `schemas/prompt_debug_report.schema.json`)
@@ -12,7 +12,7 @@ Pre-governance gate for all prompt intake (task-inbox/chat). Runs structural che
 ## Usage
 ```bash
 # From repo root
-prompt-debugger/cli.py --prompt-file task-inbox.md > /tmp/debug_report.yaml
+prompt-debugger/cli.py --prompt-file todo-inbox.md > /tmp/debug_report.yaml
 # Or pipe chat text
 printf "Refactor README in ui-constitution" | prompt-debugger/cli.py
 ```

@@ -10,3 +10,6 @@ parallel-agent-runner/
 
 logs/
 *.jsonl
+
+# Local research notes (ignored when untracked)
+dev_notes/

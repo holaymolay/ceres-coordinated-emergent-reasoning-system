@@ -28,4 +28,5 @@ copy_file() {
 copy_file "$TEMPLATE_DIR/todo-inbox.md" "$TARGET_DIR/todo-inbox.md"
 copy_file "$TEMPLATE_DIR/todo.md" "$TARGET_DIR/todo.md"
 copy_file "$TEMPLATE_DIR/completed.md" "$TARGET_DIR/completed.md"
+copy_file "$TEMPLATE_DIR/memory.md" "$TARGET_DIR/memory.md"
 copy_file "$TEMPLATE_DIR/handover.md" "$TARGET_DIR/handover.md"

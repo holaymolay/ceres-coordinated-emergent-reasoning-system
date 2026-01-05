@@ -2,7 +2,7 @@
 """Prompt Debugger CLI for CERES.
 
 Reads a prompt from stdin or a file and emits a debug report (YAML if available,
-otherwise JSON). This is the pre-governance gate for task-inbox/chat input.
+otherwise JSON). This is the pre-governance gate for todo-inbox/chat input.
 """
 import argparse
 import json

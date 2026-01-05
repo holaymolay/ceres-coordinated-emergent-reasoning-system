@@ -24,13 +24,23 @@ Umbrella name: **CERES — Coordinated Emergent Reasoning System** (final; no al
    - parallel-agent-runner (optional): https://github.com/holaymolay/parallel-agent-runner
    (Hub helper: `scripts/clone-components.sh` reads `repos.yaml` and clones any missing components.)
 3. Use the hub Prompt Debugger before any governance/execution:
-   - `prompt-debugger/cli.py --prompt-file task-inbox.md > /tmp/debug_report.yaml`
-4. Enforce lifecycle gates before execution:
+   - `prompt-debugger/cli.py --prompt-file todo-inbox.md > /tmp/debug_report.yaml`
+4. Run the combined preflight gate before execution (Prompt Debugger + lifecycle gate):
+   - `scripts/preflight.sh --mode execute --prompt todo-inbox.md --gap-ledger gap-ledger.json --objective objective-contract.json`
+   - Initialize required artifacts if missing: `scripts/init-artifacts.sh`.
    - Task Plan must exist in `todo.md` (unchecked tasks).
    - Gap Ledger and Objective Contract present; assumptions explicit with risk/expiry.
-   - Use governance gate: `scripts/enforce-lifecycle.py --todo todo.md --gap-ledger gap-ledger.json --prompt-report /tmp/debug_report.yaml` (inside governance-orchestrator).
-5. Keep todo artifacts in the hub style: `todo-inbox.md`, `todo.md`, `completed.md`, `handover.md` (see hub docs for formatting).
+5. Keep todo artifacts in the hub style: `todo-inbox.md`, `todo.md`, `completed.md`, `memory.md`, `handover.md` (see hub docs for formatting).
+   - `memory.md` is canonical; `handover.md` is an export snapshot for context transfer.
+   - Generate handover snapshot with `scripts/export-handover.py` when needed.
+   - Auto-sync option: `scripts/export-handover.py --watch` or `scripts/install-hooks.sh`.
+   - Session helper: `scripts/start-session.sh` (starts watch) and `scripts/stop-session.sh` (stops watch).
+   - Start each LLM session by running `scripts/start-session.sh` to keep handover synced.
+   - End-of-task push: `scripts/push-and-verify.sh` (push + verify sync).
+   - Auto-push if safe: `scripts/auto-push-if-safe.sh` (installed via `scripts/install-hooks.sh`).
 
+
+- Canonical references: `docs/canonical-layer-model.md`, `docs/repo-assignment.md`.
 
 ## Quick Rules (see Constitution for full detail)
 - Governed lifecycle only: Objective Contract → Inference (Gap Ledger) → Planning (Task Plan → `todo.md`) → Controlled Prototyping → Lock-In → Execution (PDCA) → Verification.
