@@ -30,3 +30,8 @@ CERES is the umbrella project and governing architecture for this ecosystem. It 
 
 ## Component routing
 - See `docs/routing.md` for which component to invoke and how to call it via hub scripts.
+
+## Spec Elicitation Agent (SEA)
+- Run SEA before Objective Contracts/Specs/Gap Ledgers/Planning.
+- Instructions: `docs/sea.md`; artifact template: `templates/elicitation/elicitation.md`.
+- SEA is read-only and stops after emitting `elicitation.md` (no planning or code).
