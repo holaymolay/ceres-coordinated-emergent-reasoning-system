@@ -35,3 +35,6 @@ CERES is the umbrella project and governing architecture for this ecosystem. It 
 - Run SEA before Objective Contracts/Specs/Gap Ledgers/Planning.
 - Instructions: `docs/sea.md`; artifact template: `templates/elicitation/elicitation.md`.
 - SEA is read-only and stops after emitting `elicitation.md` (no planning or code).
+
+## Observability hooks
+- Log gate/stage outcomes with `scripts/log_event.py`; see `docs/observability-hooks.md`.
