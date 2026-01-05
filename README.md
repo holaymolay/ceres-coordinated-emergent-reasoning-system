@@ -18,3 +18,8 @@ CERES is the umbrella project and governing architecture for this ecosystem. It 
 - Pre-governance gate: `prompt-debugger/cli.py` (outputs Prompt Debug Report).
 - Schemas: `schemas/objective_contract.schema.json`, `schemas/gap_ledger.schema.json`, `schemas/task_plan.schema.json`, `schemas/completed_entry.schema.json`, `schemas/prompt_debug_report.schema.json`.
 - All intake (task-inbox/chat) must pass the debugger before governance.
+
+## Component management
+- Components stay independent; this hub only references them.
+- Clone missing components: `scripts/clone-components.sh` (reads repos.yaml; override org with `--org`).
+- Run a command inside a component: `scripts/run-component.sh <component> "<cmd>"`.
