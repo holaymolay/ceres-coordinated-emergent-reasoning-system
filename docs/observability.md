@@ -22,3 +22,6 @@ Decision: keep observability embedded for now with hooks; plan extraction to a d
 - Telemetry cannot be disabled by execution tasks.
 - Governance gates must log pass/fail with reasons.
 - Run receipts remain mandatory for every task cycle.
+
+## Available helper
+- `scripts/log_event.py --type gate --status pass --message "Lifecycle gate" --context '{"task":"T-123"}'` (appends JSONL to `logs/events.jsonl`).

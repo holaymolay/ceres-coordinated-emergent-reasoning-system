@@ -7,3 +7,6 @@ ui-constitution/
 ui-pattern-registry/
 
 parallel-agent-runner/
+
+logs/
+*.jsonl
