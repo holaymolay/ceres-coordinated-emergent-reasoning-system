@@ -8,6 +8,11 @@ Umbrella name: **CERES — Coordinated Emergent Reasoning System** (final; no al
 - This file exists to point agents to the Constitution and anchor the CERES name.
 
 
+
+## Elicitation first
+- Run the CERES Spec Elicitation Agent (SEA) before Objective Contracts/Specs/Gap Ledgers/Planning.
+- SEA instructions: `docs/sea.md`; artifact template: `templates/elicitation/elicitation.md`.
+- SEA is read-only; outputs a single `elicitation.md` then stops.
 ## Bootstrap for a New Project (minimal steps)
 1. Place this `PROMPTLOADER.md` in the repo root and fetch `CONSTITUTION.md` from the same origin (https://github.com/holaymolay/ceres-coordinated-emergent-reasoning-system/blob/master/CONSTITUTION.md).
 2. Pull the CERES components as needed (independent repos):

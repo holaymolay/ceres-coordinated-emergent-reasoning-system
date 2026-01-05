@@ -4,12 +4,12 @@
 - [ ]
 
 ## Workflow Governance
-- [ ] Enforce SEA integration: document invocation in PROMPTLOADER/README and ensure governance references SEA phase ordering.
+- [x] Enforce SEA integration: document invocation in PROMPTLOADER/README and ensure governance references SEA phase ordering.
 
 ## Current Focus
 - [ ] Implement inference enforcement: Gap Ledger stage with interrogator/resolver policies in governance runtime.
 - [ ] Wire observability hooks across components using `scripts/log_event.py` (stage transitions, gate outcomes).
-- [ ] Produce canonical layer/repo diagram and fill dev_notes/0 A canonical_layer_model.md.
+- [x] Produce canonical layer/repo diagram and fill dev_notes/0 A canonical_layer_model.md.
 - [ ] Align spec-compiler/readme-spec-engine to consume hub schemas (Objective Contract, Gap Ledger, Task Plan, Prompt Debug Report).
 
 ## Next Features & Updates
