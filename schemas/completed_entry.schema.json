@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CompletedEntry",
+  "type": "object",
+  "required": ["task_id", "timestamp", "evidence"],
+  "properties": {
+    "task_id": { "type": "string" },
+    "timestamp": { "type": "string", "description": "Completion time (ISO 8601)." },
+    "evidence": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Links to validation: tests, files, commands."
+    },
+    "notes": { "type": "string" }
+  },
+  "additionalProperties": false
+}

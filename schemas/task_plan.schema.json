@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TaskPlan",
+  "type": "object",
+  "required": ["tasks"],
+  "properties": {
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["task_id", "description", "status"],
+        "properties": {
+          "task_id": { "type": "string" },
+          "description": { "type": "string" },
+          "concept": { "type": "string", "description": "Mapped concept or scope identifier." },
+          "phase": { "type": "string", "description": "Lifecycle phase (plan/execute/verify)." },
+          "acceptance": { "type": "string", "description": "Acceptance condition or test." },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "in_progress", "done", "blocked"]
+          },
+          "blocking": { "type": "boolean" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

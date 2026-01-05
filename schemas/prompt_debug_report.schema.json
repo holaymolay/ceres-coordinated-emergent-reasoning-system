@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PromptDebugReport",
+  "type": "object",
+  "required": ["prompt_id", "status", "decision_rationale"],
+  "properties": {
+    "prompt_id": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["approved", "needs-clarification", "rejected"]
+    },
+    "detected_intent": { "type": "string" },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "repos": { "type": "array", "items": { "type": "string" } },
+        "concepts": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["low", "medium", "high"]
+    },
+    "issues": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "suggested_fix": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "decision_rationale": { "type": "string" }
+  },
+  "additionalProperties": false
+}

@@ -13,3 +13,8 @@ CERES is the umbrella project and governing architecture for this ecosystem. It 
 - Parent (this repo): CERES coordination map, docs, and lightweight scripts only.
 - Children: independent tools with their own governance, tests, and release cycles, operating under CERES authority.
 - Git ignores children by design; no child content is tracked here, and removal of this repo must not affect runtime behavior of any component.
+
+## Prompt Debugger & Schemas
+- Pre-governance gate: `prompt-debugger/cli.py` (outputs Prompt Debug Report).
+- Schemas: `schemas/objective_contract.schema.json`, `schemas/gap_ledger.schema.json`, `schemas/task_plan.schema.json`, `schemas/completed_entry.schema.json`, `schemas/prompt_debug_report.schema.json`.
+- All intake (task-inbox/chat) must pass the debugger before governance.

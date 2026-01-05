@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GapLedger",
+  "type": "object",
+  "required": ["gaps"],
+  "properties": {
+    "gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["gap_id", "type", "blocking", "answerable_by_system", "resolution_method", "status"],
+        "properties": {
+          "gap_id": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": [
+              "definition",
+              "constraint",
+              "dependency",
+              "acceptance",
+              "risk",
+              "data",
+              "interface",
+              "scope"
+            ]
+          },
+          "blocking": { "type": "boolean" },
+          "answerable_by_system": { "type": "boolean" },
+          "resolution_method": {
+            "type": "string",
+            "enum": ["ask_user", "search_repo", "run_tests", "inspect_code", "web", "derive", "prototype"]
+          },
+          "confidence_required": {
+            "type": "string",
+            "enum": ["low", "medium", "high"],
+            "description": "Confidence required to proceed."
+          },
+          "status": {
+            "type": "string",
+            "enum": ["open", "resolved", "deferred"]
+          },
+          "evidence_links": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "File/line, command output, or citation proving resolution."
+          },
+          "assumption": {
+            "type": "object",
+            "properties": {
+              "text": { "type": "string" },
+              "risk": { "type": "string" },
+              "expires": { "type": "string", "description": "Expiry or revisit condition" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

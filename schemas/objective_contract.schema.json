@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ObjectiveContract",
+  "type": "object",
+  "required": ["goal", "status", "success_criteria"],
+  "properties": {
+    "goal": {
+      "type": "string",
+      "description": "Primary objective in plain language."
+    },
+    "constraints": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Hard constraints that must be respected."
+    },
+    "success_criteria": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Verifiable acceptance criteria."
+    },
+    "allowed_sources": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Approved context sources (repos, docs, tools)."
+    },
+    "risk_profile": {
+      "type": "string",
+      "description": "Risk appetite or profile tag (e.g., low/medium/high)."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "committed"],
+      "description": "Lifecycle stage of the objective."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-form notes or provenance."
+    }
+  },
+  "additionalProperties": false
+}
