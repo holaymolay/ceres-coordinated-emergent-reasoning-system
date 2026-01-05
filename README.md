@@ -23,3 +23,7 @@ CERES is the umbrella project and governing architecture for this ecosystem. It 
 - Components stay independent; this hub only references them.
 - Clone missing components: `scripts/clone-components.sh` (reads repos.yaml; override org with `--org`).
 - Run a command inside a component: `scripts/run-component.sh <component> "<cmd>"`.
+
+## Todo artifacts
+- Use `scripts/init-todo-files.sh [target-dir]` to copy CERES todo templates (`todo-inbox.md`, `todo.md`, `completed.md`, `handover.md`).
+- Templates live in `templates/todo/`; keep formatting to satisfy governance gates.
