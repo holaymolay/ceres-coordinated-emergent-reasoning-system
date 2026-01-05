@@ -27,3 +27,6 @@ CERES is the umbrella project and governing architecture for this ecosystem. It 
 ## Todo artifacts
 - Use `scripts/init-todo-files.sh [target-dir]` to copy CERES todo templates (`todo-inbox.md`, `todo.md`, `completed.md`, `handover.md`).
 - Templates live in `templates/todo/`; keep formatting to satisfy governance gates.
+
+## Component routing
+- See `docs/routing.md` for which component to invoke and how to call it via hub scripts.
