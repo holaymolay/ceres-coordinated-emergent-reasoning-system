@@ -5,3 +5,5 @@ readme-spec-engine/
 spec-compiler/
 ui-constitution/
 ui-pattern-registry/
+
+parallel-agent-runner/
