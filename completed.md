@@ -1,9 +1,21 @@
 # Completed
-- [x] 2025-01-01 — Enforce SEA integration in hub docs (commit pending)
-- [x] 2025-01-01 — Add layer/repo map doc
-- [x] 2025-01-01 — Implemented gap ledger validation and interrogation/resolver scaffolds (governance-orchestrator)
-- [x] 2025-01-01 — Added observability hook doc + guidance and logging flags
-- [x] 2025-01-01 — Added schema sync script and updated spec-compiler/readme-spec-engine docs
-- [x] 2025-01-01 — Added todo structure enforcement flag to lifecycle gate
 - [x] 2025-01-01 — Authored observability extraction plan doc
-- [x] 2025-01-01 — Added advisory concept/sync signals scaffold script
+- [x] 2025-01-05 — Enforce SEA integration: document invocation in PROMPTLOADER/README and ensure governance references SEA phase ordering
+- [x] 2025-01-05 — Implement inference enforcement: Gap Ledger stage with interrogator/resolver policies in governance runtime
+- [x] 2025-01-05 — Wire observability hooks across components using `scripts/log_event.py` (stage transitions, gate outcomes)
+- [x] 2025-01-05 — Produce canonical layer/repo diagram and fill `dev_notes/0 A canonical_layer_model.md`
+- [x] 2025-01-05 — Align spec-compiler/readme-spec-engine to consume hub schemas (Objective Contract, Gap Ledger, Task Plan, Prompt Debug Report)
+- [x] 2025-01-05 — Execute `dev_notes/prompt_1_enforcement layer.md`
+- [x] 2025-01-05 — Execute `dev_notes/prompt_2_concept_dependency_graph.md`
+- [x] 2025-01-05 — Execute `dev_notes/prompt_3_splitting_ceres_core_and_workspace.md`
+- [x] 2025-01-05 — Execute `dev_notes/prompt_4_deterministic_arbitration_rules.md`
+- [x] 2025-01-05 — Execute `dev_notes/prompt_5_planner_output_standardization.md`
+- [x] 2025-01-05 — Execute `dev_notes/prompt_6_adding_additional_skills.md`
+- [x] 2025-01-05 — Execute `dev_notes/prompt_7_improving_the_ui_layer.md`
+- [x] 2025-01-05 — Execute `dev_notes/prompt_8_modular_plugin_architecture.md`
+- [x] 2025-01-05 — Execute `dev_notes/prompt_9_python_fallback_scripts.md`
+- [x] 2025-01-05 — Execute `dev_notes/prompt_10_formal_parity_verification_checklist.md`
+- [x] 2025-01-05 — Execute `dev_notes/prompt_11_python_ primary_execution_path.md`
+- [x] 2025-01-05 — Add strict todo template hash/header validation to lifecycle gate
+- [x] 2025-01-05 — Extract observability into dedicated repo once hooks are in place
+- [x] 2025-01-05 — Add advisory Concept/Synchronization signal capture post-elicitation (non-binding) helper script
