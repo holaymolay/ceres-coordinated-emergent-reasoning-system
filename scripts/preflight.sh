@@ -37,6 +37,11 @@ GAP_LEDGER="gap-ledger.json"
 OBJECTIVE="objective-contract.json"
 ELICITATION="specs/elicitation"
 TASK_ID=""
+PHASE=""
+AGENT=""
+PATTERN=""
+TASK_CLASS=""
+EVENTS_FILE=""
 
 usage() {
   cat <<'USAGE'
@@ -51,6 +56,11 @@ Options:
   --objective <path>          Objective Contract path (default: objective-contract.json)
   --elicitation <path>        Spec Elicitation path (default: specs/elicitation)
   --task-id <id>              Optional task identifier for logging
+  --phase <name>              Active phase (default: planning for plan, execution for execute)
+  --agent <name>              Active agent name (default: Planner for plan, Execution for execute)
+  --pattern <name>            Active pattern name (default: planning for plan, tool-use for execute)
+  --task-class <name>         Optional task class for reflection enforcement
+  --events <path>             Observability events JSONL (default: logs/events.jsonl)
 USAGE
 }
 
@@ -72,6 +82,16 @@ while [[ $# -gt 0 ]]; do
       ELICITATION="$2"; shift 2;;
     --task-id)
       TASK_ID="$2"; shift 2;;
+    --phase)
+      PHASE="$2"; shift 2;;
+    --agent)
+      AGENT="$2"; shift 2;;
+    --pattern)
+      PATTERN="$2"; shift 2;;
+    --task-class)
+      TASK_CLASS="$2"; shift 2;;
+    --events)
+      EVENTS_FILE="$2"; shift 2;;
     -h|--help)
       usage; exit 0;;
     *)
@@ -82,6 +102,30 @@ while [[ $# -gt 0 ]]; do
 if [[ "$MODE" != "plan" && "$MODE" != "execute" ]]; then
   echo "Invalid mode: $MODE (expected plan or execute)" >&2
   exit 1
+fi
+
+if [[ -z "$PHASE" ]]; then
+  if [[ "$MODE" == "plan" ]]; then
+    PHASE="planning"
+  else
+    PHASE="execution"
+  fi
+fi
+
+if [[ -z "$AGENT" ]]; then
+  if [[ "$MODE" == "plan" ]]; then
+    AGENT="Planner"
+  else
+    AGENT="Execution"
+  fi
+fi
+
+if [[ -z "$PATTERN" ]]; then
+  if [[ "$MODE" == "plan" ]]; then
+    PATTERN="planning"
+  else
+    PATTERN="tool-use"
+  fi
 fi
 
 make_abs() {
@@ -99,6 +143,9 @@ TODO_FILE="$(make_abs "$TODO_FILE")"
 GAP_LEDGER="$(make_abs "$GAP_LEDGER")"
 OBJECTIVE="$(make_abs "$OBJECTIVE")"
 ELICITATION="$(make_abs "$ELICITATION")"
+if [[ -n "$EVENTS_FILE" ]]; then
+  EVENTS_FILE="$(make_abs "$EVENTS_FILE")"
+fi
 
 mkdir -p "$ROOT/logs"
 
@@ -309,6 +356,23 @@ if [[ ! -x "$ROOT/scripts/run-component.sh" ]]; then
   echo "Missing hub helper: $ROOT/scripts/run-component.sh" >&2
   exit 1
 fi
+
+CONTRACT_CMD=("python" "scripts/validate-governance-contracts.py"
+  "--phase" "$PHASE"
+  "--agent" "$AGENT"
+  "--pattern" "$PATTERN"
+)
+if [[ -n "$TASK_CLASS" ]]; then
+  CONTRACT_CMD+=("--task-class" "$TASK_CLASS")
+fi
+if [[ -n "$TASK_ID" ]]; then
+  CONTRACT_CMD+=("--task-id" "$TASK_ID")
+fi
+if [[ -n "$EVENTS_FILE" ]]; then
+  CONTRACT_CMD+=("--events" "$EVENTS_FILE")
+fi
+
+"$ROOT/scripts/run-component.sh" governance-orchestrator "${CONTRACT_CMD[*]}"
 
 LOG_HELPER="$ROOT/scripts/log_event.py"
 CMD=("scripts/enforce-lifecycle.py"

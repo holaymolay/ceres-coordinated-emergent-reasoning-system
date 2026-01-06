@@ -22,6 +22,11 @@ GAP_LEDGER = "gap-ledger.json"
 OBJECTIVE = "objective-contract.json"
 ELICITATION = "specs/elicitation"
 TASK_ID = ""
+PHASE = ""
+AGENT = ""
+PATTERN = ""
+TASK_CLASS = ""
+EVENTS = ""
 
 
 def usage() -> None:
@@ -37,6 +42,11 @@ Options:
   --objective <path>          Objective Contract path (default: objective-contract.json)
   --elicitation <path>        Spec Elicitation path (default: specs/elicitation)
   --task-id <id>              Optional task identifier for logging
+  --phase <name>              Active phase (default: planning for plan, execution for execute)
+  --agent <name>              Active agent name (default: Planner for plan, Execution for execute)
+  --pattern <name>            Active pattern name (default: planning for plan, tool-use for execute)
+  --task-class <name>         Optional task class for reflection enforcement
+  --events <path>             Observability events JSONL (default: logs/events.jsonl)
 """
     )
 
@@ -197,6 +207,21 @@ def main() -> None:
         elif arg == "--task-id" and i + 1 < len(args):
             TASK_ID = args[i + 1]
             i += 2
+        elif arg == "--phase" and i + 1 < len(args):
+            PHASE = args[i + 1]
+            i += 2
+        elif arg == "--agent" and i + 1 < len(args):
+            AGENT = args[i + 1]
+            i += 2
+        elif arg == "--pattern" and i + 1 < len(args):
+            PATTERN = args[i + 1]
+            i += 2
+        elif arg == "--task-class" and i + 1 < len(args):
+            TASK_CLASS = args[i + 1]
+            i += 2
+        elif arg == "--events" and i + 1 < len(args):
+            EVENTS = args[i + 1]
+            i += 2
         elif arg in {"-h", "--help"}:
             usage()
             sys.exit(0)
@@ -209,12 +234,23 @@ def main() -> None:
         sys.stderr.write(f"Invalid mode: {MODE} (expected plan or execute)\n")
         sys.exit(1)
 
+    if not PHASE:
+        PHASE = "planning" if MODE == "plan" else "execution"
+
+    if not AGENT:
+        AGENT = "Planner" if MODE == "plan" else "Execution"
+
+    if not PATTERN:
+        PATTERN = "planning" if MODE == "plan" else "tool-use"
+
     prompt_file = Path(make_abs(PROMPT_FILE))
     report_file = Path(make_abs(REPORT_FILE))
     todo_file = Path(make_abs(TODO_FILE))
     gap_ledger = Path(make_abs(GAP_LEDGER))
     objective = Path(make_abs(OBJECTIVE))
     elicitation_path = Path(make_abs(ELICITATION))
+
+    events_path = Path(make_abs(EVENTS)) if EVENTS else None
 
     (ROOT / "logs").mkdir(parents=True, exist_ok=True)
 
@@ -272,6 +308,25 @@ def main() -> None:
     if not run_component.exists() or not os.access(run_component, os.X_OK):
         sys.stderr.write(f"Missing hub helper: {run_component}\n")
         sys.exit(1)
+
+    contract_cmd = [
+        sys.executable,
+        "scripts/validate-governance-contracts.py",
+        "--phase",
+        PHASE,
+        "--agent",
+        AGENT,
+        "--pattern",
+        PATTERN,
+    ]
+    if TASK_CLASS:
+        contract_cmd.extend(["--task-class", TASK_CLASS])
+    if TASK_ID:
+        contract_cmd.extend(["--task-id", TASK_ID])
+    if events_path:
+        contract_cmd.extend(["--events", str(events_path)])
+
+    run_or_exit([str(run_component), "governance-orchestrator", " ".join(contract_cmd)], cwd=str(ROOT))
 
     cmd = [
         "scripts/enforce-lifecycle.py",
