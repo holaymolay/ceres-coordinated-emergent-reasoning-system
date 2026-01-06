@@ -35,13 +35,34 @@ Artifacts:
 Key rule:
 - Objectives are explicitly non-binding
 
-Primary artifact: Objective Contract (draft).
+Primary artifact: Draft Objective (pre-contract).
 Entry criteria: Intake record exists.
 Exit criteria: Draft objective recorded with source metadata and ambiguity preserved.
 
 ---
 
-## 2. Inference & Gap Analysis Layer
+## 2. Spec Elicitation Layer
+**Destroy ambiguity before architecture**
+
+Responsibilities:
+- Interrogate the user with a fixed question schema
+- Resolve ambiguity aggressively
+- Record explicit decisions and unknowns
+
+Artifacts:
+- Spec Elicitation Record
+- Clarified objective statement
+
+Hard constraint:
+- No inference or planning allowed until elicitation terminates
+
+Primary artifact: Spec Elicitation Record.
+Entry criteria: Draft Objective exists.
+Exit criteria: Spec Elicitation Record completed; blocking unknowns resolved or explicitly declared; clarified objective captured.
+
+---
+
+## 3. Inference & Gap Analysis Layer
 **Are we allowed to proceed?**
 
 Responsibilities:
@@ -57,12 +78,12 @@ Hard constraint:
 - No planning allowed until blocking gaps are resolved
 
 Primary artifact: Gap Ledger.
-Entry criteria: Objective Contract (draft) exists.
+Entry criteria: Spec Elicitation Record exists; clarified objective available.
 Exit criteria: Readiness status set; blocking gaps resolved or explicitly deferred with assumptions.
 
 ---
 
-## 3. Planning / Decomposition Layer
+## 4. Planning / Decomposition Layer
 **Planner / Task Manager lives here**
 
 Responsibilities:
@@ -83,7 +104,7 @@ Exit criteria: Task Plan decomposed with concept mapping, dependencies, and acce
 
 ---
 
-## 4. Governance & Arbitration Layer
+## 5. Governance & Arbitration Layer
 **Who is allowed to act?**
 
 Agents:
@@ -107,7 +128,7 @@ Exit criteria: Tasks authorized and assigned; execution permission granted.
 
 ---
 
-## 5. Execution Layer
+## 6. Execution Layer
 **Actual doing**
 
 Agents:
@@ -131,7 +152,7 @@ Exit criteria: Task completed with evidence captured and changes scoped to the t
 
 ---
 
-## 6. Verification & Validation Layer
+## 7. Verification & Validation Layer
 **Did reality match intent?**
 
 Responsibilities:
@@ -153,7 +174,7 @@ Exit criteria: Verification results recorded; failures reopen gaps or block comp
 
 ---
 
-## 7. Observability Layer
+## 8. Observability Layer
 **System-wide memory of behavior**
 
 Agent:
@@ -171,7 +192,7 @@ Exit criteria: Event logged with type/status/context.
 
 ---
 
-## 8. Persistence & Memory Layer
+## 9. Persistence & Memory Layer
 **Continuity across time**
 
 Agent:
@@ -194,7 +215,7 @@ Exit criteria: Updated memory record stored for future runs.
 
 ---
 
-## 9. Feedback / PDCA Layer
+## 10. Feedback / PDCA Layer
 **System self-correction**
 
 Responsibilities:

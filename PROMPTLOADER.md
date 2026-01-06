@@ -7,12 +7,12 @@ Umbrella name: **CERES — Coordinated Emergent Reasoning System** (final; no al
 - The binding source of truth is `CONSTITUTION.md`. Load and obey it before any action.
 - This file exists to point agents to the Constitution and anchor the CERES name.
 
-
-
-## Elicitation first
-- Run the CERES Spec Elicitation Agent (SEA) before Objective Contracts/Specs/Gap Ledgers/Planning.
+## Spec Elicitation (mandatory)
+- Capture Objective Intake first (raw prompt or `todo-inbox.md`).
+- Run the CERES Spec Elicitation Agent (SEA) before Objective Contract, Inference, or Planning.
 - SEA instructions: `docs/sea.md`; artifact template: `templates/elicitation/elicitation.md`.
-- SEA is read-only; outputs a single `elicitation.md` then stops.
+- SEA is read-only; outputs a single elicitation artifact then stops.
+
 ## Bootstrap for a New Project (minimal steps)
 1. Place this `PROMPTLOADER.md` in the repo root and fetch `CONSTITUTION.md` from the same origin (https://github.com/holaymolay/ceres-coordinated-emergent-reasoning-system/blob/master/CONSTITUTION.md).
 2. Pull the CERES components as needed (independent repos):
@@ -39,12 +39,13 @@ Umbrella name: **CERES — Coordinated Emergent Reasoning System** (final; no al
    - End-of-task push: `scripts/push-and-verify.sh` (push + verify sync).
    - Auto-push if safe: `scripts/auto-push-if-safe.sh` (installed via `scripts/install-hooks.sh`).
 
-
 - Canonical references: `docs/canonical-layer-model.md`, `docs/repo-assignment.md`.
 
 ## Quick Rules (see Constitution for full detail)
-- Governed lifecycle only: Objective Contract → Inference (Gap Ledger) → Planning (Task Plan → `todo.md`) → Controlled Prototyping → Lock-In → Execution (PDCA) → Verification.
+- Governed lifecycle only: Objective Intake -> Spec Elicitation -> Objective Contract -> Inference (Gap Ledger) -> Planning (Task Plan -> `todo.md`) -> Controlled Prototyping -> Lock-In -> Execution (PDCA) -> Verification.
 - Attention-bounded interaction: one bounded question per turn with rationale and visible state.
+- No inference, planning, or execution before Spec Elicitation is complete.
+- Vibe coding is prohibited; agents must refuse to execute without an approved spec.
 - No execution before a visible Task Plan exists in `todo.md`.
 - All intake goes through the Prompt Debugger before governance; no silent fixes.
 - No cross-repo changes without explicit coordination; execution obeys, governance decides.

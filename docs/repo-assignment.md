@@ -8,6 +8,7 @@ Status note: Conceptual repos are explicitly marked as embedded until extracted.
 
 Owns / coordinates:
 - Layer 1 — Intent Intake
+- Layer 2 — Spec Elicitation (artifacts + prompts)
 - Layer 4 — Task Materialization & Visibility
 - Cross-cutting wiring between repos
 
@@ -27,9 +28,9 @@ This repo answers:
 **governance-orchestrator**
 
 Owns:
-- Layer 2 — Prompt Normalization & Enforcement
-- Layer 3 — Pre-Execution Debugging & Validation
-- Layer 5 — Planning, Parallelization & Arbitration
+- Layer 3 — Inference & Gap Analysis
+- Layer 4 — Planning / Decomposition (logic)
+- Layer 5 — Governance & Arbitration
 
 Responsibilities:
 - Compiler front-end for intent
@@ -66,7 +67,7 @@ This repo answers:
 Status: Embedded for now (hooks live in hub; extract once schemas stabilize).
 
 Owns:
-- Layer 7 — Observability & Telemetry
+- Layer 8 — Observability & Telemetry
 
 Responsibilities:
 - Metrics
@@ -86,17 +87,14 @@ This repo answers:
 **Policy + enforcement artifacts**
 Status: Embedded for now (policy artifacts remain in hub until enforcement exists).
 
-Owns:
-- Layer 8 — Security & Access Enforcement
+Scope:
+- Cross-cutting enforcement invoked by every layer
 
 Responsibilities:
 - Access manifest
 - Least privilege definitions
 - Abort rules
 - Review gates
-
-Cross-cutting:
-- Invoked by every other repo
 
 This repo answers:
 - Is this permitted at all?

@@ -8,6 +8,7 @@ This doc applies to the execution/runtime layer (agents that generate code). It 
 - Execution cannot create or reorder tasks; propose changes via governance, which updates `todo.md` first.
 
 ## Required Inputs
+- Spec Elicitation Record (complete and approved).
 - Committed Objective Contract.
 - Gap Ledger (with blockers resolved or explicitly deferred with assumptions).
 - Task Plan in `todo.md` with the current task marked as in-progress.
@@ -26,6 +27,7 @@ This doc applies to the execution/runtime layer (agents that generate code). It 
 - Silent assumptions; all assumptions must be explicit with risk + expiry.
 - Skipping verification; PDCA loop must run (tests/validation) or record why skipped.
 - Muting observability/security hooks.
+- Vibe coding: code generation or execution without an approved spec.
 
 ## PDCA Enforcement (execution side)
 - Plan: accept the current task definition from `todo.md` (no edits here).
