@@ -1,6 +1,7 @@
 # Canonical Repo Assignment (Authoritative)
 
 This is the mechanical mapping from layers to repos. No theory.
+Status note: Conceptual repos are explicitly marked as embedded until extracted.
 
 ## 1) Umbrella Repo — Ecosystem Coordinator
 **CERES hub (this repo)**
@@ -44,6 +45,7 @@ This repo answers:
 
 ## 3) Execution / Agent Runtime Repo
 **Codex-facing runtime (model-specific)**
+Status: Embedded for now (execution occurs via external runtimes; no standalone repo yet).
 
 Owns:
 - Layer 6 — Execution (Agent Layer)
@@ -61,6 +63,7 @@ This repo answers:
 
 ## 4) Observability & Telemetry Repo
 **Embedded for now; extract later**
+Status: Embedded for now (hooks live in hub; extract once schemas stabilize).
 
 Owns:
 - Layer 7 — Observability & Telemetry
@@ -81,6 +84,7 @@ This repo answers:
 
 ## 5) Security & Access Repo
 **Policy + enforcement artifacts**
+Status: Embedded for now (policy artifacts remain in hub until enforcement exists).
 
 Owns:
 - Layer 8 — Security & Access Enforcement
@@ -101,6 +105,7 @@ This repo answers:
 
 ## 6) Spec Library Repo
 **Immutable knowledge base**
+Status: Embedded for now (specs live across hub/components; extract after canonical catalog exists).
 
 Owns:
 - Layer 9 — Spec Library & Memory

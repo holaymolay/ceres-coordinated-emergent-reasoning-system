@@ -1,6 +1,7 @@
 # CERES Layer ↔ Repo Map (Text Diagram)
 
 Canonical references: `docs/canonical-layer-model.md`, `docs/repo-assignment.md`.
+Conceptual repos (not yet extracted): Execution runtime, Observability, Security & Access, Spec Library.
 
 Layers (from 0 A canonical model) and current repo authority:
 
