@@ -46,6 +46,11 @@ The harness runs both scripts, captures stdout/stderr and exit codes, and report
 | Invalid mode | `--mode invalid` | Exit 1; stderr: "Invalid mode: invalid (expected plan or execute)" |  |  |
 | Missing prompt file | `--prompt missing.md` | Exit 1; stderr: "Prompt file not found: …" |  |  |
 | Missing objective contract | Provide valid prompt + report; remove `objective-contract.json` | Exit 1; stderr: "Objective Contract missing" |  |  |
+| Missing Spec Elicitation Record | Provide valid prompt + objective; remove `specs/elicitation/` | Exit 1; stderr: "Spec Elicitation Record not found" |  |  |
+| Multiple Spec Elicitation Records | Add two .md files under `specs/elicitation/` | Exit 1; stderr: "Multiple Spec Elicitation Records found" |  |  |
+| Missing Spec front matter | Remove front matter from spec file | Exit 1; stderr: "missing front matter" |  |  |
+| Spec not ready_for_planning | Set `ready_for_planning: false` | Exit 1; stderr: "not ready_for_planning=true" |  |  |
+| Spec has blocking_unknowns | Set `blocking_unknowns` to a non-empty list | Exit 1; stderr: "has blocking_unknowns" |  |  |
 | Missing gap ledger | Provide valid prompt + objective; remove `gap-ledger.json` | Exit 1; stderr: "Gap Ledger missing" |  |  |
 | Gap ledger blocking in execute | `gap-ledger.json` contains unresolved blocking gap | Exit 1; stderr: "Blocking gaps unresolved" |  |  |
 | Objective status invalid | Objective status != committed in execute | Exit 1; stderr: "Objective Contract status must be 'committed'" |  |  |

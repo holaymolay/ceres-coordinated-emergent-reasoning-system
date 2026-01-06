@@ -4,7 +4,7 @@ These rules standardize how work is surfaced and audited across CERES.
 
 ## Files and Roles
 - `todo-inbox.md`: raw intake (unordered bullets), structured sections; cleared by end-of-task sweep.
-- Spec Elicitation Record: explicit decisions and unknowns from elicitation; required before inference/planning.
+- Spec Elicitation Record: `specs/elicitation/<spec-id>.md` with front matter (`ready_for_planning`, `blocking_unknowns`).
 - `todo.md`: authoritative Task Plan (gated before execution). Sequenced `- [ ]` tasks with concept/phase/acceptance inline when helpful.
 - `completed.md`: immutable audit log of finished tasks (`- [x]` with timestamp + push hash + evidence refs).
 - `memory.md`: canonical memory ledger for decisions, constraints, and durable context.
@@ -13,7 +13,7 @@ These rules standardize how work is surfaced and audited across CERES.
 
 ## Gates & Flow
 1) Intake -> Prompt Debugger -> governance.
-2) Spec Elicitation produces the Spec Elicitation Record; no inference or planning before this completes.
+2) Spec Elicitation produces the Spec Elicitation Record; `ready_for_planning` must be true and `blocking_unknowns` empty.
 3) Inference produces the Gap Ledger; resolve blocking gaps before planning.
 4) Planning emits Task Plan -> `todo.md`; no execution before visible tasks exist.
 5) Run preflight gate before execution: `scripts/preflight.sh --mode execute` (Prompt Debugger + lifecycle gate).

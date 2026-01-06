@@ -2,9 +2,9 @@
 set -euo pipefail
 
 # Advisory Concept/Synchronization signal scaffold (non-binding).
-# Usage: ./scripts/advisory-signals.sh [elicitation.md]
+# Usage: ./scripts/advisory-signals.sh [specs/elicitation/<spec-id>.md]
 
-ELICITATION="${1:-elicitation.md}"
+ELICITATION="${1:-specs/elicitation/elicitation.md}"
 
 if [[ -f "$ELICITATION" ]]; then
   echo "Reading signals from $ELICITATION ..." >&2

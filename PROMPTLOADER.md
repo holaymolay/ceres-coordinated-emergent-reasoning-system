@@ -16,6 +16,7 @@ Umbrella name: **CERES — Coordinated Emergent Reasoning System** (final; no al
 - Run the CERES Spec Elicitation Agent (SEA) before Objective Contract, Inference, or Planning.
 - SEA instructions: `docs/sea.md`; artifact template: `templates/elicitation/elicitation.md`.
 - SEA is read-only; outputs a single elicitation artifact then stops.
+- Store the Spec Elicitation Record in `specs/elicitation/<spec-id>.md` with front matter fields `ready_for_planning` and `blocking_unknowns`.
 
 ## Bootstrap for a New Project (minimal steps)
 1. Place this `PROMPTLOADER.md` in the repo root and fetch `CONSTITUTION.md` from the same origin (https://github.com/holaymolay/ceres-coordinated-emergent-reasoning-system/blob/master/CONSTITUTION.md).

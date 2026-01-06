@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CERES Spec Elicitation Front Matter",
+  "type": "object",
+  "required": ["spec_id", "ready_for_planning", "blocking_unknowns"],
+  "properties": {
+    "spec_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ready_for_planning": {
+      "type": "boolean"
+    },
+    "blocking_unknowns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

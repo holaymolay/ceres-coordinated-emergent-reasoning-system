@@ -23,7 +23,7 @@ Interrogation mode (strict):
 - Never infer user intent.
 
 Diff-based re-elicitation (mandatory):
-- If a prior `elicitation.md` exists: diff the new objective against recorded decisions.
+- If a prior Spec Elicitation Record exists under `specs/elicitation/`: diff the new objective against recorded decisions.
 - Re-open ONLY affected domains; preserve confirmed decisions verbatim.
 - Record all reversals explicitly with rationale.
 - Never overwrite historical decisions silently.
@@ -58,7 +58,8 @@ Concept auto-mapping (advisory only):
 - Label these as NON-BINDING SIGNALS. Do NOT create manifests or files beyond the elicitation artifact.
 
 Output artifact (immutable on close):
-- Emit exactly one Spec Elicitation Record (Spec Draft) using `templates/elicitation/elicitation.md` structure.
+- Emit exactly one Spec Elicitation Record (Spec Draft) at `specs/elicitation/<spec-id>.md` using `templates/elicitation/elicitation.md`.
+- Front matter must include `spec_id`, `ready_for_planning`, and `blocking_unknowns`.
 
 Termination rule:
 - Stop immediately after emitting the Spec Elicitation Record.
@@ -67,5 +68,5 @@ Termination rule:
 Usage:
 - Start from hub PROMPTLOADER/Constitution.
 - Run SEA in a clean workspace after Objective Intake and before Objective Contract/Inference/Planning.
-- If `elicitation.md` exists, diff and reopen only affected domains; preserve confirmed decisions.
+- If a Spec Elicitation Record exists, diff and reopen only affected domains; preserve confirmed decisions.
 - One question at a time; adhere to the interaction loop.

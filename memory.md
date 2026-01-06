@@ -8,13 +8,13 @@ Status: Canonical memory ledger. If conflict with `handover.md`, this file preva
 - Umbrella name is CERES — Coordinated Emergent Reasoning System; no parent framework above it.
 - This repo is the CERES hub (coordination entrypoint); component repos remain independent.
 - `CONSTITUTION.md` is binding; `PROMPTLOADER.md` is the bootstrap entry that points to it.
-- Spec Elicitation runs after Objective Intake and before Objective Contract/Inference/Planning; it outputs a Spec Elicitation Record and then stops.
+- Spec Elicitation runs after Objective Intake and before Objective Contract/Inference/Planning; it outputs `specs/elicitation/<spec-id>.md` and then stops.
 - Prompt Debugger gates all intake before governance.
 - Governed lifecycle: Objective Intake -> Spec Elicitation -> Objective Contract -> Inference (Gap Ledger) -> Planning (Task Plan -> `todo.md`) -> Controlled Prototyping -> Lock-In -> Execution -> Verification.
 - Dual memory docs: `memory.md` is canonical; `handover.md` is export snapshot.
 
 ## Constraints & Assumptions
-- Spec Elicitation must complete before inference, planning, or execution.
+- Spec Elicitation must complete before inference, planning, or execution; `ready_for_planning` must be true and `blocking_unknowns` empty.
 - Objective Contract must be committed for execution; blocking gaps must be resolved.
 - No execution before a visible Task Plan exists in `todo.md`.
 - Gap resolution requires evidence or explicit assumption with risk/expiry.
@@ -25,7 +25,7 @@ Status: Canonical memory ledger. If conflict with `handover.md`, this file preva
 - None recorded; check `todo.md` for pending work.
 
 ## Artifact Index
-- Spec Elicitation Record: (not yet created)
+- Spec Elicitation Record: `specs/elicitation/<spec-id>.md`
 - Objective Contract: (not yet created)
 - Gap Ledger: (not yet created)
 - Task Plan: `todo.md`

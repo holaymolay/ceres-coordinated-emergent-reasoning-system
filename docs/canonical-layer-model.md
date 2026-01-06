@@ -56,9 +56,9 @@ Artifacts:
 Hard constraint:
 - No inference or planning allowed until elicitation terminates
 
-Primary artifact: Spec Elicitation Record.
+Primary artifact: Spec Elicitation Record (`specs/elicitation/<spec-id>.md`).
 Entry criteria: Draft Objective exists.
-Exit criteria: Spec Elicitation Record completed; blocking unknowns resolved or explicitly declared; clarified objective captured.
+Exit criteria: Spec Elicitation Record completed; `ready_for_planning` true; `blocking_unknowns` empty; clarified objective captured.
 
 ---
 
@@ -78,7 +78,7 @@ Hard constraint:
 - No planning allowed until blocking gaps are resolved
 
 Primary artifact: Gap Ledger.
-Entry criteria: Spec Elicitation Record exists; clarified objective available.
+Entry criteria: Spec Elicitation Record exists with `ready_for_planning` true and `blocking_unknowns` empty; clarified objective available.
 Exit criteria: Readiness status set; blocking gaps resolved or explicitly deferred with assumptions.
 
 ---

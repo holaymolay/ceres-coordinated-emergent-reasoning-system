@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """CERES preflight fallback.
 
-Mirrors preflight.sh as of 85006775d8fe00470c49804eedede96817fce841.
+Mirrors preflight.sh.
 Fallback only; shell remains authoritative.
 """
 
 import json
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -19,6 +20,7 @@ REPORT_FILE = str(ROOT / "logs" / "prompt-debug-report.yaml")
 TODO_FILE = "todo.md"
 GAP_LEDGER = "gap-ledger.json"
 OBJECTIVE = "objective-contract.json"
+ELICITATION = "specs/elicitation"
 TASK_ID = ""
 
 
@@ -33,6 +35,7 @@ Options:
   --todo <path>               Task Plan path (default: todo.md)
   --gap-ledger <path>         Gap Ledger path (default: gap-ledger.json)
   --objective <path>          Objective Contract path (default: objective-contract.json)
+  --elicitation <path>        Spec Elicitation path (default: specs/elicitation)
   --task-id <id>              Optional task identifier for logging
 """
     )
@@ -67,6 +70,92 @@ def load_yaml_or_json(path: Path, label: str) -> dict:
     return data or {}
 
 
+def parse_front_matter(text: str) -> dict:
+    lines = text.splitlines()
+    if not lines or lines[0].strip() != "---":
+        raise SystemExit("Spec Elicitation Record missing front matter (expected leading ---).")
+
+    front_matter_lines = []
+    end_index = None
+    for i in range(1, len(lines)):
+        if lines[i].strip() == "---":
+            end_index = i
+            break
+        front_matter_lines.append(lines[i])
+
+    if end_index is None:
+        raise SystemExit("Spec Elicitation Record front matter not terminated (missing ---).")
+
+    data: dict[str, object] = {}
+    current_key: str | None = None
+
+    for raw_line in front_matter_lines:
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if re.match(r"^[A-Za-z0-9_\-]+\s*:", line):
+            key, value = line.split(":", 1)
+            key = key.strip()
+            value = value.strip()
+            current_key = None
+            if value == "":
+                data[key] = []
+                current_key = key
+            elif value in {"[]", "[ ]"}:
+                data[key] = []
+            elif value.lower() in {"true", "false"}:
+                data[key] = value.lower() == "true"
+            else:
+                data[key] = value.strip("\"'")
+        elif line.startswith("-") and current_key:
+            item = line.lstrip("-").strip()
+            if item:
+                items = data.setdefault(current_key, [])
+                if isinstance(items, list):
+                    items.append(item)
+        else:
+            continue
+
+    return data
+
+
+def resolve_elicitation(path: Path) -> Path:
+    if path.is_dir():
+        candidates = sorted(p for p in path.glob("*.md") if p.is_file())
+        if not candidates:
+            raise SystemExit(f"Spec Elicitation Record not found in {path}")
+        if len(candidates) > 1:
+            names = ", ".join(p.name for p in candidates)
+            raise SystemExit(
+                "Multiple Spec Elicitation Records found. "
+                "Provide a single file or set --elicitation <path>. "
+                f"Found: {names}"
+            )
+        return candidates[0]
+
+    if not path.is_file():
+        raise SystemExit(f"Spec Elicitation Record not found: {path}")
+
+    return path
+
+
+def validate_elicitation(path: Path) -> None:
+    data = parse_front_matter(path.read_text(encoding="utf-8"))
+    spec_id = data.get("spec_id")
+    if not isinstance(spec_id, str) or not spec_id.strip():
+        raise SystemExit("Spec Elicitation Record missing spec_id in front matter.")
+
+    ready = data.get("ready_for_planning")
+    if ready is not True:
+        raise SystemExit("Spec Elicitation Record not ready_for_planning=true.")
+
+    blocking = data.get("blocking_unknowns")
+    if not isinstance(blocking, list):
+        raise SystemExit("Spec Elicitation Record missing blocking_unknowns list in front matter.")
+    if blocking:
+        raise SystemExit("Spec Elicitation Record has blocking_unknowns; resolve before planning.")
+
+
 def run_or_exit(cmd: list, **kwargs) -> None:
     try:
         result = subprocess.run(cmd, **kwargs)
@@ -78,7 +167,7 @@ def run_or_exit(cmd: list, **kwargs) -> None:
 
 
 def main() -> None:
-    global MODE, PROMPT_FILE, REPORT_FILE, TODO_FILE, GAP_LEDGER, OBJECTIVE, TASK_ID
+    global MODE, PROMPT_FILE, REPORT_FILE, TODO_FILE, GAP_LEDGER, OBJECTIVE, ELICITATION, TASK_ID
 
     args = sys.argv[1:]
     i = 0
@@ -102,6 +191,9 @@ def main() -> None:
         elif arg == "--objective" and i + 1 < len(args):
             OBJECTIVE = args[i + 1]
             i += 2
+        elif arg == "--elicitation" and i + 1 < len(args):
+            ELICITATION = args[i + 1]
+            i += 2
         elif arg == "--task-id" and i + 1 < len(args):
             TASK_ID = args[i + 1]
             i += 2
@@ -122,6 +214,7 @@ def main() -> None:
     todo_file = Path(make_abs(TODO_FILE))
     gap_ledger = Path(make_abs(GAP_LEDGER))
     objective = Path(make_abs(OBJECTIVE))
+    elicitation_path = Path(make_abs(ELICITATION))
 
     (ROOT / "logs").mkdir(parents=True, exist_ok=True)
 
@@ -152,6 +245,9 @@ def main() -> None:
         raise SystemExit(
             f"Objective Contract status must be draft or committed for plan mode (found '{status}')."
         )
+
+    elicitation_file = resolve_elicitation(elicitation_path)
+    validate_elicitation(elicitation_file)
 
     if not gap_ledger.is_file():
         sys.stderr.write(f"Gap Ledger missing: {gap_ledger}\n")
