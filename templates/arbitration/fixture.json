@@ -1,0 +1,42 @@
+{
+  "concepts": ["governance", "runtime", "ui"],
+  "synchronizations": [
+    {
+      "name": "governance-to-runtime",
+      "from": "governance",
+      "to": "runtime",
+      "allow_cycle": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": "t-001",
+      "concept": "governance",
+      "type": "planning",
+      "priority": "high",
+      "timestamp": "2024-12-01T10:00:00Z"
+    },
+    {
+      "id": "t-002",
+      "concept": "runtime",
+      "type": "validation",
+      "priority": 60,
+      "timestamp": "2024-12-01T10:01:00Z"
+    },
+    {
+      "id": "t-003",
+      "concept": "governance",
+      "type": "execution",
+      "priority": 50,
+      "timestamp": "2024-12-01T10:05:00Z",
+      "sync_dependencies": ["governance-to-runtime"]
+    },
+    {
+      "id": "t-004",
+      "concept": "ui",
+      "type": "execution",
+      "priority": 50,
+      "timestamp": "2024-12-01T10:03:00Z"
+    }
+  ]
+}

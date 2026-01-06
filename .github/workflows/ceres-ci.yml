@@ -20,3 +20,6 @@ jobs:
 
       - name: Validate concept dependency graph
         run: node scripts/validate-concept-graph.js
+
+      - name: Validate arbitration (dry run)
+        run: scripts/validate-arbitration-ci.sh
