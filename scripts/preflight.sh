@@ -3,6 +3,13 @@ set -euo pipefail
 
 ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 
+if command -v python3 >/dev/null 2>&1; then
+  if [[ -f "$ROOT/scripts/preflight.py" ]]; then
+    python3 "$ROOT/scripts/preflight.py" "$@" && exit 0
+    echo "WARN: Python fallback failed; continuing with shell logic." >&2
+  fi
+fi
+
 MODE="execute"
 PROMPT_FILE="todo-inbox.md"
 REPORT_FILE="$ROOT/logs/prompt-debug-report.yaml"

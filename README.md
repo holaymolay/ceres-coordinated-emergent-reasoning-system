@@ -28,6 +28,11 @@ CERES is the umbrella project and governing architecture for this ecosystem. It 
 - macOS/Linux supported natively.
 - Windows: use WSL (Ubuntu recommended). No Windows-native support.
 
+## Python fallbacks
+- Shell scripts remain authoritative; Python scripts mirror behavior for portability and parity checks.
+- Shell scripts will attempt Python fallbacks when `python3` is available, then fall back to shell on failure.
+- Python may become primary only after parity verification and hardening.
+
 ## Component management
 - Components stay independent; this hub only references them.
 - Clone missing components: `scripts/clone-components.sh` (reads repos.yaml; override org with `--org`).

@@ -3,6 +3,13 @@ set -euo pipefail
 
 ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 
+if command -v python3 >/dev/null 2>&1; then
+  if [[ -f "$ROOT/scripts/validate-arbitration-ci.py" ]]; then
+    python3 "$ROOT/scripts/validate-arbitration-ci.py" "$@" && exit 0
+    echo "WARN: Python fallback failed; continuing with shell logic." >&2
+  fi
+fi
+
 if [[ ! -f "$ROOT/arbitration/arbitrator.js" ]]; then
   echo "Arbitration engine not found: $ROOT/arbitration/arbitrator.js" >&2
   exit 1
