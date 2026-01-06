@@ -7,7 +7,7 @@ Layers (from canonical model) and current repo authority:
 
 - Interface / Intake / Elicitation / Inference / Planning / Governance (0-5):
   - governance-orchestrator (enforces gates, planning, arbitration; uses hub Prompt Debugger + schemas)
-  - hub (CERES umbrella) for PROMPTLOADER, Constitution, schemas, prompt-debugger, todo templates
+  - hub (CERES umbrella) for PROMPTLOADER, Constitution, `AGENTS.md`, `governance/inference-phases.yaml`, schemas, prompt-debugger, todo templates
 - Execution (6):
   - runtime agents (model-specific; obey governance outputs)
 - Verification (7):
@@ -15,7 +15,7 @@ Layers (from canonical model) and current repo authority:
 - Observability (8):
   - hub `scripts/log_event.py` helper; to be wired across components; extraction planned later
 - Persistence/Memory (9):
-  - memory ledger (`memory.md`), run receipts (`runs/`), `completed.md`, Gap Ledger; `handover.md` as export snapshot; hub standards apply
+  - memory records (`memory/records/*.json`), `memory.md`, `completed.md`, Gap Ledger; `handover.md` as export snapshot; hub standards apply
 - Feedback/PDCA (10):
   - completed entries and governance updates; closed-loop adjustments
 

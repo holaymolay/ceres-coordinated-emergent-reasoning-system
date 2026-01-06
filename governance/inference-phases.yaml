@@ -1,0 +1,31 @@
+phases:
+  - name: planning
+    allowed_agents:
+      - Planner
+    side_effects: forbidden
+    memory_scope: draft
+
+  - name: execution
+    allowed_agents:
+      - Execution
+      - Specialized
+    side_effects: allowed
+    memory_scope: working
+
+  - name: reflection
+    allowed_agents:
+      - Critic
+    side_effects: forbidden
+    memory_scope: readonly
+
+  - name: correction
+    allowed_agents:
+      - Planner
+      - Execution
+    side_effects: allowed
+    memory_scope: working
+
+requires_reflection_for:
+  - codegen
+  - migration
+  - security

@@ -15,6 +15,9 @@ Owns / coordinates:
 Responsibilities:
 - Human-facing entry point (CLI, chat, inbox)
 - `todo-inbox.md` lifecycle
+- Governance contracts (`AGENTS.md`, `governance/inference-phases.yaml`)
+- Synchronization contracts (`synchronizations/*.yaml`)
+- Memory record schemas (`memory/records/*.json`)
 - High-level orchestration
 - Zero business logic
 - Zero agent execution

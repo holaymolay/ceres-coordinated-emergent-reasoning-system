@@ -14,12 +14,14 @@ This doc applies to the execution/runtime layer (agents that generate code). It 
 - Task Plan in `todo.md` with the current task marked as in-progress.
 - Prompt Debug Report attached to the originating request.
 - Preflight gate run (`scripts/preflight.sh --mode execute`).
+- Active phase set to `execution` or `correction` in `governance/inference-phases.yaml`.
 
 ## Required Outputs
 - Code/artifact changes scoped to the current task only.
 - Evidence logged back to Gap Ledger entries (files/lines, command outputs, test results).
 - Completed tasks moved to `completed.md` with timestamp and push hash.
-- Memory ledger updated (`memory.md`); refresh `handover.md` via `scripts/export-handover.py` when exporting context.
+- Memory records written to `memory/records/*.json`; update `memory.md` summary when needed.
+- Refresh `handover.md` via `scripts/export-handover.py` when exporting context.
 - Push and verify sync before closing a task: `scripts/push-and-verify.sh` (auto-push may run via `scripts/auto-push-if-safe.sh`).
 
 ## Forbidden

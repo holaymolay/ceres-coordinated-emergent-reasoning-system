@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ObservabilityEvent",
+  "type": "object",
+  "required": ["timestamp", "type", "status", "message"],
+  "properties": {
+    "timestamp": {"type": "string", "minLength": 1},
+    "type": {"type": "string", "minLength": 1},
+    "status": {"type": "string", "minLength": 1},
+    "message": {"type": "string", "minLength": 1},
+    "context": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "phase": {"type": "string", "enum": ["planning", "execution", "reflection", "correction"]},
+    "pattern": {"type": "string"},
+    "agent": {"type": "string"},
+    "task_id": {"type": "string"},
+    "spec_id": {"type": "string"},
+    "synchronization_id": {"type": "string"},
+    "correction_count": {"type": "integer", "minimum": 0},
+    "pattern_sequence": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": false
+}

@@ -13,6 +13,7 @@ Status: Canonical memory ledger. If conflict with `handover.md`, this file preva
 ## Artifact Index
 - Spec Elicitation Record:
 - Objective Contract:
+- Memory Records:
 - Gap Ledger:
 - Task Plan:
 - Prompt Debug Report:

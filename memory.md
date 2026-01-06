@@ -9,9 +9,11 @@ Status: Canonical memory ledger. If conflict with `handover.md`, this file preva
 - This repo is the CERES hub (coordination entrypoint); component repos remain independent.
 - `CONSTITUTION.md` is binding; `PROMPTLOADER.md` is the bootstrap entry that points to it.
 - Spec Elicitation runs after Objective Intake and before Objective Contract/Inference/Planning; it outputs `specs/elicitation/<spec-id>.md` and then stops.
+- Inference phases are explicit and enforced via `governance/inference-phases.yaml`.
+- Agent roles and pattern permissions are canonical in `AGENTS.md`.
 - Prompt Debugger gates all intake before governance.
 - Governed lifecycle: Objective Intake -> Spec Elicitation -> Objective Contract -> Inference (Gap Ledger) -> Planning (Task Plan -> `todo.md`) -> Controlled Prototyping -> Lock-In -> Execution -> Verification.
-- Dual memory docs: `memory.md` is canonical; `handover.md` is export snapshot.
+- Memory records in `memory/records/*.json` are canonical; `memory.md` is a human summary.
 
 ## Constraints & Assumptions
 - Spec Elicitation must complete before inference, planning, or execution; `ready_for_planning` must be true and `blocking_unknowns` empty.
@@ -19,7 +21,7 @@ Status: Canonical memory ledger. If conflict with `handover.md`, this file preva
 - No execution before a visible Task Plan exists in `todo.md`.
 - Gap resolution requires evidence or explicit assumption with risk/expiry.
 - No cross-repo changes without explicit coordination.
-- Observability cannot be silenced; use `scripts/log_event.py` hooks.
+- Observability cannot be silenced; events must conform to `schemas/observability-event.schema.json`.
 
 ## Active Risks / Unknowns
 - None recorded; check `todo.md` for pending work.
@@ -30,6 +32,8 @@ Status: Canonical memory ledger. If conflict with `handover.md`, this file preva
 - Gap Ledger: (not yet created)
 - Task Plan: `todo.md`
 - Prompt Debug Report: (not yet created)
+- Memory Records: `memory/records/*.json`
+- Memory Summary: `memory.md`
 - Completed Log: `completed.md`
 - Handover Snapshot: `handover.md`
 

@@ -123,6 +123,7 @@ Key invariant:
 - Nothing executes without passing governance
 
 Primary artifact: Governance decision record (`memory.md`).
+Phase enforcement: `governance/inference-phases.yaml` + `AGENTS.md`.
 Entry criteria: Task Plan exists.
 Exit criteria: Tasks authorized and assigned; execution permission granted.
 
@@ -208,7 +209,8 @@ Purpose:
 - Prevent reset-to-zero behavior
 - Enable replay and auditability
 
-Primary artifact: Memory ledger (`memory.md`).
+Primary artifact: Memory records (`memory/records/*.json`).
+Human summary: `memory.md`.
 Fallback export: `handover.md`.
 Entry criteria: Verified outputs or decisions exist to persist.
 Exit criteria: Updated memory record stored for future runs.

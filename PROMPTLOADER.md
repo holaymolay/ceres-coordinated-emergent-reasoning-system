@@ -7,6 +7,10 @@ Umbrella name: **CERES — Coordinated Emergent Reasoning System** (final; no al
 - The binding source of truth is `CONSTITUTION.md`. Load and obey it before any action.
 - This file exists to point agents to the Constitution and anchor the CERES name.
 
+## Governance Registry
+- Canonical agent registry: `AGENTS.md`.
+- Inference phase model: `governance/inference-phases.yaml`.
+
 ## Canonical Prompts
 - Planning prompt: `prompts/plan.md` (Spec Elicitation + planning; no code).
 - Execution prompt: `prompts/execute.md` (execute only; requires approved spec).
@@ -36,7 +40,7 @@ Umbrella name: **CERES — Coordinated Emergent Reasoning System** (final; no al
    - Task Plan must exist in `todo.md` (unchecked tasks).
    - Gap Ledger and Objective Contract present; assumptions explicit with risk/expiry.
 5. Keep todo artifacts in the hub style: `todo-inbox.md`, `todo.md`, `completed.md`, `memory.md`, `handover.md` (see hub docs for formatting).
-   - `memory.md` is canonical; `handover.md` is an export snapshot for context transfer.
+   - `memory/records/` is canonical; `memory.md` is a human summary and `handover.md` is an export snapshot.
    - Generate handover snapshot with `scripts/export-handover.py` when needed.
    - Auto-sync option: `scripts/export-handover.py --watch` or `scripts/install-hooks.sh`.
    - Session helper: `scripts/start-session.sh` (starts watch) and `scripts/stop-session.sh` (stops watch).
@@ -50,6 +54,7 @@ Umbrella name: **CERES — Coordinated Emergent Reasoning System** (final; no al
 - Governed lifecycle only: Objective Intake -> Spec Elicitation -> Objective Contract -> Inference (Gap Ledger) -> Planning (Task Plan -> `todo.md`) -> Controlled Prototyping -> Lock-In -> Execution (PDCA) -> Verification.
 - Attention-bounded interaction: one bounded question per turn with rationale and visible state.
 - No inference, planning, or execution before Spec Elicitation is complete.
+- Agents must obey `governance/inference-phases.yaml` and `AGENTS.md` (phase + pattern enforcement).
 - Vibe coding is prohibited; agents must refuse to execute without an approved spec.
 - No execution before a visible Task Plan exists in `todo.md`.
 - All intake goes through the Prompt Debugger before governance; no silent fixes.

@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MemoryRecord",
+  "type": "object",
+  "required": [
+    "record_id",
+    "timestamp",
+    "scope",
+    "owner",
+    "expiry",
+    "summary",
+    "data"
+  ],
+  "properties": {
+    "record_id": {"type": "string", "minLength": 1},
+    "timestamp": {"type": "string", "minLength": 1},
+    "scope": {"type": "string", "enum": ["draft", "working", "final"]},
+    "owner": {"type": "string", "minLength": 1},
+    "expiry": {"type": "string", "enum": ["phase_end", "task_end", "persistent"]},
+    "phase": {"type": "string", "enum": ["planning", "execution", "reflection", "correction"]},
+    "task_id": {"type": "string"},
+    "spec_id": {"type": "string"},
+    "summary": {"type": "string"},
+    "data": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}
