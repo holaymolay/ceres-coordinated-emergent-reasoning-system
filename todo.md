@@ -17,7 +17,7 @@ Execute these in order; do not start prompt_N+1 until prompt_N is complete.
 - [x] Execute `dev_notes/prompt_1_enforcement layer.md`.
 - [x] Execute `dev_notes/prompt_2_concept_dependency_graph.md`.
 - [x] Execute `dev_notes/prompt_3_splitting_ceres_core_and_workspace.md`.
-- [ ] Execute `dev_notes/prompt_4_deterministic_arbitration_rules.md`.
+- [x] Execute `dev_notes/prompt_4_deterministic_arbitration_rules.md`.
 - [ ] Execute `dev_notes/prompt_5_planner_output_standardization.md`.
 - [ ] Execute `dev_notes/prompt_6_adding_additional_skills.md`.
 - [ ] Execute `dev_notes/prompt_7_improving_the_ui_layer.md`.
