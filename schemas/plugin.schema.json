@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PluginDefinition",
+  "type": "object",
+  "required": [
+    "name",
+    "version",
+    "purpose",
+    "compatibility",
+    "hook_points",
+    "constraints",
+    "entrypoint",
+    "type"
+  ],
+  "properties": {
+    "name": { "type": "string" },
+    "version": { "type": "string" },
+    "purpose": { "type": "string" },
+    "compatibility": {
+      "type": "object",
+      "required": ["core_min", "core_max"],
+      "properties": {
+        "core_min": { "type": "string" },
+        "core_max": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "hook_points": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "pre_planning",
+          "post_planning",
+          "pre_arbitration",
+          "post_arbitration",
+          "observability_only"
+        ]
+      }
+    },
+    "constraints": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "allowed_roles": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "entrypoint": { "type": "string" },
+    "type": { "type": "string", "enum": ["analysis", "suggestion"] },
+    "enabled": { "type": "boolean" }
+  },
+  "additionalProperties": false
+}

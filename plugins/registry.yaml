@@ -1,0 +1,41 @@
+version: "1.0"
+plugins:
+  - name: planner-sanity-check
+    version: "0.1.0"
+    purpose: "Analyze planner outputs for obvious anomalies without mutating state."
+    type: analysis
+    compatibility:
+      core_min: "1.0.0"
+      core_max: "1.x"
+    hook_points:
+      - post_planning
+    constraints:
+      - "Read-only analysis only."
+      - "No Concept or Synchronization mutation."
+      - "No execution or arbitration control."
+    allowed_roles:
+      - planner
+      - validator
+    entrypoint: "plugins/examples/planner-sanity-check.js"
+    enabled: false
+
+  - name: risk-heuristic-assist
+    version: "0.1.0"
+    purpose: "Suggest potential risk flags for human review; non-binding."
+    type: suggestion
+    compatibility:
+      core_min: "1.0.0"
+      core_max: "1.x"
+    hook_points:
+      - pre_arbitration
+      - observability_only
+    constraints:
+      - "Suggestions only; no decisions."
+      - "No Concept or Synchronization mutation."
+      - "No execution or arbitration control."
+    allowed_roles:
+      - planner
+      - coordinator
+      - validator
+    entrypoint: "plugins/examples/risk-heuristic-assist.js"
+    enabled: false
