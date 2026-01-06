@@ -24,6 +24,10 @@ CERES is the umbrella project and governing architecture for this ecosystem. It 
 - Defaults expect `objective-contract.json` and `gap-ledger.json` in the repo root.
 - Initialize governance artifacts: `scripts/init-artifacts.sh`.
 
+## Platform notes
+- macOS/Linux supported natively.
+- Windows: use WSL (Ubuntu recommended). No Windows-native support.
+
 ## Component management
 - Components stay independent; this hub only references them.
 - Clone missing components: `scripts/clone-components.sh` (reads repos.yaml; override org with `--org`).
