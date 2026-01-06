@@ -33,7 +33,7 @@ allowed_non_concept() {
     README.md|README.*|.gitignore|LICENSE|LICENSE.*|NOTICE|NOTICE.*|CONSTITUTION.md|PROMPTLOADER.md|memory.md|handover.md|todo.md|todo-inbox.md|completed.md)
       return 0
       ;;
-    docs/*|scripts/*|templates/*|schemas/*|prompt-debugger/*|arbitration/*|planner/*|skills/*|.github/*)
+    docs/*|scripts/*|templates/*|schemas/*|prompt-debugger/*|arbitration/*|planner/*|skills/*|ui/*|.github/*)
       return 0
       ;;
     *)

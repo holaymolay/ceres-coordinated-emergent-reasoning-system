@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CERES UI (Read-Only)</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <h1>CERES UI</h1>
+      <p class="subtitle">Read-only visibility into planning, arbitration, concepts, and enforcement.</p>
+    </header>
+
+    <main>
+      <section id="planning" class="panel">
+        <h2>Planning View</h2>
+        <p class="status" id="planning-status">Loading planner artifacts...</p>
+        <div class="panel-body">
+          <div class="panel-block">
+            <h3>Task Graph</h3>
+            <div id="planning-tasks"></div>
+          </div>
+          <div class="panel-block">
+            <h3>Required Synchronizations</h3>
+            <div id="planning-syncs"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="arbitration" class="panel">
+        <h2>Arbitration View</h2>
+        <p class="status" id="arbitration-status">Loading arbitration decisions...</p>
+        <div class="panel-body">
+          <div class="panel-block">
+            <h3>Execution Order</h3>
+            <div id="arbitration-order"></div>
+          </div>
+          <div class="panel-block">
+            <h3>Blocked / Rejected</h3>
+            <div id="arbitration-blocked"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="concepts" class="panel">
+        <h2>Concept View</h2>
+        <p class="status" id="concepts-status">Loading concept graph...</p>
+        <div class="panel-body">
+          <div class="panel-block">
+            <h3>Concepts</h3>
+            <div id="concepts-list"></div>
+          </div>
+          <div class="panel-block">
+            <h3>Dependencies</h3>
+            <div id="concepts-deps"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="enforcement" class="panel">
+        <h2>Enforcement View</h2>
+        <p class="status" id="enforcement-status">Loading enforcement events...</p>
+        <div class="panel-body">
+          <div class="panel-block">
+            <h3>Recent Events</h3>
+            <div id="enforcement-events"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>UI is read-only and does not mutate CERES state. All actions flow through governance and enforcement layers.</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
