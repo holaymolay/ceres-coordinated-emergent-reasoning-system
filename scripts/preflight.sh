@@ -188,6 +188,16 @@ if mode == "execute":
         raise SystemExit(f"Blocking gaps unresolved: {', '.join(ids)}")
 PY
 
+# Validate Concept Dependency Graph (if validator exists).
+if [[ -f "$ROOT/scripts/validate-concept-graph.js" ]]; then
+  if ! command -v node >/dev/null 2>&1; then
+    echo "Node.js is required to run concept graph validation." >&2
+    exit 1
+  fi
+  (cd "$ROOT" && node scripts/validate-concept-graph.js)
+fi
+
+
 if [[ ! -x "$ROOT/scripts/run-component.sh" ]]; then
   echo "Missing hub helper: $ROOT/scripts/run-component.sh" >&2
   exit 1
