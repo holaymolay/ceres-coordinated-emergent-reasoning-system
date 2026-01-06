@@ -1,0 +1,46 @@
+version: "1.0"
+skills:
+  - name: summarize-text
+    purpose: "Summarize input text without modifying state or external systems."
+    type: analytical
+    inputs:
+      - name: text
+        type: string
+        required: true
+        description: "Raw text to summarize."
+    outputs:
+      - name: summary
+        type: string
+        description: "Short summary of the input text."
+    constraints:
+      - "Read-only; no external calls."
+      - "No Concept mutation."
+    allowed_roles:
+      - planner
+      - validator
+    concept_scope: "*"
+    entrypoint: "skills/examples/summarize-text.js"
+    version: "1.0"
+
+  - name: normalize-keys
+    purpose: "Normalize object keys to snake_case. Pure transformation."
+    type: transform
+    inputs:
+      - name: payload
+        type: object
+        required: true
+        description: "JSON object to normalize."
+    outputs:
+      - name: normalized
+        type: object
+        description: "Normalized JSON object."
+    constraints:
+      - "Pure function; deterministic."
+      - "No Concept mutation."
+    allowed_roles:
+      - planner
+      - executor
+      - validator
+    concept_scope: "*"
+    entrypoint: "skills/examples/normalize-keys.js"
+    version: "1.0"

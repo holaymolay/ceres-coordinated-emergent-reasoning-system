@@ -1,0 +1,334 @@
+#!/usr/bin/env node
+'use strict';
+
+const fs = require('node:fs');
+const path = require('node:path');
+
+function stripComment(line) {
+  let inSingle = false;
+  let inDouble = false;
+  for (let i = 0; i < line.length; i += 1) {
+    const ch = line[i];
+    if (ch === '"' && !inSingle) {
+      inDouble = !inDouble;
+    } else if (ch === "'" && !inDouble) {
+      inSingle = !inSingle;
+    } else if (ch === '#' && !inSingle && !inDouble) {
+      return line.slice(0, i);
+    }
+  }
+  return line;
+}
+
+function splitKeyValue(line) {
+  const idx = line.indexOf(':');
+  if (idx === -1) {
+    throw new Error(`Invalid YAML line (missing ':'): ${line}`);
+  }
+  const key = line.slice(0, idx).trim();
+  const rest = line.slice(idx + 1).trim();
+  return { key, rest };
+}
+
+function splitInlineList(value) {
+  const items = [];
+  let current = '';
+  let inSingle = false;
+  let inDouble = false;
+  for (let i = 0; i < value.length; i += 1) {
+    const ch = value[i];
+    if (ch === '"' && !inSingle) {
+      inDouble = !inDouble;
+      current += ch;
+      continue;
+    }
+    if (ch === "'" && !inDouble) {
+      inSingle = !inSingle;
+      current += ch;
+      continue;
+    }
+    if (ch === ',' && !inSingle && !inDouble) {
+      items.push(current.trim());
+      current = '';
+      continue;
+    }
+    current += ch;
+  }
+  if (current.trim() !== '') {
+    items.push(current.trim());
+  }
+  return items;
+}
+
+function parseScalar(value) {
+  if (value === '') {
+    return '';
+  }
+  if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+    return value.slice(1, -1);
+  }
+  if (value === 'true') {
+    return true;
+  }
+  if (value === 'false') {
+    return false;
+  }
+  if (value === 'null') {
+    return null;
+  }
+  if (/^-?\d+(\.\d+)?$/.test(value)) {
+    return Number(value);
+  }
+  if (value.startsWith('[') && value.endsWith(']')) {
+    const inner = value.slice(1, -1).trim();
+    if (inner === '') {
+      return [];
+    }
+    return splitInlineList(inner).map((item) => parseScalar(item));
+  }
+  return value;
+}
+
+function nextNonEmptyLine(lines, start) {
+  for (let i = start; i < lines.length; i += 1) {
+    if (lines[i].text.trim() !== '') {
+      return lines[i];
+    }
+  }
+  return null;
+}
+
+function parseBlock(lines, startIndex, baseIndent) {
+  const obj = {};
+  let arr = null;
+  let i = startIndex;
+
+  while (i < lines.length) {
+    const entry = lines[i];
+    if (entry.text.trim() === '') {
+      i += 1;
+      continue;
+    }
+    const indent = entry.indent;
+    if (indent < baseIndent) {
+      break;
+    }
+
+    const trimmed = entry.text.trim();
+    if (trimmed.startsWith('- ')) {
+      if (indent > baseIndent) {
+        break;
+      }
+      if (!arr) {
+        arr = [];
+      }
+      const itemText = trimmed.slice(2).trim();
+      if (itemText === '') {
+        const nextLine = nextNonEmptyLine(lines, i + 1);
+        if (!nextLine || nextLine.indent <= indent) {
+          arr.push({});
+          i += 1;
+          continue;
+        }
+        const [child, nextIndex] = parseBlock(lines, i + 1, nextLine.indent);
+        arr.push(child);
+        i = nextIndex;
+        continue;
+      }
+      if (itemText.includes(':')) {
+        const { key, rest } = splitKeyValue(itemText);
+        if (rest === '') {
+          const nextLine = nextNonEmptyLine(lines, i + 1);
+          if (!nextLine || nextLine.indent <= indent) {
+            arr.push({ [key]: {} });
+            i += 1;
+            continue;
+          }
+          const [child, nextIndex] = parseBlock(lines, i + 1, nextLine.indent);
+          arr.push({ [key]: child });
+          i = nextIndex;
+          continue;
+        }
+        let item = { [key]: parseScalar(rest) };
+        const nextLine = nextNonEmptyLine(lines, i + 1);
+        if (nextLine && nextLine.indent > indent) {
+          const [child, nextIndex] = parseBlock(lines, i + 1, nextLine.indent);
+          if (child && typeof child === 'object' && !Array.isArray(child)) {
+            item = { ...item, ...child };
+          }
+          arr.push(item);
+          i = nextIndex;
+          continue;
+        }
+        arr.push(item);
+        i += 1;
+        continue;
+      }
+      arr.push(parseScalar(itemText));
+      i += 1;
+      continue;
+    }
+
+    if (arr) {
+      break;
+    }
+    if (indent > baseIndent) {
+      break;
+    }
+    const { key, rest } = splitKeyValue(trimmed);
+    if (rest === '') {
+      const nextLine = nextNonEmptyLine(lines, i + 1);
+      if (!nextLine || nextLine.indent <= indent) {
+        obj[key] = {};
+        i += 1;
+        continue;
+      }
+      const [child, nextIndex] = parseBlock(lines, i + 1, nextLine.indent);
+      obj[key] = child;
+      i = nextIndex;
+      continue;
+    }
+    obj[key] = parseScalar(rest);
+    i += 1;
+  }
+
+  return [arr ?? obj, i];
+}
+
+function parseSimpleYaml(text, filePath) {
+  const rawLines = text.split(/\r?\n/);
+  const lines = rawLines.map((line) => {
+    const withoutTabs = line.replace(/\t/g, '  ');
+    const withoutComments = stripComment(withoutTabs);
+    const trimmedRight = withoutComments.replace(/\s+$/, '');
+    const trimmed = trimmedRight.trim();
+    if (trimmed === '---' || trimmed === '...') {
+      return { indent: 0, text: '' };
+    }
+    const indent = trimmedRight.match(/^\s*/)[0].length;
+    return { indent, text: trimmedRight };
+  });
+
+  const [value] = parseBlock(lines, 0, 0);
+  return value;
+}
+
+function validateSkill(skill, registryPath) {
+  const errors = [];
+  const required = [
+    'name',
+    'purpose',
+    'inputs',
+    'outputs',
+    'constraints',
+    'allowed_roles',
+    'entrypoint',
+    'type',
+  ];
+
+  for (const key of required) {
+    if (!Object.prototype.hasOwnProperty.call(skill, key)) {
+      errors.push(`Missing required field '${key}'.`);
+    }
+  }
+
+  if (typeof skill.name !== 'string' || skill.name.trim() === '') {
+    errors.push('Skill name must be a non-empty string.');
+  }
+
+  if (typeof skill.entrypoint !== 'string' || skill.entrypoint.trim() === '') {
+    errors.push('Entrypoint must be a non-empty string.');
+  } else {
+    const entryPath = path.resolve(path.dirname(registryPath), '..', skill.entrypoint);
+    if (!fs.existsSync(entryPath)) {
+      errors.push(`Entrypoint not found: ${skill.entrypoint}`);
+    }
+  }
+
+  if (!Array.isArray(skill.inputs)) {
+    errors.push('Inputs must be an array.');
+  }
+  if (!Array.isArray(skill.outputs)) {
+    errors.push('Outputs must be an array.');
+  }
+  if (!Array.isArray(skill.constraints)) {
+    errors.push('Constraints must be an array.');
+  }
+  if (!Array.isArray(skill.allowed_roles)) {
+    errors.push('Allowed roles must be an array.');
+  }
+
+  if (skill.type !== 'analytical' && skill.type !== 'transform') {
+    errors.push("Skill type must be 'analytical' or 'transform'.");
+  }
+
+  if (skill.concept_scope && typeof skill.concept_scope !== 'string') {
+    errors.push('Concept scope must be a string when provided.');
+  }
+
+  return errors;
+}
+
+function loadRegistry(registryPath) {
+  const content = fs.readFileSync(registryPath, 'utf8');
+  const data = parseSimpleYaml(content, registryPath);
+  return data;
+}
+
+function main() {
+  const registryPath = process.argv[2] || path.join(process.cwd(), 'skills', 'registry.yaml');
+
+  if (!fs.existsSync(registryPath)) {
+    console.error(`Skills registry not found: ${registryPath}`);
+    process.exit(1);
+  }
+
+  let registry;
+  try {
+    registry = loadRegistry(registryPath);
+  } catch (err) {
+    console.error(`Failed to parse skills registry: ${err.message}`);
+    process.exit(1);
+  }
+
+  if (!registry || typeof registry !== 'object') {
+    console.error('Skills registry must be a YAML object.');
+    process.exit(1);
+  }
+
+  if (!Array.isArray(registry.skills)) {
+    console.error('Skills registry must include a skills array.');
+    process.exit(1);
+  }
+
+  const errors = [];
+  const skillIndex = new Map();
+
+  for (const skill of registry.skills) {
+    if (!skill || typeof skill !== 'object') {
+      errors.push('Invalid skill entry in registry.');
+      continue;
+    }
+    const skillErrors = validateSkill(skill, registryPath);
+    if (skillIndex.has(skill.name)) {
+      skillErrors.push(`Duplicate skill name '${skill.name}'.`);
+    }
+    skillIndex.set(skill.name, skill);
+    skillErrors.forEach((error) => errors.push(`Skill '${skill.name}': ${error}`));
+  }
+
+  if (errors.length) {
+    console.error(`Skill registry validation failed with ${errors.length} error(s):`);
+    errors.forEach((error) => console.error(`- ${error}`));
+    process.exit(1);
+  }
+
+  const output = {
+    version: registry.version || '1.0',
+    skills: registry.skills,
+  };
+
+  process.stdout.write(`${JSON.stringify(output, null, 2)}\n`);
+}
+
+main();

@@ -19,7 +19,7 @@ Execute these in order; do not start prompt_N+1 until prompt_N is complete.
 - [x] Execute `dev_notes/prompt_3_splitting_ceres_core_and_workspace.md`.
 - [x] Execute `dev_notes/prompt_4_deterministic_arbitration_rules.md`.
 - [x] Execute `dev_notes/prompt_5_planner_output_standardization.md`.
-- [ ] Execute `dev_notes/prompt_6_adding_additional_skills.md`.
+- [x] Execute `dev_notes/prompt_6_adding_additional_skills.md`.
 - [ ] Execute `dev_notes/prompt_7_improving_the_ui_layer.md`.
 - [ ] Execute `dev_notes/prompt_8_modular_plugin_architecture.md`.
 - [ ] Execute `dev_notes/prompt_9_python_fallback_scripts.md`.
