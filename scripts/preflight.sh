@@ -189,7 +189,7 @@ if mode == "execute":
 PY
 
 # Validate Concept Dependency Graph (if validator exists).
-if [[ -f "$ROOT/scripts/validate-concept-graph.js" ]]; then
+if [[ "$MODE" == "execute" && -f "$ROOT/scripts/validate-concept-graph.js" ]]; then
   if ! command -v node >/dev/null 2>&1; then
     echo "Node.js is required to run concept graph validation." >&2
     exit 1
