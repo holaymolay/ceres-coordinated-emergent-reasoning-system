@@ -24,6 +24,7 @@ Execute these in order; do not start prompt_N+1 until prompt_N is complete.
 - [x] Execute `dev_notes/prompt_8_modular_plugin_architecture.md`.
 - [x] Execute `dev_notes/prompt_9_python_fallback_scripts.md`.
 - [ ] Execute `dev_notes/prompt_10_formal_parity_verification_checklist.md`.
+- [ ] Execute `dev_notes/prompt_11_python_ primary_execution_path.md`.
 
 ## Next Features & Updates
 - [x] Add strict todo template hash/header validation to lifecycle gate.
