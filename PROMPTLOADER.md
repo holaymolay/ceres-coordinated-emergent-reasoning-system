@@ -7,6 +7,10 @@ Umbrella name: **CERES — Coordinated Emergent Reasoning System** (final; no al
 - The binding source of truth is `CONSTITUTION.md`. Load and obey it before any action.
 - This file exists to point agents to the Constitution and anchor the CERES name.
 
+## Canonical Prompts
+- Planning prompt: `prompts/plan.md` (Spec Elicitation + planning; no code).
+- Execution prompt: `prompts/execute.md` (execute only; requires approved spec).
+
 ## Spec Elicitation (mandatory)
 - Capture Objective Intake first (raw prompt or `todo-inbox.md`).
 - Run the CERES Spec Elicitation Agent (SEA) before Objective Contract, Inference, or Planning.
