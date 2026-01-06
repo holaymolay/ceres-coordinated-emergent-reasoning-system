@@ -5,9 +5,28 @@ ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 
 if command -v python3 >/dev/null 2>&1; then
   if [[ -f "$ROOT/scripts/preflight.py" ]]; then
-    python3 "$ROOT/scripts/preflight.py" "$@" && exit 0
-    echo "WARN: Python fallback failed; continuing with shell logic." >&2
+    echo "INFO: preflight using python primary." >&2
+    tmp_err="$(mktemp)"
+    set +e
+    python3 "$ROOT/scripts/preflight.py" "$@" 2> >(tee "$tmp_err" >&2)
+    status=$?
+    set -e
+    if [[ "$status" -eq 0 ]]; then
+      rm -f "$tmp_err"
+      exit 0
+    fi
+    if grep -q -E "Traceback|SyntaxError|ModuleNotFoundError" "$tmp_err"; then
+      echo "WARN: Python preflight failed (runtime error); falling back to shell." >&2
+      rm -f "$tmp_err"
+    else
+      rm -f "$tmp_err"
+      exit "$status"
+    fi
+  else
+    echo "WARN: Python preflight missing; using shell fallback." >&2
   fi
+else
+  echo "WARN: python3 not found; using shell fallback." >&2
 fi
 
 MODE="execute"
