@@ -7,7 +7,8 @@
 - [ ] 
 
 ## Current Focus
-- [ ] 
+- [ ] Add `logs/` to `governance-orchestrator/.gitignore`.
+
 
 ## Next Features & Updates
 - [ ] Execute prompt: prompts/prompt-spec-id-allocation.md
