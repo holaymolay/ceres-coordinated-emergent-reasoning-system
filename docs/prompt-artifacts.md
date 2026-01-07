@@ -14,7 +14,7 @@ This document defines how long-form prompts are stored, referenced, and executed
 
 ## Required Prompt File Structure
 
-Each prompt file must follow this structure:
+Each prompt file must follow this structure (use `templates/prompt-artifact.md`):
 
 ```md
 # Prompt: <Short Name>
@@ -33,8 +33,15 @@ One-paragraph description of what executing this prompt is meant to accomplish.
 - Explicit constraints (scope, agents allowed, repos touched)
 - Governance or security notes if relevant
 
+## Task Decomposition Guidance (decomposable only)
+- If decomposable, list separable outcomes and any ordering constraints.
+- If atomic, mark as N/A.
+
 ## Prompt Body
 <the full long-form prompt>
+
+## Validation Criteria
+- What must be true for the prompt to be considered complete.
 ```
 
 ## Todo Integration Rule

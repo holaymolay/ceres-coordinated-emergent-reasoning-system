@@ -6,4 +6,4 @@ This directory holds:
 
 Long-form prompts are governed artifacts. They must follow the required structure and be referenced from `todo.md` rather than embedded inline.
 
-See `docs/prompt-artifacts.md` for the full rules and the required prompt template.
+See `docs/prompt-artifacts.md` and `templates/prompt-artifact.md` for the rules and template.
