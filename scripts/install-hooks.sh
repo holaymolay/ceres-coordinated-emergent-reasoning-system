@@ -30,7 +30,7 @@ fi
 allowed_non_concept() {
   local file="$1"
   case "$file" in
-    README.md|README.*|.gitignore|LICENSE|LICENSE.*|NOTICE|NOTICE.*|CONSTITUTION.md|PROMPTLOADER.md|AGENTS.md|memory.md|handover.md|todo.md|todo-inbox.md|completed.md)
+    README.md|README.*|DOCS.md|.gitignore|LICENSE|LICENSE.*|NOTICE|NOTICE.*|CONSTITUTION.md|PROMPTLOADER.md|AGENTS.md|memory.md|handover.md|todo.md|todo-inbox.md|completed.md)
       return 0
       ;;
     docs/*|scripts/*|templates/*|prompts/*|schemas/*|governance/*|synchronizations/*|memory/*|prompt-debugger/*|arbitration/*|planner/*|skills/*|plugins/*|ui/*|.github/*)
