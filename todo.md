@@ -11,6 +11,8 @@
 
 
 ## Next Features & Updates
+- [ ] Execute prompt: prompts/prompt-readme-docs-update.md
+      Outcome: Update README and add DOCS index per instructions.
 - [ ] Execute prompt: prompts/prompt-spec-id-allocation.md
       Outcome: Define the spec-id allocation point and minimal implementation plan.
 - [ ] Execute prompt: prompts/prompt-skills-registry-gap.md
