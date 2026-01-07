@@ -11,6 +11,8 @@
 
 
 ## Next Features & Updates
+- [ ] Execute prompt: prompts/prompt-clarification-request-governance.md
+      Outcome: Add governance rule + ClarificationRequest artifact and anti-pattern.
 - [ ] Execute prompt: prompts/prompt-spec-id-allocation.md
       Outcome: Define the spec-id allocation point and minimal implementation plan.
 - [ ] Execute prompt: prompts/prompt-skills-registry-gap.md
