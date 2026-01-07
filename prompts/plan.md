@@ -14,6 +14,7 @@ Produce governance artifacts (Spec Elicitation Record, Objective Contract, Gap L
 ## Required Preconditions
 - If no Spec Elicitation Record exists, run Spec Elicitation first.
 - If a prior Spec Elicitation Record exists, diff and re-open only affected domains.
+- If elicitation is complete and `spec_id` is a placeholder, run spec-id allocation before planning.
 
 ## Allowed Outputs
 - Spec Elicitation Record (Spec Draft) at `specs/elicitation/<spec-id>.md` using `templates/elicitation/elicitation.md`.

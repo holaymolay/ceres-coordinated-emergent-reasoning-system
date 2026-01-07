@@ -60,6 +60,7 @@ Concept auto-mapping (advisory only):
 Output artifact (immutable on close):
 - Emit exactly one Spec Elicitation Record (Spec Draft) at `specs/elicitation/<spec-id>.md` using `templates/elicitation/elicitation.md`.
 - Front matter must include `spec_id`, `ready_for_planning`, and `blocking_unknowns`.
+- If `spec_id` is a placeholder, run spec-id allocation after `ready_for_planning=true` and `blocking_unknowns` is empty.
 
 Termination rule:
 - Stop immediately after emitting the Spec Elicitation Record.

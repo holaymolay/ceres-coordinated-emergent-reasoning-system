@@ -72,3 +72,4 @@ blocking_unknowns:
 
 ## Readiness
 - `ready_for_planning` and `blocking_unknowns` live in the front matter and must be accurate.
+- `spec_id` may be a placeholder until allocation; replace it with the allocated id after elicitation completes.
