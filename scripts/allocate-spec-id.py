@@ -208,7 +208,7 @@ def emit_event(events_path: Path, spec_id: str, artifacts_updated: list[str]) ->
         event["git_head"] = git_head
 
     with events_path.open("a", encoding="utf-8") as handle:
-        handle.write(json.dumps(event) + "\n")
+        handle.write(json.dumps(event, separators=(",", ":")) + "\n")
 
 
 def main() -> None:
