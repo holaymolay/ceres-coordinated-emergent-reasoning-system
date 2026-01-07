@@ -19,3 +19,4 @@
 - [x] 2025-01-05 — Add strict todo template hash/header validation to lifecycle gate
 - [x] 2025-01-05 — Extract observability into dedicated repo once hooks are in place
 - [x] 2025-01-05 — Add advisory Concept/Synchronization signal capture post-elicitation (non-binding) helper script
+- [x] 2026-01-07 — Execute README+DOCS update prompt (README.md + DOCS.md)

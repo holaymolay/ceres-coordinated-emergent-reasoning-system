@@ -1,40 +1,61 @@
-# CERES — Coordinated Emergent Reasoning System
-
-**Make AI finish what it starts.**
-
-CERES is a framework that helps you use AI on **long, complex work** (like building software or solving multi-step problems) without the usual breakdowns:
-
-- the AI **forgets earlier decisions**
-- progress **dies when the chat gets long**
-- the AI gets stuck in a **fix → break → fix** loop
-- you end up **starting over** in a new window
-
-CERES fixes that by turning “a chat” into a **structured workflow** with:
-- written-down decisions (so nothing important gets lost),
-- guardrails (so the AI doesn’t thrash),
-- and validation (so progress is real, not vibes).
-
-### The big benefits
-- **Stay in one thread:** durable artifacts reduce “context window collapse.”
-- **No debug-death-spiral:** constrained, checkable steps prevent chaos.
-- **More trust, less luck:** plans + decisions are visible and repeatable.
-- **Extend safely:** add capabilities without giving the AI unlimited freedom.
+# CERES
+**Coordinated Emergent Reasoning & Execution System**
 
 ---
+## A Better Way to Build with AI
+### How CERES Changes the Way AI Builds Projects
 
-## Try it in 60 seconds (no coding required)
+CERES is a system for **working with AI on projects in a clear, structured, and repeatable way**.
 
-CERES includes a **read-only UI** that shows what the system is doing.
+Many people build things with AI by describing what they want in plain language and adjusting as they go. That works at first, but as projects grow, problems appear:
 
-1. GitHub → **Code** → **Download ZIP**
-2. Unzip it
-3. Open: `ui/index.html`
+- decisions get forgotten
+- instructions drift over time
+- the AI changes things you thought were settled
+- progress becomes hard to track or repeat
 
-The UI is intentionally **read-only**:
-- it **only reads artifacts**
-- it does **not** mutate your project
-- it degrades gracefully when artifacts are missing
+CERES exists to solve that.
 
+It gives the AI a **shared set of rules, memory, and structure** to operate within, so it doesn’t have to guess your intent every time.
+
+Instead of relying on improvisation, CERES ensures that:
+- ideas are turned into explicit decisions
+- decisions are written down as artifacts
+- the AI knows what phase of work it is in
+- changes happen deliberately, not accidentally
+
+You don’t manually “set up” CERES like software.
+
+You open a project, and the AI **adopts CERES behind the scenes** by reading its instructions and using them as the operating rules for that project.
+
+From that point on, the AI behaves less like an improviser and more like a disciplined collaborator that remembers what was decided, why it was decided, and what is allowed to change next.
+
+CERES is for people who want AI to help build real projects that last — not just generate one-off results.
+---
+
+---
+## Quick Start
+
+CERES is bootstrapped and used through an AI coding agent.
+
+To get started — including non-coder instructions using VS Code and Codex — follow the guided setup here:
+
+➡️ **Start with:** `GETTING_STARTED.md`
+
+That guide explains:
+- how to prepare a project folder
+- how the AI adopts CERES for that project
+- how to recover if something stops working
+---
+
+---
+## Documentation
+
+CERES is documented as a set of small, authoritative files rather than a single manual.
+
+To understand how the system works, how it is governed, and how to work within it, start here:
+
+➡️ **Read the documentation index:** `DOCS.md`
 ---
 
 ## Who CERES is for
@@ -98,66 +119,12 @@ This structure is why CERES is good at long projects where normal AI usage break
 
 ---
 
-## Developer quickstart (optional)
-
-<details>
-<summary><strong>Show developer setup</strong></summary>
-
-### Start here
-1. Read `PROMPTLOADER.md` (bootstrapping CERES)
-2. Read `CONSTITUTION.md` (ordering + governance rules)
-
-### Initialize artifacts
-- `scripts/init-artifacts.sh`
-- `scripts/init-todo-files.sh`
-
-### Run preflight gates
-- Plan mode: `scripts/preflight.sh --mode plan`
-- Execute mode: `scripts/preflight.sh --mode execute`
-
-### Platform notes
-- macOS/Linux supported natively
-- Windows: use WSL (Ubuntu recommended)
-
-</details>
-
----
-
-## Preflight lifecycle (governance gates)
-
-Preflight runs a fixed sequence of checks before any planning or execution:
-
-1. **Spec elicitation gate**  
-   Requires `ready_for_planning: true` and an empty `blocking_unknowns` list in the elicitation record.
-2. **Governance contract validation**  
-   Confirms the active **phase**, **agent**, and **pattern** are allowed by the governance registry.
-3. **Lifecycle gate**  
-   Validates the task plan, gap ledger, and prompt report requirements.
-
-### What “ready_for_planning” means
-
-`ready_for_planning: true` is the explicit signal that elicitation is complete and ambiguity has been resolved enough to proceed. If it is `false` or `blocking_unknowns` is non-empty, preflight stops immediately.
-
-### Failure semantics
-
-- **Early aborts** emit a `gate:fail` event before exiting (e.g., missing artifacts or non-ready elicitation).
-- **Lifecycle violations** emit `gate:fail` from the lifecycle enforcement step.
-
-### Observability guarantees
-
-- Every enforced stop emits a structured event.
-- Events include **phase**, **agent**, and **pattern** when known.
-- Spec identifiers are included when available; early failures may omit them if a real spec does not exist yet.
-
----
-
 ## What this repo is
 
 This repository is the **CERES coordination hub**:
 - documentation and conventions
 - schemas and artifacts
 - lightweight scripts
-- a read-only UI for visibility
 
 CERES is designed as an ecosystem: this hub is the entrypoint, and additional components can live as independent repos with their own release cycles.
 
@@ -172,8 +139,6 @@ CERES is built to support independent components like:
 - `spec-compiler` — turns clarified intent into governed specs  
 - `ui-constitution` — machine-readable UI constraints  
 - `ui-pattern-registry` — approved UI patterns for LLM-driven front ends  
-
-(See `docs/repo-assignment.md` and `docs/routing.md` for how components are mapped.)
 
 ---
 
@@ -193,22 +158,6 @@ CERES wins by adding:
 
 In short:
 > CERES is an operating system for reliable AI work.
-
----
-
-## Python fallbacks (portability without risk)
-
-CERES uses a conservative portability strategy:
-- shell scripts remain authoritative unless explicitly promoted
-- Python mirrors exist as fallbacks
-- promotion to Python-primary only happens after parity verification and hardening
-
----
-
-## Canonical references
-
-- `docs/canonical-layer-model.md`
-- `docs/repo-assignment.md`
 
 ---
 
