@@ -8,8 +8,16 @@ ui-pattern-registry/
 
 parallel-agent-runner/
 
+# CERES generated artifacts
+objective-contract.json
+gap-ledger.json
+specs/elicitation/
+
+# Runtime / cache
 logs/
 *.jsonl
+__pycache__/
+*.pyc
 
 # Local research notes (ignored when untracked)
 dev_notes/
