@@ -149,7 +149,7 @@ def resolve_elicitation(path: Path) -> Path:
     return path
 
 
-def validate_elicitation(path: Path) -> None:
+def validate_elicitation(path: Path) -> str:
     data = parse_front_matter(path.read_text(encoding="utf-8"))
     spec_id = data.get("spec_id")
     if not isinstance(spec_id, str) or not spec_id.strip():
@@ -165,6 +165,8 @@ def validate_elicitation(path: Path) -> None:
     if blocking:
         raise SystemExit("Spec Elicitation Record has blocking_unknowns; resolve before planning.")
 
+    return spec_id.strip()
+
 
 def run_or_exit(cmd: list, **kwargs) -> None:
     try:
@@ -176,51 +178,118 @@ def run_or_exit(cmd: list, **kwargs) -> None:
         sys.exit(result.returncode)
 
 
+def emit_gate_event(
+    log_root: Path,
+    phase: str,
+    agent: str,
+    pattern: str,
+    task_id: str | None,
+    spec_id: str | None,
+    status: str,
+    message: str,
+    context: dict | None,
+) -> None:
+    if not log_root.exists():
+        return
+    log_helper = ROOT / "scripts" / "log_event.py"
+    if not log_helper.exists():
+        return
+    cmd = [
+        sys.executable,
+        str(log_helper),
+        "--type",
+        "gate",
+        "--status",
+        status,
+        "--message",
+        message,
+        "--phase",
+        phase,
+        "--agent",
+        agent,
+        "--pattern",
+        pattern,
+    ]
+    if task_id:
+        cmd.extend(["--task-id", task_id])
+    if spec_id:
+        cmd.extend(["--spec-id", spec_id])
+    if context:
+        cmd.extend(["--context", json.dumps(context)])
+    subprocess.run(cmd, cwd=str(log_root), check=False)
+
+
 def main() -> None:
-    global MODE, PROMPT_FILE, REPORT_FILE, TODO_FILE, GAP_LEDGER, OBJECTIVE, ELICITATION, TASK_ID
+    mode = MODE
+    prompt_arg = PROMPT_FILE
+    report_arg = REPORT_FILE
+    todo_arg = TODO_FILE
+    gap_ledger_arg = GAP_LEDGER
+    objective_arg = OBJECTIVE
+    elicitation_arg = ELICITATION
+    task_id = TASK_ID
+    task_class = TASK_CLASS
+    events = EVENTS
+    spec_id = ""
+
+    phase = "planning" if mode == "plan" else "execution"
+    agent = "Planner" if mode == "plan" else "Execution"
+    pattern = "planning" if mode == "plan" else "tool-use"
+    phase_set = False
+    agent_set = False
+    pattern_set = False
 
     args = sys.argv[1:]
     i = 0
     while i < len(args):
         arg = args[i]
         if arg == "--mode" and i + 1 < len(args):
-            MODE = args[i + 1]
+            mode = args[i + 1]
+            if not phase_set:
+                phase = "planning" if mode == "plan" else "execution"
+            if not agent_set:
+                agent = "Planner" if mode == "plan" else "Execution"
+            if not pattern_set:
+                pattern = "planning" if mode == "plan" else "tool-use"
             i += 2
         elif arg == "--prompt" and i + 1 < len(args):
-            PROMPT_FILE = args[i + 1]
+            prompt_arg = args[i + 1]
             i += 2
         elif arg == "--prompt-report" and i + 1 < len(args):
-            REPORT_FILE = args[i + 1]
+            report_arg = args[i + 1]
             i += 2
         elif arg == "--todo" and i + 1 < len(args):
-            TODO_FILE = args[i + 1]
+            todo_arg = args[i + 1]
             i += 2
         elif arg == "--gap-ledger" and i + 1 < len(args):
-            GAP_LEDGER = args[i + 1]
+            gap_ledger_arg = args[i + 1]
             i += 2
         elif arg == "--objective" and i + 1 < len(args):
-            OBJECTIVE = args[i + 1]
+            objective_arg = args[i + 1]
             i += 2
         elif arg == "--elicitation" and i + 1 < len(args):
-            ELICITATION = args[i + 1]
+            elicitation_arg = args[i + 1]
             i += 2
         elif arg == "--task-id" and i + 1 < len(args):
-            TASK_ID = args[i + 1]
+            task_id = args[i + 1]
             i += 2
         elif arg == "--phase" and i + 1 < len(args):
-            PHASE = args[i + 1]
+            phase = args[i + 1]
+            phase_set = True
             i += 2
         elif arg == "--agent" and i + 1 < len(args):
-            AGENT = args[i + 1]
+            agent = args[i + 1]
+            agent_set = True
             i += 2
         elif arg == "--pattern" and i + 1 < len(args):
-            PATTERN = args[i + 1]
+            pattern = args[i + 1]
+            pattern_set = True
             i += 2
         elif arg == "--task-class" and i + 1 < len(args):
-            TASK_CLASS = args[i + 1]
+            task_class = args[i + 1]
             i += 2
         elif arg == "--events" and i + 1 < len(args):
-            EVENTS = args[i + 1]
+            events = args[i + 1]
             i += 2
         elif arg in {"-h", "--help"}:
             usage()
@@ -230,71 +299,236 @@ def main() -> None:
             usage()
             sys.exit(1)
 
-    if MODE not in {"plan", "execute"}:
-        sys.stderr.write(f"Invalid mode: {MODE} (expected plan or execute)\n")
+    if mode not in {"plan", "execute"}:
+        sys.stderr.write(f"Invalid mode: {mode} (expected plan or execute)\n")
         sys.exit(1)
 
-    if not PHASE:
-        PHASE = "planning" if MODE == "plan" else "execution"
-
-    if not AGENT:
-        AGENT = "Planner" if MODE == "plan" else "Execution"
-
-    if not PATTERN:
-        PATTERN = "planning" if MODE == "plan" else "tool-use"
-
-    prompt_file = Path(make_abs(PROMPT_FILE))
-    report_file = Path(make_abs(REPORT_FILE))
-    todo_file = Path(make_abs(TODO_FILE))
-    gap_ledger = Path(make_abs(GAP_LEDGER))
-    objective = Path(make_abs(OBJECTIVE))
-    elicitation_path = Path(make_abs(ELICITATION))
-
-    events_path = Path(make_abs(EVENTS)) if EVENTS else None
+    prompt_file = Path(make_abs(prompt_arg))
+    report_file = Path(make_abs(report_arg))
+    todo_file = Path(make_abs(todo_arg))
+    gap_ledger = Path(make_abs(gap_ledger_arg))
+    objective = Path(make_abs(objective_arg))
+    elicitation_path = Path(make_abs(elicitation_arg))
+    events_path = Path(make_abs(events)) if events else None
+    log_root = ROOT / "governance-orchestrator"
 
     (ROOT / "logs").mkdir(parents=True, exist_ok=True)
 
     if not prompt_file.is_file():
+        emit_gate_event(
+            log_root,
+            phase,
+            agent,
+            pattern,
+            task_id,
+            spec_id,
+            "fail",
+            "preflight gate failed",
+            {"stage": "prompt", "reason": "missing", "path": str(prompt_file)},
+        )
         sys.stderr.write(f"Prompt file not found: {prompt_file}\n")
         sys.exit(1)
 
     report_file.parent.mkdir(parents=True, exist_ok=True)
-    with report_file.open("w", encoding="utf-8") as handle:
-        run_or_exit([str(ROOT / "prompt-debugger" / "cli.py"), "--prompt-file", str(prompt_file)], stdout=handle)
+    result = subprocess.run(
+        [str(ROOT / "prompt-debugger" / "cli.py"), "--prompt-file", str(prompt_file)],
+        stdout=report_file.open("w", encoding="utf-8"),
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    if result.returncode != 0:
+        context = {"stage": "prompt_report", "reason": "prompt_debugger_failed", "exit_code": result.returncode}
+        stderr = (result.stderr or "").strip()
+        if stderr:
+            context["stderr"] = stderr
+        emit_gate_event(
+            log_root,
+            phase,
+            agent,
+            pattern,
+            task_id,
+            spec_id,
+            "fail",
+            "preflight gate failed",
+            context,
+        )
+        if stderr:
+            sys.stderr.write(stderr + "\n")
+        sys.exit(result.returncode)
 
-    report = load_yaml_or_json(report_file, "Prompt Debug Report")
+    try:
+        report = load_yaml_or_json(report_file, "Prompt Debug Report")
+    except SystemExit as exc:
+        emit_gate_event(
+            log_root,
+            phase,
+            agent,
+            pattern,
+            task_id,
+            spec_id,
+            "fail",
+            "preflight gate failed",
+            {"stage": "prompt_report", "reason": "parse_failed", "error": str(exc)},
+        )
+        raise
+
     status = report.get("status")
     if status != "approved":
+        emit_gate_event(
+            log_root,
+            phase,
+            agent,
+            pattern,
+            task_id,
+            spec_id,
+            "fail",
+            "preflight gate failed",
+            {"stage": "prompt_report", "reason": "not_approved", "status": status},
+        )
         raise SystemExit(f"Prompt Debug Report status is '{status}'. Resolve issues before proceeding.")
 
     if not objective.is_file():
+        emit_gate_event(
+            log_root,
+            phase,
+            agent,
+            pattern,
+            task_id,
+            spec_id,
+            "fail",
+            "preflight gate failed",
+            {"stage": "objective", "reason": "missing", "path": str(objective)},
+        )
         sys.stderr.write(f"Objective Contract missing: {objective}\n")
         sys.exit(1)
 
-    objective_data = load_yaml_or_json(objective, "Objective Contract")
+    try:
+        objective_data = load_yaml_or_json(objective, "Objective Contract")
+    except SystemExit as exc:
+        emit_gate_event(
+            log_root,
+            phase,
+            agent,
+            pattern,
+            task_id,
+            spec_id,
+            "fail",
+            "preflight gate failed",
+            {"stage": "objective", "reason": "parse_failed", "error": str(exc)},
+        )
+        raise
+
     status = objective_data.get("status")
-    if MODE == "execute" and status != "committed":
+    if mode == "execute" and status != "committed":
+        emit_gate_event(
+            log_root,
+            phase,
+            agent,
+            pattern,
+            task_id,
+            spec_id,
+            "fail",
+            "preflight gate failed",
+            {"stage": "objective", "reason": "status_invalid", "status": status},
+        )
         raise SystemExit(
             f"Objective Contract status must be 'committed' for execute mode (found '{status}')."
         )
-    if MODE == "plan" and status not in {"draft", "committed"}:
+    if mode == "plan" and status not in {"draft", "committed"}:
+        emit_gate_event(
+            log_root,
+            phase,
+            agent,
+            pattern,
+            task_id,
+            spec_id,
+            "fail",
+            "preflight gate failed",
+            {"stage": "objective", "reason": "status_invalid", "status": status},
+        )
         raise SystemExit(
             f"Objective Contract status must be draft or committed for plan mode (found '{status}')."
         )
 
-    elicitation_file = resolve_elicitation(elicitation_path)
-    validate_elicitation(elicitation_file)
+    try:
+        elicitation_file = resolve_elicitation(elicitation_path)
+    except SystemExit as exc:
+        emit_gate_event(
+            log_root,
+            phase,
+            agent,
+            pattern,
+            task_id,
+            spec_id,
+            "fail",
+            "preflight gate failed",
+            {"stage": "elicitation", "reason": "missing", "error": str(exc), "path": str(elicitation_path)},
+        )
+        raise
+
+    try:
+        spec_id = validate_elicitation(elicitation_file)
+    except SystemExit as exc:
+        emit_gate_event(
+            log_root,
+            phase,
+            agent,
+            pattern,
+            task_id,
+            spec_id,
+            "fail",
+            "preflight gate failed",
+            {"stage": "elicitation", "reason": "not_ready", "error": str(exc), "path": str(elicitation_file)},
+        )
+        raise
 
     if not gap_ledger.is_file():
+        emit_gate_event(
+            log_root,
+            phase,
+            agent,
+            pattern,
+            task_id,
+            spec_id,
+            "fail",
+            "preflight gate failed",
+            {"stage": "gap_ledger", "reason": "missing", "path": str(gap_ledger)},
+        )
         sys.stderr.write(f"Gap Ledger missing: {gap_ledger}\n")
         sys.exit(1)
 
-    gap_data = load_yaml_or_json(gap_ledger, "Gap Ledger")
+    try:
+        gap_data = load_yaml_or_json(gap_ledger, "Gap Ledger")
+    except SystemExit as exc:
+        emit_gate_event(
+            log_root,
+            phase,
+            agent,
+            pattern,
+            task_id,
+            spec_id,
+            "fail",
+            "preflight gate failed",
+            {"stage": "gap_ledger", "reason": "parse_failed", "error": str(exc)},
+        )
+        raise
+
     gaps = gap_data.get("gaps")
     if not isinstance(gaps, list):
+        emit_gate_event(
+            log_root,
+            phase,
+            agent,
+            pattern,
+            task_id,
+            spec_id,
+            "fail",
+            "preflight gate failed",
+            {"stage": "gap_ledger", "reason": "invalid"},
+        )
         raise SystemExit("Gap Ledger must contain a 'gaps' list")
 
-    if MODE == "execute":
+    if mode == "execute":
         blocking = [
             gap
             for gap in gaps
@@ -302,10 +536,32 @@ def main() -> None:
         ]
         if blocking:
             ids = [gap.get("gap_id", "<unknown>") for gap in blocking]
+            emit_gate_event(
+                log_root,
+                phase,
+                agent,
+                pattern,
+                task_id,
+                spec_id,
+                "fail",
+                "preflight gate failed",
+                {"stage": "gap_ledger", "reason": "blocking_unresolved", "gap_ids": ids},
+            )
             raise SystemExit(f"Blocking gaps unresolved: {', '.join(ids)}")
 
     run_component = ROOT / "scripts" / "run-component.sh"
     if not run_component.exists() or not os.access(run_component, os.X_OK):
+        emit_gate_event(
+            log_root,
+            phase,
+            agent,
+            pattern,
+            task_id,
+            spec_id,
+            "fail",
+            "preflight gate failed",
+            {"stage": "runtime", "reason": "run-component-missing", "path": str(run_component)},
+        )
         sys.stderr.write(f"Missing hub helper: {run_component}\n")
         sys.exit(1)
 
@@ -313,22 +569,52 @@ def main() -> None:
         sys.executable,
         "scripts/validate-governance-contracts.py",
         "--phase",
-        PHASE,
+        phase,
         "--agent",
-        AGENT,
+        agent,
         "--pattern",
-        PATTERN,
+        pattern,
     ]
-    if TASK_CLASS:
-        contract_cmd.extend(["--task-class", TASK_CLASS])
-    if TASK_ID:
-        contract_cmd.extend(["--task-id", TASK_ID])
+    if task_class:
+        contract_cmd.extend(["--task-class", task_class])
+    if task_id:
+        contract_cmd.extend(["--task-id", task_id])
     if events_path:
         contract_cmd.extend(["--events", str(events_path)])
 
-    run_or_exit([str(run_component), "governance-orchestrator", " ".join(contract_cmd)], cwd=str(ROOT))
+    contract_result = subprocess.run(
+        [str(run_component), "governance-orchestrator", " ".join(contract_cmd)],
+        capture_output=True,
+        text=True,
+        cwd=str(ROOT),
+    )
+    if contract_result.returncode != 0:
+        context = {"stage": "contracts", "reason": "validation_failed", "exit_code": contract_result.returncode}
+        stderr = (contract_result.stderr or "").strip()
+        stdout = (contract_result.stdout or "").strip()
+        if stderr:
+            context["stderr"] = stderr
+        if stdout:
+            context["stdout"] = stdout
+        emit_gate_event(
+            log_root,
+            phase,
+            agent,
+            pattern,
+            task_id,
+            spec_id,
+            "fail",
+            "preflight gate failed",
+            context,
+        )
+        if stderr:
+            sys.stderr.write(stderr + "\n")
+        elif stdout:
+            sys.stderr.write(stdout + "\n")
+        sys.exit(contract_result.returncode)
 
     cmd = [
+        sys.executable,
         "scripts/enforce-lifecycle.py",
         "--todo",
         str(todo_file),
@@ -344,13 +630,12 @@ def main() -> None:
         str(ROOT / "scripts" / "log_event.py"),
     ]
 
-    if TASK_ID:
-        cmd.extend(["--task-id", TASK_ID])
+    if task_id:
+        cmd.extend(["--task-id", task_id])
 
     run_or_exit([str(run_component), "governance-orchestrator", " ".join(cmd)], cwd=str(ROOT))
 
-    print(f"Preflight checks passed ({MODE} mode).")
-
+    print(f"Preflight checks passed ({mode} mode).")
 
 if __name__ == "__main__":
     main()

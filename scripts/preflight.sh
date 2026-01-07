@@ -357,7 +357,17 @@ if [[ ! -x "$ROOT/scripts/run-component.sh" ]]; then
   exit 1
 fi
 
-CONTRACT_CMD=("python" "scripts/validate-governance-contracts.py"
+PYTHON_BIN=""
+if command -v python3 >/dev/null 2>&1; then
+  PYTHON_BIN="$(command -v python3)"
+elif command -v python >/dev/null 2>&1; then
+  PYTHON_BIN="$(command -v python)"
+else
+  echo "Python interpreter not found (python3/python)." >&2
+  exit 1
+fi
+
+CONTRACT_CMD=("$PYTHON_BIN" "scripts/validate-governance-contracts.py"
   "--phase" "$PHASE"
   "--agent" "$AGENT"
   "--pattern" "$PATTERN"
@@ -375,7 +385,7 @@ fi
 "$ROOT/scripts/run-component.sh" governance-orchestrator "${CONTRACT_CMD[*]}"
 
 LOG_HELPER="$ROOT/scripts/log_event.py"
-CMD=("scripts/enforce-lifecycle.py"
+CMD=("$PYTHON_BIN" "scripts/enforce-lifecycle.py"
   "--todo" "$TODO_FILE"
   "--gap-ledger" "$GAP_LEDGER"
   "--prompt-report" "$REPORT_FILE"

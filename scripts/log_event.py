@@ -55,6 +55,10 @@ def main() -> None:
     )
     args = parser.parse_args()
 
+    args.out = args.out.expanduser()
+    if not args.out.is_absolute():
+        args.out = Path.cwd() / args.out
+
     ctx: Dict[str, Any] = {}
     if args.context:
         try:
