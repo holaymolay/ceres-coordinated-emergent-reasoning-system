@@ -12,6 +12,7 @@ This doc applies to the execution/runtime layer (agents that generate code). It 
 - Committed Objective Contract.
 - Gap Ledger (with blockers resolved or explicitly deferred with assumptions).
 - Task Plan in `todo.md` with the current task marked as in-progress.
+- Prompt artifact referenced by the active task (if any): `prompts/prompt-<slug>.md` (read-only).
 - Prompt Debug Report attached to the originating request.
 - Preflight gate run (`scripts/preflight.sh --mode execute`).
 - Active phase set to `execution` or `correction` in `governance/inference-phases.yaml`.
@@ -30,6 +31,7 @@ This doc applies to the execution/runtime layer (agents that generate code). It 
 - Skipping verification; PDCA loop must run (tests/validation) or record why skipped.
 - Muting observability/security hooks.
 - Vibe coding: code generation or execution without an approved spec.
+- Editing prompt artifacts during execution; prompt files are immutable inputs.
 
 ## PDCA Enforcement (execution side)
 - Plan: accept the current task definition from `todo.md` (no edits here).

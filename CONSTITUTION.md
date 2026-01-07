@@ -48,6 +48,7 @@ CERES - Coordinated Emergent Reasoning System - is the canonical umbrella for th
 - **Objective Contract:** goal, constraints, success criteria, allowed sources, risk profile.
 - **Gap Ledger:** `gap_id`, type, blocking, answerable_by_system, resolution_method, confidence_required, status, evidence_links/assumptions (with risk + expiry).
 - **Task Plan -> `todo.md`:** sequenced tasks with concept/phase/acceptance; execution gate.
+- **Prompt Artifacts:** `prompts/prompt-<slug>.md` with Prompt ID, status, classification, owner, timestamps; referenced from `todo.md` for long-form execution prompts.
 - **Synchronizations:** `synchronizations/*.yaml` validated against `schemas/synchronization.schema.json`.
 - **Memory Records:** `memory/records/*.json` validated against `schemas/memory-record.schema.json`.
 - **Memory Summary:** `memory.md` is a human-readable summary derived from memory records.
@@ -61,6 +62,9 @@ CERES - Coordinated Emergent Reasoning System - is the canonical umbrella for th
 ## 6) Enforcement Rules (non-negotiable)
 - No inference, planning, or execution before a Spec Elicitation Record exists, blocking unknowns are resolved, and readiness is declared.
 - No execution before Task Plan exists in `todo.md` and is stable/visible.
+- Long-form prompts must be externalized in `prompts/prompt-<slug>.md`; `todo.md` references the prompt file and does not embed long prompts.
+- Prompt artifacts are read-only during execution; edits require a new commit and updated metadata (Last-Modified, status, and classification as needed).
+- Prompt classification is mandatory before planning tasks: `atomic` (single task, 7-part structure) or `decomposable` (multiple tasks referencing the same prompt).
 - Agents must comply with `governance/inference-phases.yaml` and `AGENTS.md` (phase + pattern permissions).
 - Reflection is mandatory for task classes listed in `governance/inference-phases.yaml`.
 - Gap resolution requires evidence, user answer, or explicit assumption with risk/expiry.

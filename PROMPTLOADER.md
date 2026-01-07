@@ -15,6 +15,11 @@ Umbrella name: **CERES — Coordinated Emergent Reasoning System** (final; no al
 - Planning prompt: `prompts/plan.md` (Spec Elicitation + planning; no code).
 - Execution prompt: `prompts/execute.md` (execute only; requires approved spec).
 
+## Prompt Artifacts (long-form)
+- Store long-form, execution-bound prompts in `prompts/prompt-<slug>.md` (one prompt per file).
+- `todo.md` must reference the prompt file; do not embed long prompts in `todo.md`.
+- Classify each prompt as `atomic` or `decomposable` before planning tasks (see `docs/prompt-artifacts.md`).
+
 ## Spec Elicitation (mandatory)
 - Capture Objective Intake first (raw prompt or `todo-inbox.md`).
 - Run the CERES Spec Elicitation Agent (SEA) before Objective Contract, Inference, or Planning.
