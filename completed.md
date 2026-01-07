@@ -20,3 +20,4 @@
 - [x] 2025-01-05 — Extract observability into dedicated repo once hooks are in place
 - [x] 2025-01-05 — Add advisory Concept/Synchronization signal capture post-elicitation (non-binding) helper script
 - [x] 2026-01-07 — Execute README+DOCS update prompt (README.md + DOCS.md)
+- [x] 2026-01-07 — Allocate spec_id 0271daf2-e9e9-47ef-884c-c3c08ddf888e and record spec_allocated event
