@@ -9,6 +9,7 @@ import json
 import subprocess
 import sys
 import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -157,31 +158,57 @@ def update_objective(path: Path, spec_id: str) -> bool:
     return True
 
 
-def emit_event(events_path: Path, spec_id: str) -> None:
-    log_helper = ROOT / "scripts" / "log_event.py"
-    if not log_helper.exists():
-        return
+def event_exists(events_path: Path, spec_id: str) -> bool:
+    if not events_path.is_file():
+        return False
+    with events_path.open("r", encoding="utf-8") as handle:
+        for line in handle:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                data = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if data.get("event") == "spec_allocated" and data.get("spec_id") == spec_id:
+                return True
+    return False
 
-    cmd = [
-        sys.executable,
-        str(log_helper),
-        "--type",
-        "spec_allocated",
-        "--status",
-        "pass",
-        "--message",
-        "spec id allocated",
-        "--spec-id",
-        spec_id,
-        "--context",
-        json.dumps({"stage": "elicitation"}),
-        "--out",
-        str(events_path),
-    ]
+
+def get_git_head() -> str | None:
     try:
-        subprocess.run(cmd, cwd=str(ROOT), check=False)
-    except Exception:
-        return
+        result = subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    except OSError:
+        return None
+
+    if result.returncode != 0:
+        return None
+
+    value = (result.stdout or "").strip()
+    return value or None
+
+
+def emit_event(events_path: Path, spec_id: str, artifacts_updated: list[str]) -> None:
+    event = {
+        "event": "spec_allocated",
+        "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "source": "allocate-spec-id.py",
+        "spec_id": spec_id,
+        "artifacts_updated": artifacts_updated,
+        "run_id": str(uuid.uuid4()),
+    }
+    git_head = get_git_head()
+    if git_head:
+        event["git_head"] = git_head
+
+    with events_path.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(event) + "\n")
 
 
 def main() -> None:
@@ -198,11 +225,15 @@ def main() -> None:
     )
     parser.add_argument(
         "--events",
-        default="logs/events.jsonl",
-        help="Observability events JSONL (default: logs/events.jsonl)",
+        default="events.jsonl",
+        help="Observability events JSONL (default: events.jsonl)",
     )
 
     args = parser.parse_args()
+    events_path = make_abs(args.events)
+    if events_path != ROOT / "events.jsonl":
+        raise SystemExit("events must be ./events.jsonl at repo root")
+
     elicitation_path = resolve_elicitation(make_abs(args.elicitation))
 
     data, lines, end_index = parse_front_matter(elicitation_path.read_text(encoding="utf-8"))
@@ -219,14 +250,24 @@ def main() -> None:
     updated_elicitation = update_front_matter(elicitation_path, lines, end_index, spec_id)
     updated_objective = update_objective(make_abs(args.objective), spec_id)
 
-    if allocated:
-        emit_event(make_abs(args.events), spec_id)
-        print(f"Allocated spec_id {spec_id}")
+    artifacts_updated: list[str] = []
+    if updated_elicitation:
+        artifacts_updated.append(str(elicitation_path.relative_to(ROOT)))
+    if updated_objective:
+        artifacts_updated.append(str(make_abs(args.objective).relative_to(ROOT)))
+
+    already_emitted = event_exists(events_path, spec_id)
+    should_emit = not already_emitted and (allocated or not already_emitted)
+
+    if should_emit:
+        artifacts_updated.append(str(events_path.relative_to(ROOT)))
+        emit_event(events_path, spec_id, artifacts_updated)
+        if allocated:
+            print(f"Allocated spec_id {spec_id}")
+        else:
+            print(f"Recorded spec_id {spec_id}")
     else:
         print(f"Spec_id already set: {spec_id}")
-
-    if not allocated and not updated_elicitation and not updated_objective:
-        return
 
 
 if __name__ == "__main__":
