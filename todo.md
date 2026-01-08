@@ -11,10 +11,9 @@
 
 
 ## Next Features & Updates
+- [ ] Define non-authoritative execution-pressure signals (no authority, no intent, explicit emit/do-not-emit rules).
 - [ ] Harden recursive execution governance language (MUST/MUST NOT, close loopholes, verify backward compatibility; block on ambiguity).
 - [ ] Define recursive, environment-mediated execution mode (non-user-visible; disabled by default; no LLM escalation; default unchanged).
-- [ ] Execute prompt: prompts/prompt-recursive-exec-step-3-planner-signals.md
-      Outcome: Add todo for non-authoritative planner signaling.
 - [ ] Execute prompt: prompts/prompt-recursive-exec-step-4-arbitration-rules.md
       Outcome: Add todo for arbitration escalation rules.
 - [ ] Execute prompt: prompts/prompt-recursive-exec-step-5-execution-adapter.md

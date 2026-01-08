@@ -23,3 +23,4 @@
 - [x] 2026-01-07 — Allocate spec_id 0271daf2-e9e9-47ef-884c-c3c08ddf888e and record spec_allocated event
 - [x] 2026-01-07 — Execute prompt-recursive-exec-step-1-governance-declaration.md (added governance declaration todo)
 - [x] 2026-01-08 — Execute prompt-recursive-exec-step-2-governance-hardening.md (added governance hardening todo)
+- [x] 2026-01-08 — Execute prompt-recursive-exec-step-3-planner-signals.md (added planner signaling todo)
