@@ -11,9 +11,8 @@
 
 
 ## Next Features & Updates
+- [ ] Harden recursive execution governance language (MUST/MUST NOT, close loopholes, verify backward compatibility; block on ambiguity).
 - [ ] Define recursive, environment-mediated execution mode (non-user-visible; disabled by default; no LLM escalation; default unchanged).
-- [ ] Execute prompt: prompts/prompt-recursive-exec-step-2-governance-hardening.md
-      Outcome: Add todo for governance hardening/ambiguity closure.
 - [ ] Execute prompt: prompts/prompt-recursive-exec-step-3-planner-signals.md
       Outcome: Add todo for non-authoritative planner signaling.
 - [ ] Execute prompt: prompts/prompt-recursive-exec-step-4-arbitration-rules.md
