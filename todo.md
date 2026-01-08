@@ -11,8 +11,7 @@
 
 
 ## Next Features & Updates
-- [ ] Execute prompt: prompts/prompt-recursive-exec-step-1-governance-declaration.md
-      Outcome: Add todo for recursive execution governance declaration.
+- [ ] Define recursive, environment-mediated execution mode (non-user-visible; disabled by default; no LLM escalation; default unchanged).
 - [ ] Execute prompt: prompts/prompt-recursive-exec-step-2-governance-hardening.md
       Outcome: Add todo for governance hardening/ambiguity closure.
 - [ ] Execute prompt: prompts/prompt-recursive-exec-step-3-planner-signals.md
