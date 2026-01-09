@@ -12,8 +12,6 @@
 
 ## Next Features & Updates
 
-- [ ] Execute prompt: prompts/prompt-modes-settings-profiles-ux.md
-      Outcome: Specify settings/profiles interaction flow.
 - [ ] Execute prompt: prompts/prompt-modes-settings-profiles-integration.md
       Outcome: Integrate modes/settings/profiles into execution flow.
 

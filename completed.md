@@ -34,3 +34,4 @@
 - [x] 2026-01-09 — Execute prompt-modes-settings-profiles-schema.md (added modes_settings_profiles.schema.yaml)
 - [x] 2026-01-09 — Execute prompt-modes-settings-profiles-validation.md (modes/settings/profiles validation rules)
 - [x] 2026-01-09 — Execute prompt-modes-settings-profiles-governance.md (modes/settings/profiles governance rules added to Constitution)
+- [x] 2026-01-09 — Execute prompt-modes-settings-profiles-ux.md (settings/profiles interaction flow)
