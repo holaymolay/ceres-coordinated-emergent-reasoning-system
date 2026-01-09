@@ -12,8 +12,6 @@
 
 ## Next Features & Updates
 
-- [ ] Execute prompt: prompts/prompt-modes-settings-profiles-integration.md
-      Outcome: Integrate modes/settings/profiles into execution flow.
 
 - [ ] Define recursive, environment-mediated execution mode (non-user-visible; disabled by default; no LLM escalation; default unchanged).
 - [ ] Harden recursive execution governance language (MUST/MUST NOT, close loopholes, verify backward compatibility; block on ambiguity). (depends on: recursive execution mode declared)

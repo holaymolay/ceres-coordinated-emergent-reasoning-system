@@ -1,0 +1,60 @@
+{
+  "version": "1.0",
+  "active_mode": "guided",
+  "active_profile": null,
+  "system_defaults": {
+    "execution_continuity": "manual",
+    "autonomy_level": "minimal",
+    "questioning_policy": "structured-only",
+    "output_density": "balanced",
+    "failure_handling": "halt",
+    "progress_signaling": "checkpoints",
+    "safety_level": "baseline"
+  },
+  "mode_defaults": [
+    {
+      "mode": "guided",
+      "settings": {
+        "execution_continuity": "manual",
+        "autonomy_level": "minimal",
+        "questioning_policy": "structured-only",
+        "output_density": "balanced",
+        "failure_handling": "halt",
+        "progress_signaling": "checkpoints",
+        "safety_level": "baseline"
+      }
+    },
+    {
+      "mode": "standard",
+      "settings": {
+        "execution_continuity": "manual",
+        "autonomy_level": "constrained",
+        "questioning_policy": "bounded-options",
+        "output_density": "balanced",
+        "failure_handling": "retry-once",
+        "progress_signaling": "checkpoints",
+        "safety_level": "baseline"
+      }
+    },
+    {
+      "mode": "professional",
+      "settings": {
+        "execution_continuity": "manual",
+        "autonomy_level": "balanced",
+        "questioning_policy": "structured-only",
+        "output_density": "balanced",
+        "failure_handling": "retry-once",
+        "progress_signaling": "checkpoints",
+        "safety_level": "hardened"
+      }
+    }
+  ],
+  "profiles": [],
+  "session_overrides": {},
+  "precedence_order": [
+    "system_defaults",
+    "mode_defaults",
+    "profile_overrides",
+    "session_overrides"
+  ]
+}
