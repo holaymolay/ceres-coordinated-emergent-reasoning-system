@@ -33,8 +33,9 @@ CERES - Coordinated Emergent Reasoning System - is the canonical umbrella for th
 ---
 
 ## 4) Interaction Protocol (attention-bounded)
-- One decision/question per turn; tie each question to a Gap ID and rationale.
-- Questions must be binary/bounded; provide example if free-form is required.
+- One decision per turn; tie each clarification to a Gap ID and rationale.
+- Raw questions are forbidden; uncertainty must be expressed as a `ClarificationRequest` artifact.
+- `ClarificationRequest` must be bounded with explicit options and a default; no free-form prompts.
 - Show compressed state before asking: decided, undecided, current gap, consequence.
 - Progressive disclosure only; no multi-part or speculative sidebars.
 - Explicit pause points after answers; no automatic cascades without policy.
@@ -45,6 +46,7 @@ CERES - Coordinated Emergent Reasoning System - is the canonical umbrella for th
 - **Inference Phase Model:** `governance/inference-phases.yaml` (phase constraints).
 - **Agent Registry:** `AGENTS.md` (canonical agent roles + pattern permissions).
 - **Spec Elicitation Record:** `specs/elicitation/<spec-id>.md` with readiness fields.
+- **ClarificationRequest:** user-facing artifact with required fields: source_agent, blocking_reason, classification (technical|preference|ambiguity|optional), context, options, default.
 - **Objective Contract:** goal, constraints, success criteria, allowed sources, risk profile.
 - **Gap Ledger:** `gap_id`, type, blocking, answerable_by_system, resolution_method, confidence_required, status, evidence_links/assumptions (with risk + expiry).
 - **Task Plan -> `todo.md`:** sequenced tasks with concept/phase/acceptance; execution gate.
@@ -68,7 +70,9 @@ CERES - Coordinated Emergent Reasoning System - is the canonical umbrella for th
 - Agents must comply with `governance/inference-phases.yaml` and `AGENTS.md` (phase + pattern permissions).
 - Reflection is mandatory for task classes listed in `governance/inference-phases.yaml`.
 - Gap resolution requires evidence, user answer, or explicit assumption with risk/expiry.
-- One-question-per-turn protocol enforced; non-compliant questions are rejected.
+- Raw questions are prohibited; uncertainty must be emitted as a `ClarificationRequest`.
+- Emitting a raw question halts the run, emits an observability violation, and requires re-emission as `ClarificationRequest`.
+- One-question-per-turn protocol enforced via `ClarificationRequest`; non-compliant requests are rejected.
 - Prompt Debugger gates all intake (file or chat) before governance; no silent auto-fixes.
 - Preflight required: run `scripts/preflight.sh --mode execute` before any execution (Prompt Debugger + lifecycle gate).
 - No cross-repo changes without explicit coordination.
@@ -87,21 +91,27 @@ CERES - Coordinated Emergent Reasoning System - is the canonical umbrella for th
 
 ---
 
-## 8) Naming & Scope
+## 8) Prohibited Anti-Pattern: Unstructured Question Emission
+- **Definition:** emitting raw or conversational questions instead of a `ClarificationRequest`, leaking ambiguity into execution.
+- **Rule:** prohibited for the same reason as vibe coding; agents must halt and re-emit as a `ClarificationRequest`.
+
+---
+
+## 9) Naming & Scope
 - Umbrella name is **CERES - Coordinated Emergent Reasoning System** (canonical; no aliases above it).
 - Subcomponents are CERES subcomponents; they must not redefine coordination or reasoning semantics independently.
 - If a parent framework is proposed above CERES, reject; CERES is top-level.
 
 ---
 
-## 9) Replacement Clause
+## 10) Replacement Clause
 - This Constitution supersedes any temporary bootstrap text.
 - `PROMPTLOADER.md` must point here; if it diverges, this Constitution prevails.
 - Updates to this Constitution must be explicit and versioned; no implicit drift.
 
 ---
 
-## 10) Next Step Options
+## 11) Next Step Options
 1. Update PROMPTLOADER.md to point here and remove temporary content.
 2. Update sub-repo docs to reflect CERES naming and authority.
 3. Implement Prompt Debugger and artifact schemas per this Constitution.

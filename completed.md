@@ -27,3 +27,5 @@
 - [x] 2026-01-08 — Execute prompt-recursive-exec-step-4-arbitration-rules.md (added arbitration rules todo)
 - [x] 2026-01-08 — Execute prompt-recursive-exec-step-5-execution-adapter.md (added execution adapter todo)
 - [x] 2026-01-08 — Execute prompt-recursive-exec-step-6-measurement-ratification.md (added measurement/ratification todo)
+- [x] 2026-01-09 — Confirm logs/ ignored in governance-orchestrator/.gitignore
+- [x] 2026-01-09 — Execute prompt-clarification-request-governance.md (ban raw questions; add ClarificationRequest + anti-pattern)
