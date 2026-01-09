@@ -11,12 +11,11 @@
 
 
 ## Next Features & Updates
+- [ ] Implement execution adapter after arbitration approval (artifact-only recursion, budgeted termination, locked finalization; no change without approval).
 - [ ] Define arbitration-only escalation rules (approval/denial conditions, hard ceilings, required observability).
 - [ ] Define non-authoritative execution-pressure signals (no authority, no intent, explicit emit/do-not-emit rules).
 - [ ] Harden recursive execution governance language (MUST/MUST NOT, close loopholes, verify backward compatibility; block on ambiguity).
 - [ ] Define recursive, environment-mediated execution mode (non-user-visible; disabled by default; no LLM escalation; default unchanged).
-- [ ] Execute prompt: prompts/prompt-recursive-exec-step-5-execution-adapter.md
-      Outcome: Add todo for execution adapter (post-approval).
 - [ ] Execute prompt: prompts/prompt-recursive-exec-step-6-measurement-ratification.md
       Outcome: Add todo for measurement and ratification.
 - [ ] Execute prompt: prompts/prompt-clarification-request-governance.md

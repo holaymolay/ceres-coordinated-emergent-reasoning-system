@@ -25,3 +25,4 @@
 - [x] 2026-01-08 — Execute prompt-recursive-exec-step-2-governance-hardening.md (added governance hardening todo)
 - [x] 2026-01-08 — Execute prompt-recursive-exec-step-3-planner-signals.md (added planner signaling todo)
 - [x] 2026-01-08 — Execute prompt-recursive-exec-step-4-arbitration-rules.md (added arbitration rules todo)
+- [x] 2026-01-08 — Execute prompt-recursive-exec-step-5-execution-adapter.md (added execution adapter todo)
