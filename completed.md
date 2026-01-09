@@ -29,3 +29,4 @@
 - [x] 2026-01-08 — Execute prompt-recursive-exec-step-6-measurement-ratification.md (added measurement/ratification todo)
 - [x] 2026-01-09 — Confirm logs/ ignored in governance-orchestrator/.gitignore
 - [x] 2026-01-09 — Execute prompt-clarification-request-governance.md (ban raw questions; add ClarificationRequest + anti-pattern)
+- [x] 2026-01-09 — Execute prompt-skills-registry-gap.md (added docs/skills-registry-gap.md)
