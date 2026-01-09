@@ -1,0 +1,38 @@
+# Governance-only Signals Catalog
+# Hard rule: informational notices only; no recommendations or instructions.
+
+- id: self_audit_overdue
+  severity: warning
+  source: signals
+  constitutional_reference: "§5 Artifacts; §13 Observational Memory non-authority"
+  message: "Self-audit is overdue; schedule review per self-audit protocol."
+
+- id: core_pin_mismatch
+  severity: critical
+  source: doctor
+  constitutional_reference: "§5 Artifacts (core.lock integrity)"
+  message: "core.lock does not match core submodule; align pin before execution."
+
+- id: workspace_missing
+  severity: warning
+  source: doctor
+  constitutional_reference: "§5 Artifacts (workspace artifacts required)"
+  message: "CERES workspace not detected; falling back to legacy root."
+
+- id: legacy_mode_active
+  severity: info
+  source: doctor
+  constitutional_reference: "§5 Artifacts (backward compatibility)"
+  message: "Legacy root mode in use; .ceres/workspace not active."
+
+- id: pattern_recall_enabled
+  severity: info
+  source: config
+  constitutional_reference: "§13 Observational Memory non-authority"
+  message: "Pattern Recall / Observational Memory layer enabled (informational only)."
+
+- id: invariant_violation_detected
+  severity: critical
+  source: doctor
+  constitutional_reference: "§6 Enforcement Rules"
+  message: "Governance invariant violated; see doctor findings for evidence."

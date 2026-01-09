@@ -41,3 +41,6 @@
 - [x] 2026-01-09 — Define non-authoritative execution-pressure signals (docs/recursive-execution-signals.md)
 - [x] 2026-01-09 — Define arbitration-only escalation rules (docs/recursive-execution-arbitration-rules.md)
 - [x] 2026-01-09 — Measure recursive execution impact plan (docs/recursive-execution-measurement.md)
+- [x] 2026-01-09 — Define Signals governance (docs/signals.md; informational-only, non-authoritative)
+- [x] 2026-01-09 — Create initial Signals catalog (docs/signals-catalog.yaml; governance-only notices)
+- [x] 2026-01-09 — Implement minimal Signals emitter (observability/signals.py; CLI notices + append-only events.jsonl; tests added)
