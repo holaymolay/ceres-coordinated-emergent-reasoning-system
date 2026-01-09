@@ -1,0 +1,154 @@
+# Modes, Settings, and Profiles Schema (CERES)
+
+$schema: "http://json-schema.org/draft-07/schema#"
+title: ModesSettingsProfiles
+version: "1.0"
+type: object
+required:
+  - version
+  - system_defaults
+  - mode_defaults
+  - profiles
+  - precedence_order
+properties:
+  version:
+    type: string
+    const: "1.0"
+  system_defaults:
+    $ref: "#/$defs/settings"
+  mode_defaults:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [mode, settings]
+      additionalProperties: false
+      properties:
+        mode:
+          type: string
+          enum: [guided, standard, professional]
+        settings:
+          $ref: "#/$defs/settings"
+  profiles:
+    type: array
+    items:
+      type: object
+      required: [name, base_mode, overrides]
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+          minLength: 1
+        base_mode:
+          type: string
+          enum: [guided, standard, professional]
+        overrides:
+          $ref: "#/$defs/settings_overrides"
+  session_overrides:
+    $ref: "#/$defs/settings_overrides"
+  precedence_order:
+    type: array
+    minItems: 4
+    maxItems: 4
+    items:
+      type: string
+    const: [system_defaults, mode_defaults, profile_overrides, session_overrides]
+
+# Illegal combinations are enforced via allOf blocks below.
+allOf:
+  # Professional mode cannot set execution_continuity to continuous in mode defaults.
+  - not:
+      properties:
+        mode_defaults:
+          items:
+            properties:
+              mode:
+                const: professional
+              settings:
+                properties:
+                  execution_continuity:
+                    const: continuous
+  # Professional profile override cannot set execution_continuity to continuous.
+  - not:
+      properties:
+        profiles:
+          items:
+            properties:
+              base_mode:
+                const: professional
+              overrides:
+                properties:
+                  execution_continuity:
+                    const: continuous
+  # Session overrides cannot set execution_continuity to continuous when active mode is professional.
+  - not:
+      properties:
+        session_overrides:
+          properties:
+            execution_continuity:
+              const: continuous
+        mode_defaults:
+          items:
+            properties:
+              mode:
+                const: professional
+
+$defs:
+  settings:
+    type: object
+    additionalProperties: false
+    properties:
+      execution_continuity:
+        type: string
+        enum: [manual, auto-safe, continuous]
+      autonomy_level:
+        type: string
+        enum: [minimal, constrained, balanced, elevated]
+      questioning_policy:
+        type: string
+        enum: [structured-only, bounded-options, exploratory-structured]
+      output_density:
+        type: string
+        enum: [terse, balanced, verbose]
+      failure_handling:
+        type: string
+        enum: [halt, retry-once, rollback-plan]
+      progress_signaling:
+        type: string
+        enum: [silent, checkpoints, verbose]
+      safety_level:
+        type: string
+        enum: [baseline, hardened, maximal]
+    required:
+      - execution_continuity
+      - autonomy_level
+      - questioning_policy
+      - output_density
+      - failure_handling
+      - progress_signaling
+      - safety_level
+  settings_overrides:
+    type: object
+    additionalProperties: false
+    properties:
+      execution_continuity:
+        type: string
+        enum: [manual, auto-safe, continuous]
+      autonomy_level:
+        type: string
+        enum: [minimal, constrained, balanced, elevated]
+      questioning_policy:
+        type: string
+        enum: [structured-only, bounded-options, exploratory-structured]
+      output_density:
+        type: string
+        enum: [terse, balanced, verbose]
+      failure_handling:
+        type: string
+        enum: [halt, retry-once, rollback-plan]
+      progress_signaling:
+        type: string
+        enum: [silent, checkpoints, verbose]
+      safety_level:
+        type: string
+        enum: [baseline, hardened, maximal]

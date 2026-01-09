@@ -31,3 +31,4 @@
 - [x] 2026-01-09 — Execute prompt-clarification-request-governance.md (ban raw questions; add ClarificationRequest + anti-pattern)
 - [x] 2026-01-09 — Execute prompt-skills-registry-gap.md (added docs/skills-registry-gap.md)
 - [x] 2026-01-09 — Execute dev_notes/prompt_12_introduce_mobile_development_support.md (mobile domain docs, concepts, synchronizations)
+- [x] 2026-01-09 — Execute prompt-modes-settings-profiles-schema.md (added modes_settings_profiles.schema.yaml)

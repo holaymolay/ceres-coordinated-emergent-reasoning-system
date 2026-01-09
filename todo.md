@@ -12,8 +12,6 @@
 
 ## Next Features & Updates
 
-- [ ] Execute prompt: prompts/prompt-modes-settings-profiles-schema.md
-      Outcome: Define schema for modes, settings, and profiles.
 - [ ] Execute prompt: prompts/prompt-modes-settings-profiles-validation.md
       Outcome: Define machine-checkable validation rules.
 - [ ] Execute prompt: prompts/prompt-modes-settings-profiles-governance.md
