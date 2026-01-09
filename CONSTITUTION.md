@@ -94,34 +94,45 @@ CERES - Coordinated Emergent Reasoning System - is the canonical umbrella for th
 
 ---
 
-## 8) Prohibited Anti-Pattern: Vibe Coding
+## 8) Recursive, Environment-Mediated Execution Governance
+- **Default Disabled:** Mode is latent and non-user-visible; default is off and must remain off absent Arbitration approval.
+- **Arbitration-Only Activation:** Planners/executors cannot request or trigger recursion; only Arbitration may approve entry based on governed criteria.
+- **No Governance Bypass:** Recursion cannot bypass preflight, lifecycle gates, observability, or security; PDCA stages remain enforced.
+- **Entry Preconditions:** Require active spec_id with ready-for-planning artifacts, approved Task Plan, no blocking gaps or open ClarificationRequests, observability/security hooks active.
+- **Artifact-Driven Steps:** Recursion steps must be explicit and artifact-driven; no implicit or ad-hoc recursion.
+- **Termination & Budget:** Recursion must declare termination/budget; continuous/indefinite recursion is prohibited.
+- **State Fidelity:** When disabled or after exit, behavior is identical to standard execution; no side effects persist beyond governed artifacts.
+
+---
+
+## 9) Prohibited Anti-Pattern: Vibe Coding
 - **Definition:** code generation or execution without a bound, approved spec.
 - **Rule:** vibe coding is a governance violation; agents must refuse to proceed when detected.
 - **Non-override:** human preference does not override this rule.
 
 ---
 
-## 9) Prohibited Anti-Pattern: Unstructured Question Emission
+## 10) Prohibited Anti-Pattern: Unstructured Question Emission
 - **Definition:** emitting raw or conversational questions instead of a `ClarificationRequest`, leaking ambiguity into execution.
 - **Rule:** prohibited for the same reason as vibe coding; agents must halt and re-emit as a `ClarificationRequest`.
 
 ---
 
-## 10) Naming & Scope
+## 11) Naming & Scope
 - Umbrella name is **CERES - Coordinated Emergent Reasoning System** (canonical; no aliases above it).
 - Subcomponents are CERES subcomponents; they must not redefine coordination or reasoning semantics independently.
 - If a parent framework is proposed above CERES, reject; CERES is top-level.
 
 ---
 
-## 11) Replacement Clause
+## 12) Replacement Clause
 - This Constitution supersedes any temporary bootstrap text.
 - `PROMPTLOADER.md` must point here; if it diverges, this Constitution prevails.
 - Updates to this Constitution must be explicit and versioned; no implicit drift.
 
 ---
 
-## 12) Next Step Options
+## 13) Next Step Options
 1. Update PROMPTLOADER.md to point here and remove temporary content.
 2. Update sub-repo docs to reflect CERES naming and authority.
 3. Implement Prompt Debugger and artifact schemas per this Constitution.
