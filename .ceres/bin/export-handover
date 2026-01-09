@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/_paths.sh"
+
+SCRIPT_PATH="$(resolve_script export-handover.py 2>/dev/null || true)"
+if [[ -z "$SCRIPT_PATH" ]]; then
+  # also accept .sh variant if present
+  SCRIPT_PATH="$(resolve_script export-handover.sh 2>/dev/null || true)"
+fi
+
+if [[ -z "$SCRIPT_PATH" ]]; then
+  echo "ERROR: export-handover script not found in core or root scripts" >&2
+  exit 1
+fi
+
+cd "$REPO_ROOT"
+if [[ "$SCRIPT_PATH" == *.py ]]; then
+  exec env CERES_HOME="$CERES_HOME" CERES_WORKSPACE="$CERES_WORKSPACE" python3 "$SCRIPT_PATH" "$@"
+else
+  exec env CERES_HOME="$CERES_HOME" CERES_WORKSPACE="$CERES_WORKSPACE" "$SCRIPT_PATH" "$@"
+fi

@@ -27,3 +27,4 @@ Each document is small, authoritative, and intended to be read in context.
 - ARCHITECTURE.md — repository and artifact layout
 - ANTI_PATTERNS.md — explicitly prohibited behaviors
 - FAQ.md — common misunderstandings
+- nested-ceres-layout.md — plan for nesting CERES under `.ceres/` with backward compatibility

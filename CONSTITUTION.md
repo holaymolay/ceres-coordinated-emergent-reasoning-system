@@ -132,7 +132,14 @@ CERES - Coordinated Emergent Reasoning System - is the canonical umbrella for th
 
 ---
 
-## 13) Next Step Options
+## 13) Non-Authoritative Pattern Recall / Observational Memory
+- Observational-only: The Pattern Recall / Observational Memory layer SHALL be strictly non-authoritative. It may record, classify, summarize, and retrieve historical execution artifacts.
+- Prohibitions: It SHALL NOT rank, score, recommend, select, prioritize, modify, suppress, or rewrite plans, prompts, specs, or execution paths.
+- Influence boundary: Outputs are informational only and may influence execution strictly when explicitly referenced by a human or a spec artifact.
+- Placement: Implemented solely as an Observability extension; removing it must not alter CERES behavior, governance, or determinism.
+- Phase limits: May run in observe/reflect/post-execution analysis/pre-spec context preparation; forbidden in plan/decide/execute/arbitrage phases.
+
+## 14) Next Step Options
 1. Update PROMPTLOADER.md to point here and remove temporary content.
 2. Update sub-repo docs to reflect CERES naming and authority.
 3. Implement Prompt Debugger and artifact schemas per this Constitution.
