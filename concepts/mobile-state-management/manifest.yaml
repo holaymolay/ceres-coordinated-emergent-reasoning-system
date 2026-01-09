@@ -1,0 +1,8 @@
+dependencies:
+  read: []
+  write: []
+synchronizations:
+  outgoing: []
+  incoming:
+    - mobile-app-shell-to-mobile-state-management
+    - mobile-navigation-to-mobile-state-management
