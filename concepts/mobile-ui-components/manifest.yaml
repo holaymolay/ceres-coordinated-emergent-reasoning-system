@@ -1,0 +1,9 @@
+dependencies:
+  read: []
+  write: []
+synchronizations:
+  outgoing:
+    - mobile-ui-components-to-mobile-platform-ios
+    - mobile-ui-components-to-mobile-platform-android
+  incoming:
+    - mobile-app-shell-to-mobile-ui-components
