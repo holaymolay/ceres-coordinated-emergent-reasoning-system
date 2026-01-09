@@ -84,34 +84,44 @@ CERES - Coordinated Emergent Reasoning System - is the canonical umbrella for th
 
 ---
 
-## 7) Prohibited Anti-Pattern: Vibe Coding
+## 7) Modes, Settings, and Profiles Governance
+- **Interaction Mode Rule:** Active `interaction_mode` must be one of `guided|standard|professional` as defined in `schemas/modes_settings_profiles.schema.yaml`; defaults come from `system_defaults` and `mode_defaults`.
+- **Mode Non-Interference Rule:** Modes, settings, and profiles cannot alter constitutional governance or security enforcement; on conflict, governance prevails.
+- **Professional Mode Supremacy Rule:** In `professional` mode, `execution_continuity` MUST be `manual` or `auto-safe` (never `continuous`), and settings cannot relax governance, assumptions, or personas beyond mode defaults.
+- **Execution Continuity and Approval Elision Rule:** Changes to `execution_continuity` require explicit approval; `auto-safe` is allowed only when blocking gaps are resolved, no open `ClarificationRequest`, acceptance criteria are deterministic, and `safety_level != maximal`.
+- **Profile Non-Escalation Rule:** Each profile references a `base_mode` and may only override within that mode’s permissions; precedence is `system_defaults -> mode_defaults -> profile_overrides -> session_overrides`; overrides that escalate beyond base mode or violate schema/validation rules are invalid.
+- **Profile Transparency Rule:** Active mode, profile, and effective overrides must be surfaced via observability/logging; hidden overrides are prohibited.
+
+---
+
+## 8) Prohibited Anti-Pattern: Vibe Coding
 - **Definition:** code generation or execution without a bound, approved spec.
 - **Rule:** vibe coding is a governance violation; agents must refuse to proceed when detected.
 - **Non-override:** human preference does not override this rule.
 
 ---
 
-## 8) Prohibited Anti-Pattern: Unstructured Question Emission
+## 9) Prohibited Anti-Pattern: Unstructured Question Emission
 - **Definition:** emitting raw or conversational questions instead of a `ClarificationRequest`, leaking ambiguity into execution.
 - **Rule:** prohibited for the same reason as vibe coding; agents must halt and re-emit as a `ClarificationRequest`.
 
 ---
 
-## 9) Naming & Scope
+## 10) Naming & Scope
 - Umbrella name is **CERES - Coordinated Emergent Reasoning System** (canonical; no aliases above it).
 - Subcomponents are CERES subcomponents; they must not redefine coordination or reasoning semantics independently.
 - If a parent framework is proposed above CERES, reject; CERES is top-level.
 
 ---
 
-## 10) Replacement Clause
+## 11) Replacement Clause
 - This Constitution supersedes any temporary bootstrap text.
 - `PROMPTLOADER.md` must point here; if it diverges, this Constitution prevails.
 - Updates to this Constitution must be explicit and versioned; no implicit drift.
 
 ---
 
-## 11) Next Step Options
+## 12) Next Step Options
 1. Update PROMPTLOADER.md to point here and remove temporary content.
 2. Update sub-repo docs to reflect CERES naming and authority.
 3. Implement Prompt Debugger and artifact schemas per this Constitution.

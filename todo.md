@@ -12,8 +12,6 @@
 
 ## Next Features & Updates
 
-- [ ] Execute prompt: prompts/prompt-modes-settings-profiles-governance.md
-      Outcome: Codify modes/settings/profiles governance rules.
 - [ ] Execute prompt: prompts/prompt-modes-settings-profiles-ux.md
       Outcome: Specify settings/profiles interaction flow.
 - [ ] Execute prompt: prompts/prompt-modes-settings-profiles-integration.md
