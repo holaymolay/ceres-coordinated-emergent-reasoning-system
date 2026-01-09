@@ -48,19 +48,21 @@ class SignalsEmitterTests(unittest.TestCase):
             env=os.environ,
             out=Sink(),
             now=datetime(2024, 1, 1, tzinfo=timezone.utc),
+            last_audit_at="2023-09-01T00:00:00Z",
         )
         events_path = self.workspace / "events.jsonl"
         self.assertTrue(events_path.exists())
         lines = events_path.read_text(encoding="utf-8").strip().splitlines()
-        # one from findings + one from config
-        self.assertEqual(len(lines), 2)
+        # findings + config + overdue audit
+        self.assertEqual(len(lines), 3)
         for line in lines:
             data = json.loads(line)
             self.assertIn("timestamp", data)
             self.assertNotIn("action", data)
-        self.assertEqual(len(emitted), 2)
+        self.assertEqual(len(emitted), 3)
         self.assertTrue(any("core_pin_mismatch" in b for b in buf))
         self.assertTrue(any("pattern_recall_enabled" in b for b in buf))
+        self.assertTrue(any("self_audit_overdue" in json.loads(line)["id"] for line in lines))
 
     def test_forbidden_fields_rejected(self) -> None:
         bad = [

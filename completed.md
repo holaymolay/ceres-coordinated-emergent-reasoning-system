@@ -46,3 +46,6 @@
 - [x] 2026-01-09 — Implement minimal Signals emitter (observability/signals.py; CLI notices + append-only events.jsonl; tests added)
 - [x] 2026-01-09 — Formalize Doctor scope (docs/doctor.md; non-authoritative, project-scoped)
 - [x] 2026-01-09 — Implement doctor CLI (.ceres/bin/doctor + scripts/doctor.py; read-only checks, JSON/text output, optional signals emission; tests added)
+- [x] 2026-01-09 — Define Self-Audit protocol (docs/self-audit.md; cadence/scope/authority; ban auto-certification)
+- [x] 2026-01-09 — Create Self-Audit template (templates/self-audit.md)
+- [x] 2026-01-09 — Add audit reminder signal (self_audit_overdue via signals emitter; read-only)

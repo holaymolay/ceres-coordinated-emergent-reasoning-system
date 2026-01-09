@@ -72,10 +72,56 @@ def _augment_with_config(signals: List[Dict[str, Any]], config_state: Optional[D
         )
 
 
+def _maybe_add_audit_overdue(
+    signals: List[Dict[str, Any]],
+    last_audit_at: Optional[str],
+    now: Optional[datetime],
+    overdue_days: int,
+) -> None:
+    if not last_audit_at:
+        signals.append(
+            {
+                "id": "self_audit_overdue",
+                "severity": "warning",
+                "source": "signals",
+                "constitutional_reference": "§5 Artifacts",
+                "message": "Self-audit timestamp missing; audit is overdue.",
+            }
+        )
+        return
+    try:
+        last_dt = datetime.fromisoformat(last_audit_at.replace("Z", "+00:00"))
+    except Exception:
+        signals.append(
+            {
+                "id": "self_audit_overdue",
+                "severity": "warning",
+                "source": "signals",
+                "constitutional_reference": "§5 Artifacts",
+                "message": "Self-audit timestamp unreadable; audit is overdue.",
+            }
+        )
+        return
+    now_dt = now or datetime.now(timezone.utc)
+    delta_days = (now_dt - last_dt).days
+    if delta_days >= overdue_days:
+        signals.append(
+            {
+                "id": "self_audit_overdue",
+                "severity": "warning",
+                "source": "signals",
+                "constitutional_reference": "§5 Artifacts",
+                "message": f"Self-audit is overdue (last {delta_days} days ago).",
+            }
+        )
+
+
 def emit_signals(
     findings: Iterable[Dict[str, Any]],
     *,
     config_state: Optional[Dict[str, Any]] = None,
+    last_audit_at: Optional[str] = None,
+    audit_overdue_days: int = 90,
     now: Optional[datetime] = None,
     env: Optional[Dict[str, str]] = None,
     out: Optional[TextIO] = None,
@@ -93,6 +139,7 @@ def emit_signals(
 
     raw_signals: List[Dict[str, Any]] = list(findings or [])
     _augment_with_config(raw_signals, config_state, now)
+    _maybe_add_audit_overdue(raw_signals, last_audit_at, now, audit_overdue_days)
 
     normalized_signals: List[Dict[str, Any]] = [
         _normalize_signal(sig, now=now) for sig in raw_signals
