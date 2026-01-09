@@ -49,3 +49,4 @@
 - [x] 2026-01-09 — Define Self-Audit protocol (docs/self-audit.md; cadence/scope/authority; ban auto-certification)
 - [x] 2026-01-09 — Create Self-Audit template (templates/self-audit.md)
 - [x] 2026-01-09 — Add audit reminder signal (self_audit_overdue via signals emitter; read-only)
+- [x] 2026-01-09 — Minimize CERES footprint via nested .ceres/ layout (docs/nested-ceres-layout.md; bootstrap + wrappers + parity tests)
