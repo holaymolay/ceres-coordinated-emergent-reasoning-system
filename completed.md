@@ -38,3 +38,4 @@
 - [x] 2026-01-09 — Execute prompt-modes-settings-profiles-integration.md (runtime resolver + event emission)
 - [x] 2026-01-09 — Define recursive execution mode (docs/recursive-execution-mode.md)
 - [x] 2026-01-09 — Harden recursive execution governance language (Constitution update)
+- [x] 2026-01-09 — Define non-authoritative execution-pressure signals (docs/recursive-execution-signals.md)
