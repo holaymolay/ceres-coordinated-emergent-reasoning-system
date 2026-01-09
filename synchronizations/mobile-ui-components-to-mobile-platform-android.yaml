@@ -1,0 +1,4 @@
+name: mobile-ui-components-to-mobile-platform-android
+from: mobile-ui-components
+to: mobile-platform-android
+allow_cycle: false

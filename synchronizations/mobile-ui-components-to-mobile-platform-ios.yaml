@@ -1,0 +1,4 @@
+name: mobile-ui-components-to-mobile-platform-ios
+from: mobile-ui-components
+to: mobile-platform-ios
+allow_cycle: false

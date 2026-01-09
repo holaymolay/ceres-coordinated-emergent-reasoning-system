@@ -1,0 +1,4 @@
+name: mobile-app-shell-to-mobile-ui-components
+from: mobile-app-shell
+to: mobile-ui-components
+allow_cycle: false

@@ -1,0 +1,4 @@
+name: mobile-navigation-to-mobile-state-management
+from: mobile-navigation
+to: mobile-state-management
+allow_cycle: false

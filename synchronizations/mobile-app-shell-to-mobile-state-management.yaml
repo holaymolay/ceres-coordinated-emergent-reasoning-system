@@ -1,0 +1,4 @@
+name: mobile-app-shell-to-mobile-state-management
+from: mobile-app-shell
+to: mobile-state-management
+allow_cycle: false

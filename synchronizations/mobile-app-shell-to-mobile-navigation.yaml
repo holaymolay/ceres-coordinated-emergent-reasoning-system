@@ -1,0 +1,4 @@
+name: mobile-app-shell-to-mobile-navigation
+from: mobile-app-shell
+to: mobile-navigation
+allow_cycle: false
