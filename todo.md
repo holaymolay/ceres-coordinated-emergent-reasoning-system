@@ -11,6 +11,18 @@
 
 
 ## Next Features & Updates
+
+- [ ] Execute prompt: prompts/prompt-modes-settings-profiles-schema.md
+      Outcome: Define schema for modes, settings, and profiles.
+- [ ] Execute prompt: prompts/prompt-modes-settings-profiles-validation.md
+      Outcome: Define machine-checkable validation rules.
+- [ ] Execute prompt: prompts/prompt-modes-settings-profiles-governance.md
+      Outcome: Codify modes/settings/profiles governance rules.
+- [ ] Execute prompt: prompts/prompt-modes-settings-profiles-ux.md
+      Outcome: Specify settings/profiles interaction flow.
+- [ ] Execute prompt: prompts/prompt-modes-settings-profiles-integration.md
+      Outcome: Integrate modes/settings/profiles into execution flow.
+
 - [ ] Measure recursive execution impact and decide promote/retain/remove (baseline vs escalated, failures, costs, wins, regressions).
 - [ ] Implement execution adapter after arbitration approval (artifact-only recursion, budgeted termination, locked finalization; no change without approval).
 - [ ] Define arbitration-only escalation rules (approval/denial conditions, hard ceilings, required observability).
