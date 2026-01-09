@@ -17,6 +17,8 @@ Each document is small, authoritative, and intended to be read in context.
 - AGENTS.md — allowed agent behaviors
 - PHASES.md — lifecycle ordering
 - ENFORCEMENT.md — validation and gating rules
+- signals.md — signals layer governance (informational-only notices)
+- doctor.md — doctor scope (read-only workspace health evidence)
 
 ## Working with CERES
 - TODO_SCHEMA.md — how work is represented

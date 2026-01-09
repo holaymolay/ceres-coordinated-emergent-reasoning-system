@@ -44,3 +44,5 @@
 - [x] 2026-01-09 — Define Signals governance (docs/signals.md; informational-only, non-authoritative)
 - [x] 2026-01-09 — Create initial Signals catalog (docs/signals-catalog.yaml; governance-only notices)
 - [x] 2026-01-09 — Implement minimal Signals emitter (observability/signals.py; CLI notices + append-only events.jsonl; tests added)
+- [x] 2026-01-09 — Formalize Doctor scope (docs/doctor.md; non-authoritative, project-scoped)
+- [x] 2026-01-09 — Implement doctor CLI (.ceres/bin/doctor + scripts/doctor.py; read-only checks, JSON/text output, optional signals emission; tests added)
