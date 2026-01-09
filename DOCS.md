@@ -30,3 +30,4 @@ Each document is small, authoritative, and intended to be read in context.
 - ANTI_PATTERNS.md — explicitly prohibited behaviors
 - FAQ.md — common misunderstandings
 - nested-ceres-layout.md — plan for nesting CERES under `.ceres/` with backward compatibility
+- self-audit.md — informational/optional self-audit protocol and template link
