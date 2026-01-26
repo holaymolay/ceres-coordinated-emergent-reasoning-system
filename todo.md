@@ -7,9 +7,9 @@
 - [ ] 
 
 ## Current Focus
-- [x] From prompt prompts/prompt-terminal-bench-rigor-gates.md: Draft required artifacts (rfc, schema, templates, policy). (completed locally; pending push hash)
-- [x] Execute prompt: prompts/prompt-verifier-anchored-validation.md (advisory default; opt-in enforcement + tests). (completed locally; pending push hash)
-- [x] Execute prompt: prompts/prompt-hard-iteration-contract.md (optional utility + docs + tests). (completed locally; pending push hash)
+- [x] From prompt prompts/prompt-terminal-bench-rigor-gates.md: Draft required artifacts (rfc, schema, templates, policy).
+- [x] Execute prompt: prompts/prompt-verifier-anchored-validation.md (advisory default; opt-in enforcement + tests).
+- [x] Execute prompt: prompts/prompt-hard-iteration-contract.md (optional utility + docs + tests).
 
 
 ## Next Features & Updates

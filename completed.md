@@ -51,3 +51,6 @@
 - [x] 2026-01-09 — Add audit reminder signal (self_audit_overdue via signals emitter; read-only)
 - [x] 2026-01-09 — Minimize CERES footprint via nested .ceres/ layout (docs/nested-ceres-layout.md; bootstrap + wrappers + parity tests)
 - [x] 2026-01-26 — Enforce prompt hygiene (archive completed prompts; preflight lint for active prompt references)
+- [x] 2026-01-26 — Draft Terminal-Bench rigor artifacts (RFC, schema, templates, no-LLM-judge policy) (push a68d2df) [docs/rfcs/rfc-terminal-bench-rigor.md, schemas/rigor.schema.json, templates/rigor/verifier.sh]
+- [x] 2026-01-26 — Add verifier-anchored validation (advisory default; evidence schema + checker + tests) (push a68d2df) [scripts/verify_verifier_evidence.py, schemas/verifier-evidence.schema.json, scripts/tests/test_verifier_evidence.py]
+- [x] 2026-01-26 — Add hard iteration contract utility (optional, deterministic, removable) (push a68d2df) [scripts/iteration/run.py, docs/iteration-ritual.md, scripts/tests/test_iteration_tool.py]
