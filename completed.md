@@ -55,3 +55,4 @@
 - [x] 2026-01-26 — Add verifier-anchored validation (advisory default; evidence schema + checker + tests) (push a68d2df) [scripts/verify_verifier_evidence.py, schemas/verifier-evidence.schema.json, scripts/tests/test_verifier_evidence.py]
 - [x] 2026-01-26 — Add hard iteration contract utility (optional, deterministic, removable) (push a68d2df) [scripts/iteration/run.py, docs/iteration-ritual.md, scripts/tests/test_iteration_tool.py]
 - [x] 2026-01-26 — Implement housekeeping layer (auto-push + completed sync) to avoid user prompts. (push bb961edee69c9174e0ec2aed9ae38d6d3237afae)
+- [x] 2026-01-26 — Add macro policy config + guardrails for settings changes (validation + confirmation). (push 545bc9c1c67d6925d5df5eeffed04e3c30240e6f)
