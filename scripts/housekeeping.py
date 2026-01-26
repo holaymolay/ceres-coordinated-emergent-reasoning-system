@@ -43,7 +43,7 @@ def extract_checked_tasks(todo_text: str) -> List[str]:
     tasks: List[str] = []
     for line in todo_text.splitlines():
         stripped = line.strip()
-        if stripped.startswith("- [x] "):
+        if stripped.startswith("- [x] ") and PENDING_NOTE in stripped:
             tasks.append(normalize_summary(stripped[len("- [x] ") :]))
     return tasks
 

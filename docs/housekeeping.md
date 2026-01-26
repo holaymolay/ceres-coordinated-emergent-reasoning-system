@@ -21,6 +21,7 @@ It is mandatory, deterministic, and non-authoritative.
 - Do not ask the user to push or to record completed entries.
 - Attempt auto-push; if blocked, record the reason in logs and continue without user interruption.
 - Only sync `completed.md` from tasks already marked complete in `todo.md`.
+- Use the marker `(completed locally; pending push hash)` on completed todo items before housekeeping sync; the marker is removed once the push hash is recorded.
 
 ## Tooling
 - `scripts/housekeeping.py` for completion sync.

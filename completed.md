@@ -54,3 +54,4 @@
 - [x] 2026-01-26 — Draft Terminal-Bench rigor artifacts (RFC, schema, templates, no-LLM-judge policy) (push a68d2df) [docs/rfcs/rfc-terminal-bench-rigor.md, schemas/rigor.schema.json, templates/rigor/verifier.sh]
 - [x] 2026-01-26 — Add verifier-anchored validation (advisory default; evidence schema + checker + tests) (push a68d2df) [scripts/verify_verifier_evidence.py, schemas/verifier-evidence.schema.json, scripts/tests/test_verifier_evidence.py]
 - [x] 2026-01-26 — Add hard iteration contract utility (optional, deterministic, removable) (push a68d2df) [scripts/iteration/run.py, docs/iteration-ritual.md, scripts/tests/test_iteration_tool.py]
+- [x] 2026-01-26 — Implement housekeeping layer (auto-push + completed sync) to avoid user prompts. (push bb961edee69c9174e0ec2aed9ae38d6d3237afae)
