@@ -11,6 +11,12 @@ This document defines how long-form prompts are stored, referenced, and executed
 - Store long-form prompts in `prompts/` as `prompt-<slug>.md`.
 - One prompt per file.
 - `prompts/plan.md` and `prompts/execute.md` remain the canonical system prompts.
+- Completed prompts are archived in `prompts/completed/` after execution.
+
+## Prompt Hygiene (Active vs Completed)
+- `prompts/` must contain only active prompt artifacts referenced by `todo.md` (plus `plan.md`, `execute.md`, and `README.md`).
+- After execution, move the prompt file to `prompts/completed/` and log completion in `completed.md`.
+- `todo.md` must not reference `prompts/completed/`; references must point to active prompts only.
 
 ## Required Prompt File Structure
 

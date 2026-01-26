@@ -342,6 +342,35 @@ if mode == "execute":
         raise SystemExit(f"Blocking gaps unresolved: {', '.join(ids)}")
 PY
 
+# Prompt hygiene: active prompts must be referenced from todo.md; completed prompts must not be referenced.
+python - <<'PY' "$TODO_FILE" "$ROOT"
+import re
+import sys
+from pathlib import Path
+
+todo_path = Path(sys.argv[1])
+root = Path(sys.argv[2])
+prompts_dir = root / "prompts"
+if not prompts_dir.is_dir():
+    raise SystemExit(0)
+if not todo_path.is_file():
+    raise SystemExit(f"Todo file not found: {todo_path}")
+
+text = todo_path.read_text(encoding="utf-8")
+refs = set(re.findall(r"prompts/[A-Za-z0-9._\\-/]+\\.md", text))
+completed = sorted(r for r in refs if r.startswith("prompts/completed/"))
+if completed:
+    raise SystemExit(f\"todo.md references completed prompts: {', '.join(completed)}\")
+missing = sorted(r for r in refs if not (root / r).is_file())
+if missing:
+    raise SystemExit(f\"todo.md references missing prompts: {', '.join(missing)}\")
+allow = {"plan.md", "execute.md", "README.md"}
+active = [p for p in prompts_dir.iterdir() if p.is_file() and p.suffix == ".md" and p.name not in allow]
+stale = sorted(f"prompts/{p.name}" for p in active if f"prompts/{p.name}" not in refs)
+if stale:
+    raise SystemExit(f\"Unreferenced prompt artifacts in prompts/: {', '.join(stale)}\")
+PY
+
 # Validate Concept Dependency Graph (if validator exists).
 if [[ "$MODE" == "execute" && -f "$ROOT/scripts/validate-concept-graph.js" ]]; then
   if ! command -v node >/dev/null 2>&1; then

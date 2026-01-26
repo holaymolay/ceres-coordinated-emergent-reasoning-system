@@ -27,6 +27,8 @@ AGENT = ""
 PATTERN = ""
 TASK_CLASS = ""
 EVENTS = ""
+PROMPT_ALLOWLIST = {"plan.md", "execute.md", "README.md"}
+PROMPT_REF_RE = re.compile(r"prompts/[A-Za-z0-9._\\-/]+\\.md")
 
 
 def usage() -> None:
@@ -147,6 +149,36 @@ def resolve_elicitation(path: Path) -> Path:
         raise SystemExit(f"Spec Elicitation Record not found: {path}")
 
     return path
+
+
+def validate_prompt_hygiene(todo_file: Path) -> None:
+    prompts_dir = ROOT / "prompts"
+    if not prompts_dir.is_dir():
+        return
+    if not todo_file.is_file():
+        raise SystemExit(f"Todo file not found: {todo_file}")
+
+    text = todo_file.read_text(encoding="utf-8")
+    refs = set(PROMPT_REF_RE.findall(text))
+    completed_refs = sorted(ref for ref in refs if ref.startswith("prompts/completed/"))
+    if completed_refs:
+        joined = ", ".join(completed_refs)
+        raise SystemExit(f"todo.md references completed prompts: {joined}")
+
+    missing = sorted(ref for ref in refs if not (ROOT / ref).is_file())
+    if missing:
+        joined = ", ".join(missing)
+        raise SystemExit(f"todo.md references missing prompts: {joined}")
+
+    active_files = [
+        p
+        for p in prompts_dir.iterdir()
+        if p.is_file() and p.suffix == ".md" and p.name not in PROMPT_ALLOWLIST
+    ]
+    stale = sorted(f"prompts/{p.name}" for p in active_files if f"prompts/{p.name}" not in refs)
+    if stale:
+        joined = ", ".join(stale)
+        raise SystemExit(f"Unreferenced prompt artifacts in prompts/: {joined}")
 
 
 def validate_elicitation(path: Path) -> str:
@@ -548,6 +580,22 @@ def main() -> None:
                 {"stage": "gap_ledger", "reason": "blocking_unresolved", "gap_ids": ids},
             )
             raise SystemExit(f"Blocking gaps unresolved: {', '.join(ids)}")
+
+    try:
+        validate_prompt_hygiene(todo_file)
+    except SystemExit as exc:
+        emit_gate_event(
+            log_root,
+            phase,
+            agent,
+            pattern,
+            task_id,
+            spec_id,
+            "fail",
+            "preflight gate failed",
+            {"stage": "prompt_hygiene", "reason": "invalid", "error": str(exc)},
+        )
+        raise
 
     run_component = ROOT / "scripts" / "run-component.sh"
     if not run_component.exists() or not os.access(run_component, os.X_OK):
