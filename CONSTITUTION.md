@@ -79,7 +79,8 @@ CERES - Coordinated Emergent Reasoning System - is the canonical umbrella for th
 - No cross-repo changes without explicit coordination.
 - Execution cannot bypass observability/security; telemetry cannot be silenced.
 - Observability events must conform to the event schema; nonconformant events are violations.
-- Push required before closing a task; record the push hash in `completed.md` (auto-push may be used when safe).
+- Push required before closing a task; record the push hash in `completed.md` (auto-push should run by default when safe).
+- Housekeeping is non-interactive: users must not be asked to push or to record completed entries for routine hygiene.
 - No credentials in the repo; only placeholder values in env template files (e.g., `.env.example`).
 - Same prompt -> same decision; deterministic behavior over permissiveness.
 

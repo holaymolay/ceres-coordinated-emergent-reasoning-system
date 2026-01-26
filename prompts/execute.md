@@ -18,6 +18,7 @@ Execute approved tasks only, within governance constraints and evidence requirem
 - Implement the active task exactly as specified.
 - Run tests/validation required by the task.
 - Update `completed.md`, `memory/records/*.json`, `memory.md`, and `handover.md` as required.
+- Run housekeeping sync (`scripts/housekeeping.py`) to log completed tasks without user intervention.
 
 ## Prohibited
 - Planning or re-planning tasks.

@@ -25,6 +25,7 @@ This doc applies to the execution/runtime layer (agents that generate code). It 
 - Memory records written to `memory/records/*.json`; update `memory.md` summary when needed.
 - Refresh `handover.md` via `scripts/export-handover.py` when exporting context.
 - Push and verify sync before closing a task: `scripts/push-and-verify.sh` (auto-push may run via `scripts/auto-push-if-safe.sh`).
+- Housekeeping is non-interactive: auto-push and completed logging should not require user confirmation; use `scripts/housekeeping.py` to sync `completed.md`.
 
 ## Forbidden
 - Changing scope, routing, or creating new tasks.

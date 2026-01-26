@@ -22,7 +22,7 @@ These rules standardize how work is surfaced and audited across CERES.
    Long-form prompts live in `prompts/prompt-<slug>.md` and are referenced from tasks instead of embedded.
 6) Run preflight gate before execution: `scripts/preflight.sh --mode execute` (Prompt Debugger + lifecycle gate).
 7) Execution works one task at a time; cannot add/reorder tasks.
-8) On completion: update Gap Ledger (if relevant), move task to `completed.md` with timestamp/push hash, update memory records + `memory.md`; refresh `handover.md` with `scripts/export-handover.py` only when handing off context. (Auto-sync: `scripts/export-handover.py --watch` or `scripts/install-hooks.sh`; session helper: `scripts/start-session.sh`/`scripts/stop-session.sh`.)
+8) On completion: update Gap Ledger (if relevant), move task to `completed.md` with timestamp/push hash, update memory records + `memory.md`; refresh `handover.md` with `scripts/export-handover.py` only when handing off context. Housekeeping is non-interactive; use `scripts/housekeeping.py` to sync completed entries. (Auto-sync: `scripts/export-handover.py --watch` or `scripts/install-hooks.sh`; session helper: `scripts/start-session.sh`/`scripts/stop-session.sh`.)
 9) Push and verify sync before closing the task: `scripts/push-and-verify.sh` (post-commit hook warns if ahead of origin).
 10) Sweep `todo-inbox.md` at end of task cycles per governance rules.
 
