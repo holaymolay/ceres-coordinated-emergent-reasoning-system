@@ -23,6 +23,9 @@ blocking_unknowns:
 ## Primary Value Delivered
 <single falsifiable sentence>
 
+## Verifiable Claims (optional)
+- claim_id: <id> | description: <text> | verifier_type: <exec|schema|invariant|other> | evidence_ref: <path or TBD>
+
 ## Declared Non-Goals
 - Non-goal 1
 - Non-goal 2

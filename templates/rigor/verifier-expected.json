@@ -1,0 +1,7 @@
+{
+  "verifier_id": "<verifier-id>",
+  "status": "pass|fail",
+  "summary": "<short description>",
+  "artifacts": ["<path>", "<path>"],
+  "timestamp": "<ISO-8601 UTC>"
+}

@@ -1,0 +1,18 @@
+{
+  "task_id": "<task-id>",
+  "declared_external_deps": [
+    "<network>",
+    "<filesystem>",
+    "<service>"
+  ],
+  "pinning": [
+    "<dependency>@<version>",
+    "<image>@<digest>"
+  ],
+  "flake_axes": [
+    "<timing>",
+    "<concurrency>",
+    "<timezone>"
+  ],
+  "notes": "<optional notes>"
+}

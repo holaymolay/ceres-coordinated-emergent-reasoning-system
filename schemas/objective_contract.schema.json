@@ -40,7 +40,47 @@
     "notes": {
       "type": "string",
       "description": "Free-form notes or provenance."
+    },
+    "verifiable_claims": {
+      "type": "array",
+      "description": "Claims that require external verification evidence.",
+      "items": { "$ref": "#/definitions/verifiableClaim" }
+    },
+    "verifier_evidence_policy": {
+      "$ref": "#/definitions/verifierEvidencePolicy"
     }
   },
-  "additionalProperties": false
+  "additionalProperties": false,
+  "definitions": {
+    "verifiableClaim": {
+      "type": "object",
+      "required": ["id", "description"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "verifier_type": {
+          "type": "string",
+          "enum": ["exec", "schema", "invariant", "other"]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Paths to evidence artifacts or logs."
+        },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "verifierEvidencePolicy": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["advisory", "enforce"],
+          "default": "advisory"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
 }

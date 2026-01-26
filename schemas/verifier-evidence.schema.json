@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "VerifierEvidence",
+  "type": "object",
+  "required": ["records"],
+  "properties": {
+    "records": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/record" }
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "record": {
+      "type": "object",
+      "required": [
+        "spec_id",
+        "claim_id",
+        "verifier_type",
+        "verifier_input_ref",
+        "verifier_output_ref",
+        "pass_fail",
+        "timestamp"
+      ],
+      "properties": {
+        "spec_id": { "type": "string", "minLength": 1 },
+        "claim_id": { "type": "string", "minLength": 1 },
+        "verifier_type": {
+          "type": "string",
+          "enum": ["exec", "schema", "invariant", "other"]
+        },
+        "verifier_input_ref": { "type": "string", "minLength": 1 },
+        "verifier_output_ref": { "type": "string", "minLength": 1 },
+        "pass_fail": { "type": "string", "enum": ["pass", "fail"] },
+        "timestamp": { "type": "string", "minLength": 1 },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

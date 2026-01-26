@@ -70,6 +70,7 @@ CERES - Coordinated Emergent Reasoning System - is the canonical umbrella for th
 - Agents must comply with `governance/inference-phases.yaml` and `AGENTS.md` (phase + pattern permissions).
 - Reflection is mandatory for task classes listed in `governance/inference-phases.yaml`.
 - Gap resolution requires evidence, user answer, or explicit assumption with risk/expiry.
+- Verifier-Anchored Validation: when reliable verifiers exist, verification outcomes outrank model judgment; claims marked verifiable must include evidence references (advisory by default, enforce only when explicitly enabled).
 - Raw questions are prohibited; uncertainty must be emitted as a `ClarificationRequest`.
 - Emitting a raw question halts the run, emits an observability violation, and requires re-emission as `ClarificationRequest`.
 - One-question-per-turn protocol enforced via `ClarificationRequest`; non-compliant requests are rejected.

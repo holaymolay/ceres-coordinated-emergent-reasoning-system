@@ -20,6 +20,7 @@ This doc applies to the execution/runtime layer (agents that generate code). It 
 ## Required Outputs
 - Code/artifact changes scoped to the current task only.
 - Evidence logged back to Gap Ledger entries (files/lines, command outputs, test results).
+- Verifiable claims (if declared) include evidence references or explicit missing-evidence notes; enforcement is advisory unless enabled.
 - Completed tasks moved to `completed.md` with timestamp and push hash.
 - Memory records written to `memory/records/*.json`; update `memory.md` summary when needed.
 - Refresh `handover.md` via `scripts/export-handover.py` when exporting context.

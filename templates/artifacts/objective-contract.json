@@ -5,5 +5,9 @@
   "allowed_sources": [],
   "risk_profile": "low",
   "status": "draft",
-  "notes": ""
+  "notes": "",
+  "verifiable_claims": [],
+  "verifier_evidence_policy": {
+    "mode": "advisory"
+  }
 }
