@@ -11,6 +11,7 @@ These rules standardize how work is surfaced and audited across CERES.
 - `memory/records/*.json`: canonical typed memory records (schema-enforced).
 - `memory.md`: human-readable memory summary derived from records.
 - `handover.md`: export snapshot for context transfer; derived from `memory.md`.
+- `ceres.policy.yaml`: macro policy knobs (human-editable) validated by `scripts/policy_guard.py`.
 - Gap Ledger: authoritative uncertainty/resolution queue (evidence-backed or explicit assumptions with expiry/risk).
 
 ## Gates & Flow

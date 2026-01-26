@@ -1,0 +1,46 @@
+$schema: http://json-schema.org/draft-07/schema#
+title: CeresPolicy
+type: object
+required:
+  - version
+  - policy
+properties:
+  version:
+    type: integer
+    minimum: 1
+  policy:
+    type: object
+    required:
+      - rigor_level
+      - autonomy_level
+      - risk_tolerance
+      - execution_continuity
+      - observability_depth
+    properties:
+      rigor_level:
+        type: string
+        enum: [low, standard, high]
+      autonomy_level:
+        type: string
+        enum: [minimal, constrained, advanced]
+      risk_tolerance:
+        type: string
+        enum: [low, medium, high]
+      execution_continuity:
+        type: string
+        enum: [manual, auto-safe]
+      observability_depth:
+        type: string
+        enum: [normal, verbose]
+    additionalProperties: false
+  safeguards:
+    type: object
+    properties:
+      require_confirmation_on_warnings:
+        type: boolean
+        default: true
+      fail_on_errors:
+        type: boolean
+        default: true
+    additionalProperties: false
+additionalProperties: false

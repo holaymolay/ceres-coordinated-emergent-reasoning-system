@@ -1,0 +1,10 @@
+version: 1
+policy:
+  rigor_level: standard
+  autonomy_level: minimal
+  risk_tolerance: low
+  execution_continuity: manual
+  observability_depth: normal
+safeguards:
+  require_confirmation_on_warnings: true
+  fail_on_errors: true
