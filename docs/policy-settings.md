@@ -42,6 +42,19 @@ python scripts/policy_guard.py --current ceres.policy.yaml --proposed ceres.poli
 Add `--confirm` to proceed non-interactively when warnings exist.
 5) Optionally remove the proposed file after apply.
 
+### Helper (recommended)
+Use the helper to create the proposed file (if missing) and run validation:
+
+```
+python scripts/policy_edit.py --open
+```
+
+Apply after review:
+
+```
+python scripts/policy_edit.py --apply
+```
+
 ## Minimal GUI Flow (Design)
 - Present macro knobs as a small form (dropdowns only; no freeform tuning).
 - "Validate" runs the policy guard in advisory mode and surfaces warnings.
