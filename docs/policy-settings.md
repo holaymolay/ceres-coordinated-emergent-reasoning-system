@@ -19,16 +19,36 @@ These are coarse-grained controls; no fine-grained tuning should be added withou
 - Warnings require explicit confirmation to proceed.
 - Validation is deterministic and rule-based.
 
-## Workflow
-1) Edit `ceres.policy.yaml` or create a proposed file.
-2) Run the policy guard to validate and apply:
+## Workflow (CLI)
+1) Copy current policy to a proposed file:
+
+```
+cp ceres.policy.yaml ceres.policy.proposed.yaml
+```
+
+2) Edit `ceres.policy.proposed.yaml`.
+3) Validate and review warnings:
+
+```
+python scripts/policy_guard.py --current ceres.policy.yaml --proposed ceres.policy.proposed.yaml
+```
+
+4) Apply with confirmation (warnings require explicit confirmation):
 
 ```
 python scripts/policy_guard.py --current ceres.policy.yaml --proposed ceres.policy.proposed.yaml --apply
 ```
 
 Add `--confirm` to proceed non-interactively when warnings exist.
+5) Optionally remove the proposed file after apply.
+
+## Minimal GUI Flow (Design)
+- Present macro knobs as a small form (dropdowns only; no freeform tuning).
+- "Validate" runs the policy guard in advisory mode and surfaces warnings.
+- "Apply" requires explicit confirmation if warnings exist.
+- Writes only to `ceres.policy.yaml`; no automatic execution or background effects.
 
 ## Notes
-- This policy is advisory until explicitly wired into enforcement gates.
+- Preflight runs the policy guard in advisory mode (non-blocking).
+- This policy remains advisory until explicitly wired into enforcement gates.
 - Guardrails are conservative by default and should err on safety.

@@ -251,6 +251,101 @@ def emit_gate_event(
     subprocess.run(cmd, cwd=str(log_root), check=False)
 
 
+def policy_guard_advisory(
+    log_root: Path,
+    phase: str,
+    agent: str,
+    pattern: str,
+    task_id: str | None,
+    spec_id: str | None,
+) -> None:
+    guard = ROOT / "scripts" / "policy_guard.py"
+    policy_path = ROOT / "ceres.policy.yaml"
+    if not guard.exists():
+        return
+    if not policy_path.exists():
+        sys.stderr.write("WARN: policy guard advisory skipped (missing ceres.policy.yaml).\n")
+        emit_gate_event(
+            log_root,
+            phase,
+            agent,
+            pattern,
+            task_id,
+            spec_id,
+            "warn",
+            "policy guard advisory skipped",
+            {"stage": "policy_guard", "reason": "missing_policy"},
+        )
+        return
+
+    result = subprocess.run(
+        [sys.executable, str(guard), "--current", str(policy_path), "--json"],
+        capture_output=True,
+        text=True,
+        cwd=str(ROOT),
+    )
+
+    payload = {}
+    stdout = (result.stdout or "").strip()
+    stderr = (result.stderr or "").strip()
+    if stdout:
+        try:
+            payload = json.loads(stdout)
+        except json.JSONDecodeError as exc:
+            sys.stderr.write(f"WARN: policy guard advisory parse failed: {exc}\n")
+            emit_gate_event(
+                log_root,
+                phase,
+                agent,
+                pattern,
+                task_id,
+                spec_id,
+                "warn",
+                "policy guard advisory failed",
+                {"stage": "policy_guard", "reason": "parse_failed", "error": str(exc)},
+            )
+            return
+
+    errors = payload.get("errors") if isinstance(payload.get("errors"), list) else []
+    warnings = payload.get("warnings") if isinstance(payload.get("warnings"), list) else []
+
+    if errors:
+        for error in errors:
+            sys.stderr.write(f"WARN: policy guard advisory error: {error}\n")
+    if warnings:
+        for warning in warnings:
+            sys.stderr.write(f"WARN: policy guard advisory warning: {warning}\n")
+    if result.returncode != 0 and not errors and not warnings:
+        sys.stderr.write(
+            f"WARN: policy guard advisory returned exit code {result.returncode}.\n"
+        )
+    if stderr:
+        sys.stderr.write(f"WARN: policy guard advisory stderr: {stderr}\n")
+
+    status = "warn" if errors or warnings or result.returncode != 0 else "info"
+    context = {"stage": "policy_guard"}
+    if errors:
+        context["errors"] = errors
+    if warnings:
+        context["warnings"] = warnings
+    if result.returncode != 0:
+        context["exit_code"] = result.returncode
+    if stderr:
+        context["stderr"] = stderr
+
+    emit_gate_event(
+        log_root,
+        phase,
+        agent,
+        pattern,
+        task_id,
+        spec_id,
+        status,
+        "policy guard advisory",
+        context,
+    )
+
+
 def main() -> None:
     mode = MODE
     prompt_arg = PROMPT_FILE
@@ -345,6 +440,7 @@ def main() -> None:
     log_root = ROOT / "governance-orchestrator"
 
     (ROOT / "logs").mkdir(parents=True, exist_ok=True)
+    policy_guard_advisory(log_root, phase, agent, pattern, task_id, spec_id)
 
     if not prompt_file.is_file():
         emit_gate_event(

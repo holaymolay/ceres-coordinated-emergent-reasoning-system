@@ -149,6 +149,31 @@ fi
 
 mkdir -p "$ROOT/logs"
 
+policy_guard_advisory() {
+  local guard="$ROOT/scripts/policy_guard.py"
+  local policy="$ROOT/ceres.policy.yaml"
+  if [[ ! -f "$guard" || ! -f "$policy" ]]; then
+    return
+  fi
+  if ! command -v python3 >/dev/null 2>&1; then
+    echo "WARN: policy guard advisory skipped (python3 missing)." >&2
+    return
+  fi
+  set +e
+  output="$(python3 "$guard" --current "$policy" 2>&1)"
+  status=$?
+  set -e
+  if [[ -n "$output" ]]; then
+    echo "INFO: policy guard advisory (non-blocking):" >&2
+    echo "$output" >&2
+  fi
+  if [[ "$status" -ne 0 ]]; then
+    echo "WARN: policy guard advisory detected errors (non-blocking)." >&2
+  fi
+}
+
+policy_guard_advisory
+
 if [[ ! -f "$PROMPT_FILE" ]]; then
   echo "Prompt file not found: $PROMPT_FILE" >&2
   exit 1

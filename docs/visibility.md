@@ -21,7 +21,7 @@ These rules standardize how work is surfaced and audited across CERES.
 4) Inference produces the Gap Ledger; resolve blocking gaps before planning.
 5) Planning emits Task Plan -> `todo.md`; no execution before visible tasks exist.
    Long-form prompts live in `prompts/prompt-<slug>.md` and are referenced from tasks instead of embedded.
-6) Run preflight gate before execution: `scripts/preflight.sh --mode execute` (Prompt Debugger + lifecycle gate).
+6) Run preflight gate before execution: `scripts/preflight.sh --mode execute` (Prompt Debugger + lifecycle gate + advisory policy guard).
 7) Execution works one task at a time; cannot add/reorder tasks.
 8) On completion: update Gap Ledger (if relevant), move task to `completed.md` with timestamp/push hash, update memory records + `memory.md`; refresh `handover.md` with `scripts/export-handover.py` only when handing off context. Housekeeping is non-interactive; use `scripts/housekeeping.py` to sync completed entries. (Auto-sync: `scripts/export-handover.py --watch` or `scripts/install-hooks.sh`; session helper: `scripts/start-session.sh`/`scripts/stop-session.sh`.)
 9) Push and verify sync before closing the task: `scripts/push-and-verify.sh` (post-commit hook warns if ahead of origin).
