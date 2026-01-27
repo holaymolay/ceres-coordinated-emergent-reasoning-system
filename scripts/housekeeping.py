@@ -39,11 +39,11 @@ def normalize_summary(text: str) -> str:
     return summary
 
 
-def extract_checked_tasks(todo_text: str) -> List[str]:
+def extract_checked_tasks(todo_text: str, include_all: bool) -> List[str]:
     tasks: List[str] = []
     for line in todo_text.splitlines():
         stripped = line.strip()
-        if stripped.startswith("- [x] ") and PENDING_NOTE in stripped:
+        if stripped.startswith("- [x] ") and (include_all or PENDING_NOTE in stripped):
             tasks.append(normalize_summary(stripped[len("- [x] ") :]))
     return tasks
 
@@ -67,28 +67,43 @@ def extract_completed_summaries(completed_text: str) -> List[str]:
     return summaries
 
 
-def update_todo_pending_notes(todo_text: str) -> str:
-    lines: List[str] = []
+def prune_completed_tasks(todo_text: str, completed: List[str], newly_added: List[str]) -> str:
+    remaining: List[str] = []
+    completed_set = set(completed + newly_added)
     for line in todo_text.splitlines():
+        stripped = line.strip()
+        if stripped.startswith("- [x] "):
+            summary = normalize_summary(stripped[len("- [x] ") :])
+            if summary in completed_set:
+                continue
         if PENDING_NOTE in line:
             line = line.replace(PENDING_NOTE, "").rstrip()
-        lines.append(line)
-    return "\n".join(lines) + ("\n" if todo_text.endswith("\n") else "")
+        remaining.append(line)
+    return "\n".join(remaining) + ("\n" if todo_text.endswith("\n") else "")
 
 
-def sync_completed(todo_path: Path, completed_path: Path, push_hash: str, dry_run: bool) -> Tuple[int, List[str]]:
+def sync_completed(
+    todo_path: Path,
+    completed_path: Path,
+    push_hash: str,
+    dry_run: bool,
+    include_all: bool,
+    prune: bool,
+) -> Tuple[int, List[str]]:
     todo_text = todo_path.read_text(encoding="utf-8") if todo_path.exists() else ""
     completed_text = completed_path.read_text(encoding="utf-8") if completed_path.exists() else "# Completed\n"
 
-    checked_tasks = extract_checked_tasks(todo_text)
+    checked_tasks = extract_checked_tasks(todo_text, include_all)
     existing = extract_completed_summaries(completed_text)
 
     new_entries: List[str] = []
+    recorded_summaries: List[str] = []
     date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
     for task in checked_tasks:
         if task in existing:
             continue
+        recorded_summaries.append(task)
         entry = f"- [x] {date_str} — {task} (push {push_hash})"
         new_entries.append(entry)
 
@@ -96,7 +111,7 @@ def sync_completed(todo_path: Path, completed_path: Path, push_hash: str, dry_ru
     if new_entries:
         updated_completed += "\n".join(new_entries) + "\n"
 
-    updated_todo = update_todo_pending_notes(todo_text)
+    updated_todo = prune_completed_tasks(todo_text, existing, recorded_summaries if prune else [])
 
     if not dry_run:
         if new_entries:
@@ -113,6 +128,8 @@ def main(argv: List[str] | None = None) -> int:
     parser.add_argument("--completed", default="completed.md")
     parser.add_argument("--push-hash", default=None)
     parser.add_argument("--auto-push", action="store_true")
+    parser.add_argument("--include-all", action="store_true")
+    parser.add_argument("--prune-completed", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
 
@@ -131,7 +148,14 @@ def main(argv: List[str] | None = None) -> int:
     todo_path = resolve_path(args.todo)
     completed_path = resolve_path(args.completed)
 
-    count, entries = sync_completed(todo_path, completed_path, push_hash, args.dry_run)
+    count, entries = sync_completed(
+        todo_path=todo_path,
+        completed_path=completed_path,
+        push_hash=push_hash,
+        dry_run=args.dry_run,
+        include_all=args.include_all,
+        prune=args.prune_completed,
+    )
     if entries:
         for entry in entries:
             print(entry)

@@ -22,9 +22,10 @@ It is mandatory, deterministic, and non-authoritative.
 - Attempt auto-push; if blocked, record the reason in logs and continue without user interruption.
 - Only sync `completed.md` from tasks already marked complete in `todo.md`.
 - Use the marker `(completed locally; pending push hash)` on completed todo items before housekeeping sync; the marker is removed once the push hash is recorded.
+- When configured, prune completed tasks from `todo.md` after they are recorded in `completed.md`.
 
 ## Tooling
-- `scripts/housekeeping.py` for completion sync.
+- `scripts/housekeeping.py` for completion sync (use `--include-all` and `--prune-completed` for one-time cleanup).
 - `scripts/auto-push-if-safe.sh` for safe auto-push.
 
 ## Safety

@@ -27,6 +27,8 @@ class HousekeepingTests(unittest.TestCase):
             completed_path=self.completed,
             push_hash="deadbeef",
             dry_run=False,
+            include_all=True,
+            prune=False,
         )
         self.assertEqual(count, 1)
         self.assertIn("Task A", entries[0])
@@ -52,9 +54,34 @@ class HousekeepingTests(unittest.TestCase):
             completed_path=self.completed,
             push_hash="deadbeef",
             dry_run=False,
+            include_all=True,
+            prune=False,
         )
         self.assertEqual(count, 0)
         self.assertEqual(entries, [])
+
+    def test_prune_removes_completed_tasks(self) -> None:
+        self.todo.write_text(
+            "# Todo\n\n## Current Focus\n- [x] Task C\n- [ ] Task D\n",
+            encoding="utf-8",
+        )
+        self.completed.write_text(
+            "# Completed\n- [x] 2026-01-01 — Task C (push abcdef)\n",
+            encoding="utf-8",
+        )
+
+        count, entries = housekeeping.sync_completed(
+            todo_path=self.todo,
+            completed_path=self.completed,
+            push_hash="deadbeef",
+            dry_run=False,
+            include_all=True,
+            prune=True,
+        )
+        self.assertEqual(count, 0)
+        updated = self.todo.read_text(encoding="utf-8")
+        self.assertNotIn("Task C", updated)
+        self.assertIn("Task D", updated)
 
 
 if __name__ == "__main__":

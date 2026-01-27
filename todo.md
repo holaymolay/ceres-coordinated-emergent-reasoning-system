@@ -4,13 +4,8 @@
 - [ ] 
 
 ## Workflow Governance
-- [x] Implement housekeeping layer (auto-push + completed sync) to avoid user prompts.
-- [x] Add macro policy config + guardrails for settings changes (validation + confirmation).
 
 ## Current Focus
-- [x] From prompt prompts/prompt-terminal-bench-rigor-gates.md: Draft required artifacts (rfc, schema, templates, policy).
-- [x] Execute prompt: prompts/prompt-verifier-anchored-validation.md (advisory default; opt-in enforcement + tests).
-- [x] Execute prompt: prompts/prompt-hard-iteration-contract.md (optional utility + docs + tests).
 
 
 ## Next Features & Updates
