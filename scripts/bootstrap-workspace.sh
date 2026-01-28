@@ -1,18 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Bootstrap nested CERES layout under .ceres/ with workspace + core submodule.
+# Bootstrap nested CERES layout under .ceres/ with workspace + core submodule/clone.
 # Idempotent: safe to re-run; skips existing files unless --force is provided for core ref rewrite.
 
-ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_ROOT="$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)"
+ROOT_OVERRIDE=""
+ROOT=""
 DEFAULT_CORE_URL="${CORE_URL:-https://github.com/holaymolay/ceres-coordinated-emergent-reasoning-system.git}"
-DEFAULT_CORE_REF="${CORE_REF:-main}"
+DEFAULT_CORE_REF="${CORE_REF:-}"
 DEFAULT_WORKSPACE=".ceres/workspace"
 COMPONENTS=false
 CORE_URL="$DEFAULT_CORE_URL"
 CORE_REF="$DEFAULT_CORE_REF"
 WORKSPACE_REL="$DEFAULT_WORKSPACE"
 FORCE_CORE_REF=false
+NO_COMPONENTS=false
+GIT_WAS_INIT=false
 
 usage() {
   cat <<'USAGE'
@@ -20,9 +25,11 @@ Usage: scripts/bootstrap-workspace.sh [options]
 
 Options:
   --core-url <url>        Core repo URL (default: https://github.com/holaymolay/ceres-coordinated-emergent-reasoning-system.git)
-  --core-ref <ref>        Core tag/branch/commit to pin (default: main)
+  --core-ref <ref>        Core tag/branch/commit to pin (default: remote HEAD)
   --workspace <path>      Workspace path (default: .ceres/workspace)
   --components            Clone component repos from repos.yaml into .ceres/components
+  --no-components         Skip cloning components (faster init)
+  --root <path>           Target repo root (default: git root or current directory)
   --force-core-ref        If core exists, reset checkout to the requested ref (otherwise leave as-is)
   -h|--help               Show this help
 USAGE
@@ -34,17 +41,42 @@ while [[ $# -gt 0 ]]; do
     --core-ref) CORE_REF="$2"; shift 2;;
     --workspace) WORKSPACE_REL="$2"; shift 2;;
     --components) COMPONENTS=true; shift;;
+    --no-components) NO_COMPONENTS=true; shift;;
+    --root) ROOT_OVERRIDE="$2"; shift 2;;
     --force-core-ref) FORCE_CORE_REF=true; shift;;
     -h|--help) usage; exit 0;;
     *) echo "Unknown option: $1" >&2; usage; exit 1;;
   esac
 done
+if [[ "$NO_COMPONENTS" == "true" ]]; then
+  COMPONENTS=false
+fi
 
 fail() { echo "ERROR: $*" >&2; exit 1; }
 info() { echo "INFO: $*" >&2; }
+warn() { echo "WARN: $*" >&2; }
 
 require_git() {
   command -v git >/dev/null 2>&1 || fail "git is required"
+}
+
+detect_root() {
+  if [[ -n "$ROOT_OVERRIDE" ]]; then
+    ROOT="$ROOT_OVERRIDE"
+    return
+  fi
+  local candidate
+  candidate="$(git -C "$PWD" rev-parse --show-toplevel 2>/dev/null || true)"
+  if [[ -n "$candidate" ]]; then
+    ROOT="$candidate"
+    return
+  fi
+  candidate="$(git -C "$SCRIPT_ROOT" rev-parse --show-toplevel 2>/dev/null || true)"
+  if [[ -n "$candidate" ]]; then
+    ROOT="$candidate"
+    return
+  fi
+  ROOT="$PWD"
 }
 
 ensure_git_worktree() {
@@ -55,6 +87,7 @@ ensure_git_worktree() {
   git -C "$ROOT" init >/dev/null
   git -C "$ROOT" add -A >/dev/null 2>&1 || true
   git -C "$ROOT" commit -m "Init workspace for CERES bootstrap" >/dev/null 2>&1 || true
+  GIT_WAS_INIT=true
 }
 
 abs_path() {
@@ -64,6 +97,18 @@ abs_path() {
   else
     echo "$ROOT/$path"
   fi
+}
+
+detect_core_ref() {
+  if [[ -n "$CORE_REF" ]]; then
+    return
+  fi
+  local ref
+  ref="$(git ls-remote --symref "$CORE_URL" HEAD 2>/dev/null | awk '/^ref:/ {print $2}' | sed 's@refs/heads/@@')"
+  if [[ -z "$ref" ]]; then
+    ref="master"
+  fi
+  CORE_REF="$ref"
 }
 
 write_core_lock() {
@@ -105,34 +150,80 @@ clone_components() {
   local org="${COMPONENT_ORG:-holaymolay}"
   [[ -f "$repos_file" ]] || { info "repos.yaml not found; skipping components"; return; }
   mkdir -p "$dest_root"
+  local max_jobs="${COMPONENTS_PARALLEL:-4}"
+  local jobs=0
   awk '
     /^- name:/ { name=$3 }
-    /local_path:/ { path=$2; print name "|" path }
-  ' "$repos_file" | while IFS='|' read -r NAME PATH; do
-    [[ -z "$NAME" || -z "$PATH" ]] && continue
-    local target="$dest_root/$PATH"
+    /local_path:/ { local_path=$2; print name "|" local_path }
+  ' "$repos_file" | while IFS='|' read -r NAME LOCAL_PATH; do
+    [[ -z "$NAME" || -z "$LOCAL_PATH" ]] && continue
+    local target="$dest_root/$LOCAL_PATH"
     if [[ -d "$target/.git" ]]; then
       info "Component present: $target"
       continue
     fi
     local remote="https://github.com/${org}/${NAME}.git"
     info "Cloning $NAME -> $target from $remote"
-    git clone "$remote" "$target"
+    git clone "$remote" "$target" &
+    jobs=$((jobs + 1))
+    if [[ "$jobs" -ge "$max_jobs" ]]; then
+      wait -n 2>/dev/null || wait
+      jobs=$((jobs - 1))
+    fi
   done
+  wait 2>/dev/null || true
 }
 
 init_workspace() {
   local workspace="$1"
+  local template_root="$ROOT/templates"
+  local elicitation_template="$ROOT/templates/elicitation/elicitation.md"
+  if [[ ! -d "$template_root" && -d "$CORE_DIR/templates" ]]; then
+    template_root="$CORE_DIR/templates"
+    elicitation_template="$CORE_DIR/templates/elicitation/elicitation.md"
+  fi
+  local manifest=""
+  if [[ -f "$ROOT/scripts/bootstrap-manifest.json" ]]; then
+    manifest="$ROOT/scripts/bootstrap-manifest.json"
+  elif [[ -f "$CORE_DIR/scripts/bootstrap-manifest.json" ]]; then
+    manifest="$CORE_DIR/scripts/bootstrap-manifest.json"
+  fi
   mkdir -p "$workspace"
-  copy_if_missing "$ROOT/templates/todo/todo-inbox.md" "$workspace/todo-inbox.md"
-  copy_if_missing "$ROOT/templates/todo/todo.md" "$workspace/todo.md"
-  copy_if_missing "$ROOT/templates/todo/completed.md" "$workspace/completed.md"
-  copy_if_missing "$ROOT/templates/todo/memory.md" "$workspace/memory.md"
-  copy_if_missing "$ROOT/templates/todo/handover.md" "$workspace/handover.md"
-  copy_if_missing "$ROOT/templates/artifacts/objective-contract.json" "$workspace/objective-contract.json"
-  copy_if_missing "$ROOT/templates/artifacts/gap-ledger.json" "$workspace/gap-ledger.json"
-  copy_if_missing "$ROOT/templates/elicitation/elicitation.md" "$workspace/specs/elicitation/elicitation.md"
-  mkdir -p "$workspace/prompts" "$workspace/memory/records" "$workspace/logs" "$workspace/synchronizations" "$workspace/concepts"
+  if [[ -n "$manifest" && -n "$(command -v python3)" ]]; then
+    python3 - <<'PY' "$manifest" "$template_root" "$workspace"
+import json
+import os
+import shutil
+import sys
+from pathlib import Path
+
+manifest = Path(sys.argv[1])
+base = Path(sys.argv[2])
+workspace = Path(sys.argv[3])
+
+data = json.loads(manifest.read_text(encoding="utf-8"))
+for item in data.get("workspace", []):
+    src = base / item["src"]
+    dest = workspace / item["dest"]
+    if dest.exists():
+        continue
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    if src.exists():
+        shutil.copyfile(src, dest)
+for rel in data.get("workspace_dirs", []):
+    (workspace / rel).mkdir(parents=True, exist_ok=True)
+PY
+  else
+    copy_if_missing "$template_root/todo/todo-inbox.md" "$workspace/todo-inbox.md"
+    copy_if_missing "$template_root/todo/todo.md" "$workspace/todo.md"
+    copy_if_missing "$template_root/todo/completed.md" "$workspace/completed.md"
+    copy_if_missing "$template_root/todo/memory.md" "$workspace/memory.md"
+    copy_if_missing "$template_root/todo/handover.md" "$workspace/handover.md"
+    copy_if_missing "$template_root/artifacts/objective-contract.json" "$workspace/objective-contract.json"
+    copy_if_missing "$template_root/artifacts/gap-ledger.json" "$workspace/gap-ledger.json"
+    copy_if_missing "$elicitation_template" "$workspace/specs/elicitation/elicitation.md"
+    mkdir -p "$workspace/prompts" "$workspace/memory/records" "$workspace/logs" "$workspace/synchronizations" "$workspace/concepts"
+  fi
 }
 
 install_wrappers() {
@@ -147,6 +238,10 @@ install_wrappers() {
     return
   fi
   mkdir -p "$bin_dest"
+  if [[ -d "$bin_src" && -d "$bin_dest" && "$bin_src" -ef "$bin_dest" ]]; then
+    info "Wrapper source and destination are the same; skipping copy."
+    return
+  fi
   for f in "$bin_src"/*; do
     [[ -f "$f" ]] || continue
     cp "$f" "$bin_dest/$(basename "$f")"
@@ -156,6 +251,9 @@ install_wrappers() {
 }
 
 require_git
+detect_root
+ROOT="$(CDPATH= cd -- "$ROOT" && pwd)"
+detect_core_ref
 ensure_git_worktree
 
 CERES_HOME_DIR="$ROOT/.ceres"
@@ -163,6 +261,7 @@ WORKSPACE_DIR="$(abs_path "$WORKSPACE_REL")"
 CORE_DIR="$CERES_HOME_DIR/core"
 CORE_LOCK="$CERES_HOME_DIR/core.lock"
 COMPONENTS_DIR="$CERES_HOME_DIR/components"
+CORE_SUBMODULE_PATH=".ceres/core"
 
 mkdir -p "$CERES_HOME_DIR"
 
@@ -174,9 +273,17 @@ if [[ -d "$CORE_DIR/.git" ]]; then
     git -C "$CORE_DIR" checkout "$CORE_REF"
   fi
 else
-  info "Adding core submodule from $CORE_URL @ $CORE_REF"
-  git submodule add "$CORE_URL" "$CORE_DIR"
-  (cd "$CORE_DIR" && git checkout "$CORE_REF")
+  if [[ "$GIT_WAS_INIT" == "true" ]]; then
+    info "Cloning core into $CORE_DIR @ $CORE_REF (non-submodule)"
+    if ! git clone --depth 1 --branch "$CORE_REF" "$CORE_URL" "$CORE_DIR"; then
+      warn "Clone with ref $CORE_REF failed; retrying default HEAD"
+      git clone --depth 1 "$CORE_URL" "$CORE_DIR"
+    fi
+  else
+    info "Adding core submodule from $CORE_URL @ $CORE_REF"
+    git -C "$ROOT" submodule add "$CORE_URL" "$CORE_SUBMODULE_PATH"
+    (cd "$CORE_DIR" && git checkout "$CORE_REF") || warn "Core checkout failed; continuing"
+  fi
 fi
 
 write_core_lock "$CORE_DIR" "$CORE_LOCK" "$CORE_URL" "$CORE_REF"

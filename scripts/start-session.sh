@@ -5,11 +5,11 @@ ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 CERES_HOME="${CERES_HOME:-$ROOT/.ceres}"
 
 # Auto-bootstrap if available (non-blocking).
-if [[ -x "$CERES_HOME/bin/autobootstrap" ]]; then
+if [[ -z "${CERES_AUTObOOTSTRAP_RUNNING:-}" && -x "$CERES_HOME/bin/autobootstrap" ]]; then
   set +e
   "$CERES_HOME/bin/autobootstrap" >/dev/null 2>&1
   set -e
-elif [[ -x "$ROOT/scripts/autobootstrap.sh" ]]; then
+elif [[ -z "${CERES_AUTObOOTSTRAP_RUNNING:-}" && -x "$ROOT/scripts/autobootstrap.sh" ]]; then
   set +e
   "$ROOT/scripts/autobootstrap.sh" >/dev/null 2>&1
   set -e

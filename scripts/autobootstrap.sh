@@ -12,6 +12,12 @@ TS="$(date -u +"%Y%m%dT%H%M%SZ")"
 log() { echo "INFO: $*" >&2; }
 warn() { echo "WARN: $*" >&2; }
 
+if [[ "${CERES_AUTObOOTSTRAP_RUNNING:-}" == "1" ]]; then
+  log "autobootstrap already running; skipping nested invocation."
+  exit 0
+fi
+export CERES_AUTObOOTSTRAP_RUNNING=1
+
 quarantine_path() {
   local label="$1"
   local target="$QUARANTINE_ROOT/$TS/$label"

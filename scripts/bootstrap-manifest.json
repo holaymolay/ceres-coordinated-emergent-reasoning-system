@@ -1,0 +1,20 @@
+{
+  "workspace": [
+    { "src": "templates/todo/todo-inbox.md", "dest": "todo-inbox.md" },
+    { "src": "templates/todo/todo.md", "dest": "todo.md" },
+    { "src": "templates/todo/completed.md", "dest": "completed.md" },
+    { "src": "templates/todo/memory.md", "dest": "memory.md" },
+    { "src": "templates/todo/handover.md", "dest": "handover.md" },
+    { "src": "templates/artifacts/objective-contract.json", "dest": "objective-contract.json" },
+    { "src": "templates/artifacts/gap-ledger.json", "dest": "gap-ledger.json" },
+    { "src": "templates/elicitation/elicitation.md", "dest": "specs/elicitation/elicitation.md" }
+  ],
+  "workspace_dirs": [
+    "prompts",
+    "memory/records",
+    "logs",
+    "synchronizations",
+    "concepts",
+    "specs/elicitation"
+  ]
+}
