@@ -54,6 +54,7 @@ Status: Canonical memory ledger. If conflict with `handover.md`, this file preva
 - Added canonical docs for layer model and repo assignment.
 - Added preflight gate script and auto-push safeguards.
 - Installed handover auto-sync hooks and session watcher.
+- Documented Terminal-Bench rigor layer artifacts and verifier-anchored validation (advisory-only); added optional hard iteration contract utility.
 ### Next Steps
 - Complete Spec Elicitation Record, then populate Objective Contract and Gap Ledger when starting a new project.
 - Use `scripts/preflight.sh --mode execute` before execution.
@@ -64,3 +65,6 @@ Status: Canonical memory ledger. If conflict with `handover.md`, this file preva
 - 2026-01-05:
   - Established canonical memory ledger and handover export workflow.
   - Canonized layer model/repo assignment docs and added preflight + auto-push safeguards.
+- 2026-01-28:
+  - Documented Terminal-Bench rigor layer artifacts and verifier-anchored validation (advisory-only).
+  - Added optional hard iteration contract utility and policy governance helper visibility updates.
