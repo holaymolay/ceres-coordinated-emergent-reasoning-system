@@ -188,6 +188,34 @@ policy_guard_advisory() {
 
 policy_guard_advisory
 
+workflow_guard_advisory() {
+  local guard="$ROOT/scripts/workflow_guard.py"
+  local workflow="$ROOT/ceres.workflow.yaml"
+  if [[ -n "${CERES_WORKSPACE:-}" && -f "${CERES_WORKSPACE}/ceres.workflow.yaml" ]]; then
+    workflow="${CERES_WORKSPACE}/ceres.workflow.yaml"
+  fi
+  if [[ ! -f "$guard" || ! -f "$workflow" ]]; then
+    return
+  fi
+  if ! command -v python3 >/dev/null 2>&1; then
+    echo "WARN: workflow guard advisory skipped (python3 missing)." >&2
+    return
+  fi
+  set +e
+  output="$(python3 "$guard" --current "$workflow" 2>&1)"
+  status=$?
+  set -e
+  if [[ -n "$output" ]]; then
+    echo "INFO: workflow guard advisory (non-blocking):" >&2
+    echo "$output" >&2
+  fi
+  if [[ "$status" -ne 0 ]]; then
+    echo "WARN: workflow guard advisory detected errors (non-blocking)." >&2
+  fi
+}
+
+workflow_guard_advisory
+
 if [[ ! -f "$PROMPT_FILE" ]]; then
   echo "Prompt file not found: $PROMPT_FILE" >&2
   exit 1

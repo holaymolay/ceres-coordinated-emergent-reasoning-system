@@ -1,0 +1,8 @@
+version: 1
+workflow:
+  auto_housekeeping: true
+  auto_push: true
+  announce_push: true
+safeguards:
+  require_confirmation_on_warnings: true
+  fail_on_errors: true

@@ -29,5 +29,6 @@ copy_file() {
 copy_file "$TEMPLATE_DIR/objective-contract.json" "$TARGET_DIR/objective-contract.json"
 copy_file "$TEMPLATE_DIR/gap-ledger.json" "$TARGET_DIR/gap-ledger.json"
 copy_file "$TEMPLATE_DIR/ceres.policy.yaml" "$TARGET_DIR/ceres.policy.yaml"
+copy_file "$TEMPLATE_DIR/ceres.workflow.yaml" "$TARGET_DIR/ceres.workflow.yaml"
 mkdir -p "$TARGET_DIR/specs/elicitation"
 copy_file "$ELICITATION_TEMPLATE" "$TARGET_DIR/specs/elicitation/elicitation.md"

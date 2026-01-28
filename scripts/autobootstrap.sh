@@ -89,6 +89,7 @@ ensure_workspace_artifacts() {
   [[ -f "$WORKSPACE/memory.md" ]] || cp "$template_root/todo/memory.md" "$WORKSPACE/memory.md" 2>/dev/null || true
   [[ -f "$WORKSPACE/handover.md" ]] || cp "$template_root/todo/handover.md" "$WORKSPACE/handover.md" 2>/dev/null || true
   [[ -f "$WORKSPACE/ceres.policy.yaml" ]] || cp "$template_root/artifacts/ceres.policy.yaml" "$WORKSPACE/ceres.policy.yaml" 2>/dev/null || true
+  [[ -f "$WORKSPACE/ceres.workflow.yaml" ]] || cp "$template_root/artifacts/ceres.workflow.yaml" "$WORKSPACE/ceres.workflow.yaml" 2>/dev/null || true
 }
 
 run_preflight() {

@@ -30,7 +30,7 @@ fi
 allowed_non_concept() {
   local file="$1"
   case "$file" in
-    README.md|README.*|DOCS.md|objective-contract.json|gap-ledger.json|ceres.policy.yaml|events.jsonl|.gitignore|LICENSE|LICENSE.*|NOTICE|NOTICE.*|CONSTITUTION.md|PROMPTLOADER.md|AGENTS.md|memory.md|handover.md|todo.md|todo-inbox.md|completed.md|modes_settings_profiles.json)
+    README.md|README.*|DOCS.md|objective-contract.json|gap-ledger.json|ceres.policy.yaml|ceres.workflow.yaml|events.jsonl|.gitignore|LICENSE|LICENSE.*|NOTICE|NOTICE.*|CONSTITUTION.md|PROMPTLOADER.md|AGENTS.md|memory.md|handover.md|todo.md|todo-inbox.md|completed.md|modes_settings_profiles.json)
       return 0
       ;;
     docs/*|scripts/*|templates/*|prompts/*|schemas/*|governance/*|synchronizations/*|specs/*|memory/*|prompt-debugger/*|arbitration/*|planner/*|skills/*|plugins/*|ui/*|observability/*|.ceres/*|.github/*)

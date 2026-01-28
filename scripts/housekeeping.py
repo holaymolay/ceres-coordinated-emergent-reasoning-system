@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import json
+import os
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
@@ -23,6 +25,42 @@ def resolve_path(raw: str) -> Path:
     if path.is_absolute():
         return path
     return ROOT / path
+
+
+def resolve_workflow_path() -> Path | None:
+    env = os.environ.get("CERES_WORKSPACE")
+    candidates = []
+    if env:
+        candidates.append(Path(env) / "ceres.workflow.yaml")
+    candidates.append(ROOT / ".ceres" / "workspace" / "ceres.workflow.yaml")
+    candidates.append(ROOT / "ceres.workflow.yaml")
+    for path in candidates:
+        if path.exists():
+            return path
+    return None
+
+
+def load_workflow_config() -> dict:
+    path = resolve_workflow_path()
+    if not path:
+        return {}
+    text = path.read_text(encoding="utf-8")
+    data = None
+    try:
+        import yaml  # type: ignore
+    except Exception:
+        yaml = None
+    if yaml is not None:
+        try:
+            data = yaml.safe_load(text)
+        except Exception:
+            data = None
+    if data is None:
+        try:
+            data = json.loads(text)
+        except Exception:
+            return {}
+    return data if isinstance(data, dict) else {}
 
 
 def get_head_hash() -> str:
@@ -127,13 +165,27 @@ def main(argv: List[str] | None = None) -> int:
     parser.add_argument("--todo", default="todo.md")
     parser.add_argument("--completed", default="completed.md")
     parser.add_argument("--push-hash", default=None)
-    parser.add_argument("--auto-push", action="store_true")
+    parser.add_argument("--auto-push", dest="auto_push", action="store_true", default=None)
+    parser.add_argument("--no-auto-push", dest="auto_push", action="store_false")
     parser.add_argument("--include-all", action="store_true")
     parser.add_argument("--prune-completed", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--ignore-workflow", action="store_true")
     args = parser.parse_args(argv)
 
-    if args.auto_push:
+    workflow = {} if args.ignore_workflow else load_workflow_config()
+    workflow_block = workflow.get("workflow", {}) if isinstance(workflow.get("workflow"), dict) else {}
+    auto_housekeeping = workflow_block.get("auto_housekeeping", True)
+    auto_push_cfg = workflow_block.get("auto_push", False)
+    announce_push = workflow_block.get("announce_push", False)
+
+    if auto_housekeeping is False:
+        print("Housekeeping skipped by workflow config.")
+        return 0
+
+    auto_push = auto_push_cfg if args.auto_push is None else args.auto_push
+    push_succeeded = False
+    if auto_push:
         script = ROOT / "scripts" / "auto-push-if-safe.sh"
         if script.exists():
             code, out, err = run([str(script)])
@@ -141,8 +193,13 @@ def main(argv: List[str] | None = None) -> int:
                 print(out)
             if err:
                 print(err)
+            if "Auto-push succeeded." in out:
+                push_succeeded = True
         else:
             print("Auto-push skipped: scripts/auto-push-if-safe.sh not found.")
+
+    if announce_push and push_succeeded:
+        print("Pushed to GitHub.")
 
     push_hash = args.push_hash or get_head_hash()
     todo_path = resolve_path(args.todo)

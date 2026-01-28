@@ -1,0 +1,38 @@
+$schema: http://json-schema.org/draft-07/schema#
+title: CeresWorkflow
+type: object
+required:
+  - version
+  - workflow
+properties:
+  version:
+    type: integer
+    minimum: 1
+  workflow:
+    type: object
+    required:
+      - auto_housekeeping
+      - auto_push
+      - announce_push
+    properties:
+      auto_housekeeping:
+        type: boolean
+        default: true
+      auto_push:
+        type: boolean
+        default: true
+      announce_push:
+        type: boolean
+        default: true
+    additionalProperties: false
+  safeguards:
+    type: object
+    properties:
+      require_confirmation_on_warnings:
+        type: boolean
+        default: true
+      fail_on_errors:
+        type: boolean
+        default: true
+    additionalProperties: false
+additionalProperties: false

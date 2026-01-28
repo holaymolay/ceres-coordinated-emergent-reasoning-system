@@ -11,6 +11,11 @@ Execute tasks with automatic governance toggles based on workspace health signal
 - Run `python3 scripts/resolve-mode-settings.py` and honor `effective_settings`.
 - If `execution_allowed=false`, do not execute; report and request approval.
 
+## Workflow Config
+- Read `ceres.workflow.yaml` (workspace or repo root).
+- Respect `auto_housekeeping`, `auto_push`, and `announce_push`.
+- If a push occurs and `announce_push=true`, end your response with “Pushed to GitHub.”
+
 ## Preconditions (conditional)
 - If enforcement is `warn`, auto-generate missing stubs and proceed.
 - If enforcement is `strict`, require missing artifacts before execution.

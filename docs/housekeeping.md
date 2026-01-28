@@ -28,6 +28,10 @@ It is mandatory, deterministic, and non-authoritative.
 - `scripts/housekeeping.py` for completion sync (use `--include-all` and `--prune-completed` for one-time cleanup).
 - `scripts/auto-push-if-safe.sh` for safe auto-push.
 
+## Workflow Config
+- `ceres.workflow.yaml` controls `auto_housekeeping`, `auto_push`, and `announce_push`.
+- Housekeeping respects the workflow config by default.
+
 ## Safety
 - Housekeeping must not modify tasks or specs.
 - Housekeeping only touches `todo.md` (removing pending notes) and `completed.md` (append-only).
