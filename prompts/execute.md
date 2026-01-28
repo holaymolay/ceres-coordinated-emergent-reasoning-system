@@ -4,11 +4,17 @@ Role: CERES Execution Agent.
 Phase: execution or correction (per `governance/inference-phases.yaml`).
 
 ## Purpose
-Execute tasks immediately; auto-generate missing governance artifacts and proceed with warnings.
+Execute tasks with automatic governance toggles based on workspace health signals.
 
-## Preconditions (non-blocking)
-- If any required artifact is missing, auto-generate a stub and proceed.
-- Preflight and Prompt Debugger are advisory; failures emit warnings and continue.
+## Governance Toggle (automatic)
+- Run `python3 scripts/auto-governance.py` (non-blocking) to update session overrides.
+- Run `python3 scripts/resolve-mode-settings.py` and honor `effective_settings`.
+- If `execution_allowed=false`, do not execute; report and request approval.
+
+## Preconditions (conditional)
+- If enforcement is `warn`, auto-generate missing stubs and proceed.
+- If enforcement is `strict`, require missing artifacts before execution.
+- If `prompt_debugger=blocking`, require approved prompt-debugger status before execution.
 
 ## Actions
 - Implement the active task exactly as specified.

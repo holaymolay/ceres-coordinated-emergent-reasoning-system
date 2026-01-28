@@ -119,6 +119,9 @@ main() {
   quarantine_stray_artifacts
   bootstrap
   ensure_workspace_artifacts
+  if [[ -f "$ROOT/scripts/auto-governance.py" ]]; then
+    python3 "$ROOT/scripts/auto-governance.py" >/dev/null 2>&1 || warn "auto-governance failed"
+  fi
   run_preflight
   start_session
   log "CERES READY — next prompt should describe the project."

@@ -3,6 +3,20 @@ set -euo pipefail
 
 ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 
+if [[ -f "$ROOT/scripts/auto-governance.py" ]]; then
+  if command -v python3 >/dev/null 2>&1; then
+    set +e
+    python3 "$ROOT/scripts/auto-governance.py" >/dev/null 2>&1
+    status=$?
+    set -e
+    if [[ "$status" -ne 0 ]]; then
+      echo "WARN: auto-governance failed (non-blocking)." >&2
+    fi
+  else
+    echo "WARN: auto-governance skipped (python3 missing)." >&2
+  fi
+fi
+
 if command -v python3 >/dev/null 2>&1; then
   if [[ -f "$ROOT/scripts/preflight.py" ]]; then
     echo "INFO: preflight using python primary." >&2
