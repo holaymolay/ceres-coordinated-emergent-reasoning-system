@@ -66,16 +66,25 @@ bootstrap() {
 }
 
 ensure_workspace_artifacts() {
-  if [[ -x "$ROOT/scripts/init-artifacts.sh" ]]; then
-    bash "$ROOT/scripts/init-artifacts.sh" "$WORKSPACE" || warn "init-artifacts failed"
+  local init_script="$ROOT/scripts/init-artifacts.sh"
+  local template_root="$ROOT/templates"
+  if [[ ! -x "$init_script" && -x "$CERES_HOME/core/scripts/init-artifacts.sh" ]]; then
+    init_script="$CERES_HOME/core/scripts/init-artifacts.sh"
+  fi
+  if [[ ! -d "$template_root" && -d "$CERES_HOME/core/templates" ]]; then
+    template_root="$CERES_HOME/core/templates"
+  fi
+  if [[ -x "$init_script" ]]; then
+    bash "$init_script" "$WORKSPACE" || warn "init-artifacts failed"
   fi
   mkdir -p "$WORKSPACE"
   mkdir -p "$WORKSPACE/memory/records" "$WORKSPACE/logs" "$WORKSPACE/prompts" "$WORKSPACE/concepts" "$WORKSPACE/synchronizations"
-  [[ -f "$WORKSPACE/todo-inbox.md" ]] || cp "$ROOT/templates/todo/todo-inbox.md" "$WORKSPACE/todo-inbox.md" 2>/dev/null || true
-  [[ -f "$WORKSPACE/todo.md" ]] || cp "$ROOT/templates/todo/todo.md" "$WORKSPACE/todo.md" 2>/dev/null || true
-  [[ -f "$WORKSPACE/completed.md" ]] || cp "$ROOT/templates/todo/completed.md" "$WORKSPACE/completed.md" 2>/dev/null || true
-  [[ -f "$WORKSPACE/memory.md" ]] || cp "$ROOT/templates/todo/memory.md" "$WORKSPACE/memory.md" 2>/dev/null || true
-  [[ -f "$WORKSPACE/handover.md" ]] || cp "$ROOT/templates/todo/handover.md" "$WORKSPACE/handover.md" 2>/dev/null || true
+  [[ -f "$WORKSPACE/todo-inbox.md" ]] || cp "$template_root/todo/todo-inbox.md" "$WORKSPACE/todo-inbox.md" 2>/dev/null || true
+  [[ -f "$WORKSPACE/todo.md" ]] || cp "$template_root/todo/todo.md" "$WORKSPACE/todo.md" 2>/dev/null || true
+  [[ -f "$WORKSPACE/completed.md" ]] || cp "$template_root/todo/completed.md" "$WORKSPACE/completed.md" 2>/dev/null || true
+  [[ -f "$WORKSPACE/memory.md" ]] || cp "$template_root/todo/memory.md" "$WORKSPACE/memory.md" 2>/dev/null || true
+  [[ -f "$WORKSPACE/handover.md" ]] || cp "$template_root/todo/handover.md" "$WORKSPACE/handover.md" 2>/dev/null || true
+  [[ -f "$WORKSPACE/ceres.policy.yaml" ]] || cp "$template_root/artifacts/ceres.policy.yaml" "$WORKSPACE/ceres.policy.yaml" 2>/dev/null || true
 }
 
 run_preflight() {

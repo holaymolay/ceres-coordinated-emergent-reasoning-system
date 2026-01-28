@@ -265,8 +265,12 @@ CORE_SUBMODULE_PATH=".ceres/core"
 
 mkdir -p "$CERES_HOME_DIR"
 
-if [[ -d "$CORE_DIR/.git" ]]; then
-  info "Core already present at $CORE_DIR"
+if [[ -d "$CORE_DIR" ]]; then
+  if [[ -d "$CORE_DIR/.git" ]]; then
+    info "Core already present at $CORE_DIR"
+  else
+    info "Core directory present without git metadata; using as-is"
+  fi
   if [[ "$FORCE_CORE_REF" == "true" ]]; then
     info "Updating core to ref $CORE_REF"
     git -C "$CORE_DIR" fetch --all

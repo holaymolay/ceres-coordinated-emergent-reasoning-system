@@ -26,8 +26,8 @@ Confirm CERES is loaded and ready to accept a project prompt.
 
 Steps:
 1) Run `./.ceres/bin/autobootstrap` (non-blocking).
-2) Run `scripts/faststart-smoke.sh`.
-3) Run `./.ceres/bin/doctor`.
+2) Run `.ceres/core/scripts/faststart-smoke.sh` (fallback to `scripts/faststart-smoke.sh` if present).
+3) Run `./.ceres/bin/doctor` (fallback to `.ceres/core/scripts/doctor.py` if needed).
 4) Run `./.ceres/bin/preflight --mode execute --prompt .ceres/workspace/todo-inbox.md --todo .ceres/workspace/todo.md --gap-ledger .ceres/workspace/gap-ledger.json --objective .ceres/workspace/objective-contract.json`.
 
 Output:
