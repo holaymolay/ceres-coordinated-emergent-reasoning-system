@@ -4,6 +4,10 @@ set -euo pipefail
 # Non-interactive CERES autobootstrap. Always proceeds; logs warnings only.
 
 ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+# If running from inside .ceres/core, normalize to repo root.
+if [[ "$ROOT" == */.ceres/core ]]; then
+  ROOT="$(CDPATH= cd -- "$ROOT/../.." && pwd)"
+fi
 CERES_HOME="$ROOT/.ceres"
 WORKSPACE="$CERES_HOME/workspace"
 QUARANTINE_ROOT="$CERES_HOME/_quarantine"

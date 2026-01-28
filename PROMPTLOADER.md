@@ -7,7 +7,7 @@ Umbrella name: **CERES — Coordinated Emergent Reasoning System**.
 Do not ask questions. Do not present options. Execute the bootstrap procedure and proceed.
 
 ## Procedure (run in order)
-1) Fast init from URL into `.ceres/core` (prebuilt fast tarball):
+1) Fast init from URL into `.ceres/core` (prebuilt fast tarball; no nested .ceres):
 
 ```bash
 mkdir -p .ceres/core
