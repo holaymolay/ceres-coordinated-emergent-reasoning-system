@@ -58,3 +58,4 @@
 - [x] 2026-01-26 — Add macro policy config + guardrails for settings changes (validation + confirmation). (push 545bc9c1c67d6925d5df5eeffed04e3c30240e6f)
 - [x] 2026-01-28 — From prompt prompts/prompt-terminal-bench-rigor-gates.md: Update handover/changelog entries for rigor layer. (push 150fce94cfd7be701ff2e99b4d8ada2e5fad971d)
 - [x] 2026-01-28 — From prompt prompts/prompt-terminal-bench-rigor-gates.md: Add unit/integration/regression tests with fixture task. (push c3d10139e98ae5359aa53ddfb2b5eead86fd2611)
+- [x] 2026-01-28 — From prompt prompts/prompt-terminal-bench-rigor-gates.md: Implement CLI entrypoints and structured logs/events (default-off). (push 8f785fc11355591ca218acec3bddbba129ce3371)

@@ -6,7 +6,6 @@
 ## Workflow Governance
 
 ## Current Focus
-- [x] From prompt prompts/prompt-terminal-bench-rigor-gates.md: Implement CLI entrypoints and structured logs/events (default-off).
 
 
 ## Next Features & Updates
