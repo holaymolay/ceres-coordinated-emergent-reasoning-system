@@ -3,6 +3,34 @@ Status: Entry file · Canonical umbrella name locked
 
 Umbrella name: **CERES — Coordinated Emergent Reasoning System** (final; no aliases above it).
 
+## Do This First (Required)
+Run the full bootstrap so CERES is functional before any project prompt:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/holaymolay/ceres-coordinated-emergent-reasoning-system/master/scripts/bootstrap-workspace.sh \
+  -o /tmp/ceres-bootstrap.sh && bash /tmp/ceres-bootstrap.sh --components
+```
+
+This will:
+- Initialize a git worktree if missing.
+- Pull the CERES hub into `.ceres/core`.
+- Create `.ceres/workspace` with required artifacts.
+- Clone optional component repos into `.ceres/components`.
+- Install wrapper scripts under `.ceres/bin`.
+
+Stop and verify these exist before any project work:
+- `.ceres/core`
+- `.ceres/workspace/todo-inbox.md`
+- `.ceres/workspace/todo.md`
+- `.ceres/workspace/completed.md`
+- `.ceres/workspace/memory.md`
+- `.ceres/workspace/handover.md`
+- `.ceres/workspace/objective-contract.json`
+- `.ceres/workspace/gap-ledger.json`
+- `.ceres/workspace/specs/elicitation/elicitation.md`
+
+If any of the above are missing, re-run the bootstrap.
+
 ## Read This First
 - The binding source of truth is `CONSTITUTION.md`. Load and obey it before any action.
 - This file exists to point agents to the Constitution and anchor the CERES name.
@@ -29,29 +57,7 @@ Umbrella name: **CERES — Coordinated Emergent Reasoning System** (final; no al
 
 ## Bootstrap for a New Project
 
-### Required (full hub bootstrap for functional CERES)
-To make CERES fully functional in a new repo, you must pull the hub and initialize a workspace:
-
-```bash
-scripts/bootstrap-workspace.sh --components
-```
-
-If you do not yet have the hub scripts in the repo, use this one-liner to fetch and run the bootstrap (it will init a git worktree if missing):
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/holaymolay/ceres-coordinated-emergent-reasoning-system/master/scripts/bootstrap-workspace.sh \
-  -o /tmp/ceres-bootstrap.sh && bash /tmp/ceres-bootstrap.sh --components
-```
-
-This installs:
-- `.ceres/core` (hub repo)
-- `.ceres/workspace` (todo/memory/elicitation/gap/objective artifacts)
-- `.ceres/components` (optional component repos)
-- wrapper scripts under `.ceres/bin`
-
-If you only copied `PROMPTLOADER.md` and `CONSTITUTION.md`, first pull the hub or fetch the bootstrap script from the hub repo, then run it. PROMPTLOADER alone does not include the runtime, schemas, or scripts needed for a functional system.
-
-### Minimal (manual steps)
+### Minimal (manual steps, if bootstrap is blocked)
 1. Place this `PROMPTLOADER.md` in the repo root and fetch `CONSTITUTION.md` from the same origin (https://github.com/holaymolay/ceres-coordinated-emergent-reasoning-system/blob/master/CONSTITUTION.md).
 2. Pull the CERES components as needed (independent repos):
    - governance-orchestrator: https://github.com/holaymolay/governance-orchestrator
