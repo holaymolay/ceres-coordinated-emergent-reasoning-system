@@ -68,6 +68,27 @@
           </div>
         </div>
       </section>
+
+      <section id="policy" class="panel">
+        <h2>Policy Settings (Read-Only)</h2>
+        <p class="status" id="policy-status">Loading ceres.policy.yaml...</p>
+        <div class="panel-body">
+          <div class="panel-block">
+            <h3>Current Macro Policy</h3>
+            <div id="policy-values"></div>
+          </div>
+          <div class="panel-block">
+            <h3>How To Propose Changes</h3>
+            <div class="callout">
+              <p>Use the CLI helper to create a proposed file and validate it:</p>
+              <pre><code>python scripts/policy_edit.py --open</code></pre>
+              <p>Apply after review:</p>
+              <pre><code>python scripts/policy_edit.py --apply</code></pre>
+              <p>Preflight runs an advisory (non-blocking) policy guard.</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">

@@ -20,5 +20,6 @@ The UI attempts to load artifacts from the repo root using relative paths:
 - Arbitration: `logs/arbitration-decision.json`
 - Concepts: `logs/concept-graph.json` (optional)
 - Enforcement: `logs/events.jsonl`
+- Policy: `ceres.policy.yaml` (macro settings; displayed read-only with CLI guidance)
 
 If an artifact is missing, the UI displays a placeholder and continues.

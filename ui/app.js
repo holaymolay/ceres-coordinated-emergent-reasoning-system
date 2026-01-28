@@ -11,6 +11,7 @@ const dataSources = {
   arbitration: '../logs/arbitration-decision.json',
   conceptGraph: '../logs/concept-graph.json',
   enforcementEvents: '../logs/events.jsonl',
+  policy: '../ceres.policy.yaml',
 };
 
 function qs(id) {
@@ -66,6 +67,68 @@ async function fetchJsonl(path) {
   } catch (err) {
     return null;
   }
+}
+
+async function fetchText(path) {
+  try {
+    const response = await fetch(path, { cache: 'no-store' });
+    if (!response.ok) {
+      return null;
+    }
+    return await response.text();
+  } catch (err) {
+    return null;
+  }
+}
+
+function parseSimpleYaml(text) {
+  const result = {};
+  const lines = text.split('\n');
+  let currentSection = null;
+  for (const raw of lines) {
+    const line = raw.trimEnd();
+    if (!line || line.trim().startsWith('#')) {
+      continue;
+    }
+    if (!line.startsWith(' ') && line.includes(':')) {
+      const [key, ...rest] = line.split(':');
+      const value = rest.join(':').trim();
+      if (value === '') {
+        currentSection = key.trim();
+        result[currentSection] = {};
+      } else {
+        result[key.trim()] = value;
+        currentSection = null;
+      }
+      continue;
+    }
+    if (currentSection && line.trim().includes(':')) {
+      const trimmed = line.trim();
+      const [key, ...rest] = trimmed.split(':');
+      result[currentSection][key.trim()] = rest.join(':').trim();
+    }
+  }
+  return result;
+}
+
+function renderPolicy(policy) {
+  const valuesEl = qs('policy-values');
+  if (!valuesEl) {
+    return;
+  }
+  if (!policy || !policy.policy) {
+    valuesEl.innerHTML = '<p class="status">Policy file not found or unreadable.</p>';
+    return;
+  }
+  const entries = Object.entries(policy.policy);
+  if (!entries.length) {
+    valuesEl.innerHTML = '<p class="status">No policy fields found.</p>';
+    return;
+  }
+  const rows = entries
+    .map(([key, value]) => `<div class="policy-row"><span>${escapeHtml(key)}</span><span>${escapeHtml(value)}</span></div>`)
+    .join('');
+  valuesEl.innerHTML = `<div class="policy-grid">${rows}</div>`;
 }
 
 async function loadPlannerArtifacts() {
@@ -247,6 +310,11 @@ async function init() {
   const events = await fetchJsonl(dataSources.enforcementEvents);
   setStatus('enforcement-status', events ? 'Enforcement events loaded.' : 'Enforcement events missing.');
   renderEnforcement(events);
+
+  const policyText = await fetchText(dataSources.policy);
+  const policy = policyText ? parseSimpleYaml(policyText) : null;
+  setStatus('policy-status', policy ? 'Policy loaded.' : 'Policy file missing.');
+  renderPolicy(policy);
 }
 
 init();

@@ -79,6 +79,36 @@ td {
   font-size: 12px;
 }
 
+.policy-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.policy-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  font-size: 12px;
+  padding: 6px 8px;
+  border: 1px solid #e0dfd6;
+  background: #faf9f4;
+}
+
+.callout {
+  border: 1px solid #b5b09a;
+  background: #f7f3e6;
+  padding: 10px;
+  font-size: 12px;
+}
+
+.callout pre {
+  margin: 8px 0;
+  padding: 8px;
+  background: #1f1f1f;
+  color: #f7f7f3;
+  overflow-x: auto;
+}
+
 .badge {
   display: inline-block;
   padding: 2px 6px;
