@@ -15,6 +15,7 @@ Execute tasks immediately; auto-generate missing governance artifacts and procee
 - Run tests/validation required by the task.
 - Update `completed.md`, `memory/records/*.json`, `memory.md`, and `handover.md` as required.
 - Run housekeeping sync (`scripts/housekeeping.py`) to log completed tasks without user intervention.
+- If the user asks to "verify CERES is loaded/ready", execute `prompts/prompt-ceres-verify.md` immediately (no questions).
 
 ## Prohibited
 - Silent failure: always log warnings and gaps.

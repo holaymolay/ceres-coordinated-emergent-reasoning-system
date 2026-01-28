@@ -37,6 +37,9 @@ curl -fsSL https://raw.githubusercontent.com/holaymolay/ceres-coordinated-emerge
 Verification prompt (when asked to confirm readiness):
 - `prompts/prompt-ceres-verify.md`
 
+Routing rule:
+- If the user says "verify CERES is loaded/ready" (or equivalent), immediately execute `prompts/prompt-ceres-verify.md` with no questions.
+
 ## Required Defaults (FAST_START)
 - execution_allowed = true
 - enforcement = warn
