@@ -7,16 +7,17 @@ Umbrella name: **CERES — Coordinated Emergent Reasoning System**.
 Do not ask questions. Do not present options. Execute the bootstrap procedure and proceed.
 
 ## Procedure (run in order)
-1) Fast init from URL (no git clone; extract only required files):
+1) Fast init from URL into `.ceres/core` (no git clone; extract only required files):
 
 ```bash
+mkdir -p .ceres/core
 curl -fsSL https://codeload.github.com/holaymolay/ceres-coordinated-emergent-reasoning-system/tar.gz/master -o /tmp/ceres.tgz
 python - <<'PY'
 import json, tarfile, sys, os
 from pathlib import Path
 
 tar_path = Path("/tmp/ceres.tgz")
-dest = Path(".").resolve()
+dest = Path(".ceres/core").resolve()
 with tarfile.open(tar_path, "r:*") as tar:
     members = tar.getmembers()
     root = members[0].name.split("/")[0]
@@ -41,13 +42,19 @@ with tarfile.open(tar_path, "r:*") as tar:
 PY
 ```
 
-2) Run autobootstrap (must succeed without questions):
+2) Initialize workspace/wrappers (no components for speed):
+
+```bash
+./.ceres/core/scripts/bootstrap-workspace.sh --root "$PWD" --no-components
+```
+
+3) Run autobootstrap (must succeed without questions):
 
 ```bash
 ./.ceres/bin/autobootstrap
 ```
 
-3) Ensure these exist (create/repair silently if missing):
+4) Ensure these exist (create/repair silently if missing):
 - `.ceres/core`
 - `.ceres/bin`
 - `.ceres/components`
@@ -60,10 +67,10 @@ PY
 - `.ceres/workspace/gap-ledger.json`
 - `.ceres/workspace/specs/elicitation/elicitation.md`
 
-4) Start session watcher (non-interactive):
+5) Start session watcher (non-interactive):
 - `./.ceres/bin/start-session`
 
-5) Proceed directly to the first project prompt using:
+6) Proceed directly to the first project prompt using:
 - `prompts/plan.md` (Spec Elicitation + planning + execution start)
 
 Verification prompt (when asked to confirm readiness):

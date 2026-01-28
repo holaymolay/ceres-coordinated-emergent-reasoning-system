@@ -50,11 +50,19 @@ quarantine_stray_artifacts() {
 }
 
 bootstrap() {
-  if [[ ! -x "$ROOT/scripts/bootstrap-workspace.sh" ]]; then
+  local bootstrap_script="$ROOT/scripts/bootstrap-workspace.sh"
+  if [[ ! -x "$bootstrap_script" && -x "$CERES_HOME/core/scripts/bootstrap-workspace.sh" ]]; then
+    bootstrap_script="$CERES_HOME/core/scripts/bootstrap-workspace.sh"
+  fi
+  if [[ ! -x "$bootstrap_script" ]]; then
     warn "bootstrap-workspace.sh missing; cannot bootstrap core"
     return
   fi
-  bash "$ROOT/scripts/bootstrap-workspace.sh" --components || warn "bootstrap-workspace.sh reported errors"
+  local components_flag="--no-components"
+  if [[ "${CERES_COMPONENTS:-}" == "1" ]]; then
+    components_flag="--components"
+  fi
+  bash "$bootstrap_script" --root "$ROOT" "$components_flag" || warn "bootstrap-workspace.sh reported errors"
 }
 
 ensure_workspace_artifacts() {
