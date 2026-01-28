@@ -6,7 +6,6 @@
 ## Workflow Governance
 
 ## Current Focus
-- [x] From prompt prompts/prompt-terminal-bench-rigor-gates.md: Update handover/changelog entries for rigor layer.
 
 
 ## Next Features & Updates
