@@ -45,7 +45,16 @@ info() { echo "INFO: $*" >&2; }
 
 require_git() {
   command -v git >/dev/null 2>&1 || fail "git is required"
-  git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1 || fail "not inside a git worktree"
+}
+
+ensure_git_worktree() {
+  if git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    return
+  fi
+  info "Initializing git worktree in $ROOT"
+  git -C "$ROOT" init >/dev/null
+  git -C "$ROOT" add -A >/dev/null 2>&1 || true
+  git -C "$ROOT" commit -m "Init workspace for CERES bootstrap" >/dev/null 2>&1 || true
 }
 
 abs_path() {
@@ -141,6 +150,7 @@ install_wrappers() {
 }
 
 require_git
+ensure_git_worktree
 
 CERES_HOME_DIR="$ROOT/.ceres"
 WORKSPACE_DIR="$(abs_path "$WORKSPACE_REL")"
