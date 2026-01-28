@@ -6,7 +6,6 @@
 ## Workflow Governance
 
 ## Current Focus
-- [x] From prompt prompts/prompt-terminal-bench-rigor-gates.md: Add unit/integration/regression tests with fixture task.
 
 
 ## Next Features & Updates
