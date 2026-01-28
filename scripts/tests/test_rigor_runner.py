@@ -1,4 +1,4 @@
-import os
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -77,6 +77,36 @@ class RigorRunnerTests(unittest.TestCase):
         result = rigor_runner.run_exploit_probe({"script": str(probe_script)}, cwd=self.repo)
         self.assertTrue(result["flagged"])
         self.assertEqual(result["status"], "flagged")
+
+    def test_verify_cli_reports_fail(self) -> None:
+        ok_file = self.repo / "ok.txt"
+        ok_file.write_text("OK\n", encoding="utf-8")
+        pass_script = self.repo / "verifier_pass.sh"
+        fail_script = self.repo / "verifier_fail.sh"
+        write_exec(
+            pass_script,
+            "#!/usr/bin/env bash\nset -e\n[[ \"$(cat ok.txt)\" == \"OK\" ]]\n",
+        )
+        write_exec(
+            fail_script,
+            "#!/usr/bin/env bash\nset -e\n[[ \"$(cat ok.txt)\" == \"NO\" ]]\n",
+        )
+        rigor_path = self.repo / "rigor.json"
+        rigor_path.write_text(
+            json.dumps(
+                {
+                    "verifiers": [
+                        {"id": "V-PASS", "description": "ok", "command": str(pass_script)},
+                        {"id": "V-FAIL", "description": "no", "command": str(fail_script)},
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        from scripts import rigor
+
+        result = rigor.main(["verify", "--rigor", str(rigor_path)])
+        self.assertEqual(result, 1)
 
 
 if __name__ == "__main__":

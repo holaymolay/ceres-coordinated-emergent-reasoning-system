@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RigorReport",
+  "type": "object",
+  "required": ["run_id", "timestamp", "type", "data"],
+  "properties": {
+    "run_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "type": {
+      "type": "string",
+      "enum": ["verify", "check-spec-map", "run-oracle", "exploit-probe", "nondeterminism-report"]
+    },
+    "data": { "type": "object" }
+  },
+  "additionalProperties": false
+}

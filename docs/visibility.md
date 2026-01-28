@@ -12,6 +12,7 @@ These rules standardize how work is surfaced and audited across CERES.
 - `memory.md`: human-readable memory summary derived from records.
 - `handover.md`: export snapshot for context transfer; derived from `memory.md`.
 - `ceres.policy.yaml`: macro policy knobs (human-editable) validated by `scripts/policy_guard.py`.
+- Rigor artifacts: optional `rigor.json` with reports in JSON (`schemas/rigor-report.schema.json`); see `docs/rigor-cli.md`.
 - Gap Ledger: authoritative uncertainty/resolution queue (evidence-backed or explicit assumptions with expiry/risk).
 
 ## Gates & Flow

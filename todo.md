@@ -6,6 +6,7 @@
 ## Workflow Governance
 
 ## Current Focus
+- [x] From prompt prompts/prompt-terminal-bench-rigor-gates.md: Implement CLI entrypoints and structured logs/events (default-off).
 
 
 ## Next Features & Updates
@@ -13,7 +14,6 @@
 
 
 ## Backlog
-- [ ] Defer (risk review): From prompt prompts/prompt-terminal-bench-rigor-gates.md: Implement CLI entrypoints and structured logs/events (default-off).
 - [ ] Defer (risk review): From prompt prompts/prompt-ram-integration-governance.md: Extend schemas and add profiling record artifact.
 - [ ] Defer (risk review): From prompt prompts/prompt-ram-integration-governance.md: Implement pre-merge profiling gate, shared/private enforcement, anti-dilution rule, integrity check, and events.
 - [ ] Defer (risk review): From prompt prompts/prompt-ram-integration-governance.md: Update docs/checklist and add tests.
