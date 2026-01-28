@@ -1,6 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+CERES_HOME="${CERES_HOME:-$ROOT/.ceres}"
+
+# Auto-bootstrap if available (non-blocking).
+if [[ -x "$CERES_HOME/bin/autobootstrap" ]]; then
+  set +e
+  "$CERES_HOME/bin/autobootstrap" >/dev/null 2>&1
+  set -e
+elif [[ -x "$ROOT/scripts/autobootstrap.sh" ]]; then
+  set +e
+  "$ROOT/scripts/autobootstrap.sh" >/dev/null 2>&1
+  set -e
+fi
+
 LOG_DIR="logs"
 PID_FILE="$LOG_DIR/handover-watch.pid"
 LOG_FILE="$LOG_DIR/handover-watch.log"
