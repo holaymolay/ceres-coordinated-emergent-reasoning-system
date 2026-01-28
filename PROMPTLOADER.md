@@ -27,7 +27,22 @@ Umbrella name: **CERES — Coordinated Emergent Reasoning System** (final; no al
 - SEA is read-only; outputs a single elicitation artifact then stops.
 - Store the Spec Elicitation Record in `specs/elicitation/<spec-id>.md` with front matter fields `ready_for_planning` and `blocking_unknowns`.
 
-## Bootstrap for a New Project (minimal steps)
+## Bootstrap for a New Project
+
+### Recommended (full hub bootstrap)
+Run the workspace bootstrap to pull the CERES hub and initialize a workspace with required artifacts:
+
+```bash
+scripts/bootstrap-workspace.sh --components
+```
+
+This installs:
+- `.ceres/core` (hub repo)
+- `.ceres/workspace` (todo/memory/elicitation/gap/objective artifacts)
+- `.ceres/components` (optional component repos)
+- wrapper scripts under `.ceres/bin`
+
+### Minimal (manual steps)
 1. Place this `PROMPTLOADER.md` in the repo root and fetch `CONSTITUTION.md` from the same origin (https://github.com/holaymolay/ceres-coordinated-emergent-reasoning-system/blob/master/CONSTITUTION.md).
 2. Pull the CERES components as needed (independent repos):
    - governance-orchestrator: https://github.com/holaymolay/governance-orchestrator
