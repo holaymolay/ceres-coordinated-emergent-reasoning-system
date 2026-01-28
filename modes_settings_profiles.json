@@ -1,17 +1,41 @@
 {
   "version": "1.0",
-  "active_mode": "guided",
+  "active_mode": "fast-start",
   "active_profile": null,
   "system_defaults": {
-    "execution_continuity": "manual",
-    "autonomy_level": "minimal",
+    "execution_continuity": "auto-safe",
+    "autonomy_level": "constrained",
     "questioning_policy": "structured-only",
     "output_density": "balanced",
-    "failure_handling": "halt",
+    "failure_handling": "retry-once",
     "progress_signaling": "checkpoints",
-    "safety_level": "baseline"
+    "safety_level": "baseline",
+    "execution_allowed": true,
+    "enforcement": "warn",
+    "intake_required": "auto-generate",
+    "spec_elicitation": "auto-generate-skeleton",
+    "prompt_debugger": "non-blocking",
+    "gap_ledger": "auto-append"
   },
   "mode_defaults": [
+    {
+      "mode": "fast-start",
+      "settings": {
+        "execution_continuity": "auto-safe",
+        "autonomy_level": "constrained",
+        "questioning_policy": "structured-only",
+        "output_density": "balanced",
+        "failure_handling": "retry-once",
+        "progress_signaling": "checkpoints",
+        "safety_level": "baseline",
+        "execution_allowed": true,
+        "enforcement": "warn",
+        "intake_required": "auto-generate",
+        "spec_elicitation": "auto-generate-skeleton",
+        "prompt_debugger": "non-blocking",
+        "gap_ledger": "auto-append"
+      }
+    },
     {
       "mode": "guided",
       "settings": {
@@ -21,7 +45,13 @@
         "output_density": "balanced",
         "failure_handling": "halt",
         "progress_signaling": "checkpoints",
-        "safety_level": "baseline"
+        "safety_level": "baseline",
+        "execution_allowed": false,
+        "enforcement": "strict",
+        "intake_required": "manual",
+        "spec_elicitation": "manual",
+        "prompt_debugger": "blocking",
+        "gap_ledger": "manual"
       }
     },
     {
@@ -33,7 +63,13 @@
         "output_density": "balanced",
         "failure_handling": "retry-once",
         "progress_signaling": "checkpoints",
-        "safety_level": "baseline"
+        "safety_level": "baseline",
+        "execution_allowed": false,
+        "enforcement": "strict",
+        "intake_required": "manual",
+        "spec_elicitation": "manual",
+        "prompt_debugger": "blocking",
+        "gap_ledger": "manual"
       }
     },
     {
@@ -45,7 +81,13 @@
         "output_density": "balanced",
         "failure_handling": "retry-once",
         "progress_signaling": "checkpoints",
-        "safety_level": "hardened"
+        "safety_level": "hardened",
+        "execution_allowed": false,
+        "enforcement": "strict",
+        "intake_required": "manual",
+        "spec_elicitation": "manual",
+        "prompt_debugger": "blocking",
+        "gap_ledger": "manual"
       }
     }
   ],

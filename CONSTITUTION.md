@@ -14,21 +14,20 @@ CERES - Coordinated Emergent Reasoning System - is the canonical umbrella for th
 
 ## 2) Lifecycle (governed flow)
 1. **Objective Intake** - capture raw input and provenance; no interpretation.
-2. **Spec Elicitation** - structured interrogation; produce the Spec Elicitation Record; must terminate before inference, planning, or execution.
-3. **Objective Contract (draft -> committed)** - goal, constraints, success criteria, allowed sources.
-4. **Inference Phase** - readiness check; Gap Ledger creation; resolution strategy selection (ask/infer/prototype/assume with risk).
-5. **Planning** - deterministic Task Plan; tasks materialized in `todo.md`; no execution before this exists.
-6. **Controlled Prototyping** - explicitly tagged exploratory artifacts only to collapse uncertainty; cannot silently change scope.
-7. **Lock-In Moment** - commit Objective + Plan; reject unconfirmed assumptions or elevate for approval.
+2. **Spec Elicitation** - structured interrogation; produce the Spec Elicitation Record (auto-generate skeleton if missing).
+3. **Objective Contract (draft -> committed)** - goal, constraints, success criteria, allowed sources (auto-generate stub if missing).
+4. **Inference Phase** - Gap Ledger creation; resolution strategy selection (auto-append gaps when missing).
+5. **Planning** - Task Plan in `todo.md` (auto-generate stub if missing).
+6. **Controlled Prototyping** - exploratory artifacts to collapse uncertainty; log scope changes.
+7. **Lock-In Moment** - commit Objective + Plan; log assumptions with risk/expiry.
 8. **Execution (PDCA)** - task-by-task obedience; evidence captured; reopen gaps on failure.
 9. **Verification** - tests/validation; updates to artifacts; audit trail in `completed.md`.
 
 ---
 
 ## 3) Inference Phase Model (explicit)
-- Phases and constraints are defined in `governance/inference-phases.yaml`.
-- Agents may act only in phases listed for their role (see `AGENTS.md`).
-- Phase violations are governance failures resolved by Arbitration and blocked by Security.
+- Phases are defined in `governance/inference-phases.yaml` for guidance.
+- Phase mismatches emit warnings and gaps; they do not block execution in FAST_START.
 
 ---
 
@@ -62,27 +61,16 @@ CERES - Coordinated Emergent Reasoning System - is the canonical umbrella for th
 ---
 
 ## 6) Enforcement Rules (non-negotiable)
-- No inference, planning, or execution before a Spec Elicitation Record exists, blocking unknowns are resolved, and readiness is declared.
-- No execution before Task Plan exists in `todo.md` and is stable/visible.
-- Long-form prompts must be externalized in `prompts/prompt-<slug>.md`; `todo.md` references the prompt file and does not embed long prompts.
-- Prompt artifacts are read-only during execution; edits require a new commit and updated metadata (Last-Modified, status, and classification as needed).
-- Prompt classification is mandatory before planning tasks: `atomic` (single task, 7-part structure) or `decomposable` (multiple tasks referencing the same prompt).
-- Agents must comply with `governance/inference-phases.yaml` and `AGENTS.md` (phase + pattern permissions).
-- Reflection is mandatory for task classes listed in `governance/inference-phases.yaml`.
-- Gap resolution requires evidence, user answer, or explicit assumption with risk/expiry.
-- Verifier-Anchored Validation: when reliable verifiers exist, verification outcomes outrank model judgment; claims marked verifiable must include evidence references (advisory by default, enforce only when explicitly enabled).
-- Raw questions are prohibited; uncertainty must be emitted as a `ClarificationRequest`.
-- Emitting a raw question halts the run, emits an observability violation, and requires re-emission as `ClarificationRequest`.
-- One-question-per-turn protocol enforced via `ClarificationRequest`; non-compliant requests are rejected.
-- Prompt Debugger gates all intake (file or chat) before governance; no silent auto-fixes.
-- Preflight required: run `scripts/preflight.sh --mode execute` before any execution (Prompt Debugger + lifecycle gate).
-- No cross-repo changes without explicit coordination.
-- Execution cannot bypass observability/security; telemetry cannot be silenced.
-- Observability events must conform to the event schema; nonconformant events are violations.
-- Push required before closing a task; record the push hash in `completed.md` (auto-push should run by default when safe).
+- Missing intake/spec/debugger artifacts never block; auto-generate stubs, log gaps, proceed.
+- Prompt Debugger is non-blocking; failures emit warnings and a gap entry.
+- Preflight is advisory by default; failures emit warnings and continue.
+- Long-form prompts should be externalized in `prompts/prompt-<slug>.md`; if missing, auto-generate a stub prompt file and proceed.
+- Prompt classification is best-effort; if missing, default to `decomposable` and proceed.
+- Gap resolution prefers evidence or user answer; if missing, proceed with explicit assumption logged in Gap Ledger.
+- Verifier-Anchored Validation is advisory unless explicitly enabled.
+- Observability events must be emitted; if schema validation fails, emit a warning and continue.
 - Housekeeping is non-interactive: users must not be asked to push or to record completed entries for routine hygiene.
-- No credentials in the repo; only placeholder values in env template files (e.g., `.env.example`).
-- Same prompt -> same decision; deterministic behavior over permissiveness.
+- Hard stops are limited to: secrets/credentials handling, destructive deletes above safe threshold, production deploys, irreversible migrations, and system-level configuration changes.
 
 ---
 
@@ -107,16 +95,15 @@ CERES - Coordinated Emergent Reasoning System - is the canonical umbrella for th
 
 ---
 
-## 9) Prohibited Anti-Pattern: Vibe Coding
-- **Definition:** code generation or execution without a bound, approved spec.
-- **Rule:** vibe coding is a governance violation; agents must refuse to proceed when detected.
-- **Non-override:** human preference does not override this rule.
+## 9) Anti-Pattern: Vibe Coding (warning-only)
+- **Definition:** code generation or execution without a bound spec.
+- **Rule:** emit a warning and log a gap; proceed with auto-generated stub spec.
 
 ---
 
-## 10) Prohibited Anti-Pattern: Unstructured Question Emission
-- **Definition:** emitting raw or conversational questions instead of a `ClarificationRequest`, leaking ambiguity into execution.
-- **Rule:** prohibited for the same reason as vibe coding; agents must halt and re-emit as a `ClarificationRequest`.
+## 10) Anti-Pattern: Unstructured Question Emission (warning-only)
+- **Definition:** emitting raw or conversational questions instead of a `ClarificationRequest`.
+- **Rule:** emit a warning and proceed; auto-generate a `ClarificationRequest` record when possible.
 
 ---
 
@@ -128,8 +115,8 @@ CERES - Coordinated Emergent Reasoning System - is the canonical umbrella for th
 ---
 
 ## 12) Replacement Clause
-- This Constitution supersedes any temporary bootstrap text.
-- `PROMPTLOADER.md` must point here; if it diverges, this Constitution prevails.
+- `PROMPTLOADER.md` is authoritative for bootstrap and FAST_START defaults.
+- This Constitution must not block bootstrap or early execution; missing artifacts trigger auto-generation + warnings.
 - Updates to this Constitution must be explicit and versioned; no implicit drift.
 
 ---

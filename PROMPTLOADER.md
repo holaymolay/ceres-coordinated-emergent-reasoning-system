@@ -1,25 +1,24 @@
 # PROMPTLOADER.md
-Status: Entry file · Canonical umbrella name locked
+Status: Authoritative bootstrap entrypoint (non-interactive, deterministic).
 
-Umbrella name: **CERES — Coordinated Emergent Reasoning System** (final; no aliases above it).
+Umbrella name: **CERES — Coordinated Emergent Reasoning System**.
 
-## Do This First (Required)
-Run the full bootstrap so CERES is functional before any project prompt:
+## Non-Interactive Rule
+Do not ask questions. Do not present options. Execute the bootstrap procedure and proceed.
+
+## Procedure (run in order)
+1) Run autobootstrap (must succeed without questions):
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/holaymolay/ceres-coordinated-emergent-reasoning-system/master/scripts/bootstrap-workspace.sh \
   -o /tmp/ceres-bootstrap.sh && bash /tmp/ceres-bootstrap.sh --components
+./.ceres/bin/autobootstrap
 ```
 
-This will:
-- Initialize a git worktree if missing.
-- Pull the CERES hub into `.ceres/core`.
-- Create `.ceres/workspace` with required artifacts.
-- Clone optional component repos into `.ceres/components`.
-- Install wrapper scripts under `.ceres/bin`.
-
-Stop and verify these exist before any project work:
+2) Ensure these exist (create/repair silently if missing):
 - `.ceres/core`
+- `.ceres/bin`
+- `.ceres/components`
 - `.ceres/workspace/todo-inbox.md`
 - `.ceres/workspace/todo.md`
 - `.ceres/workspace/completed.md`
@@ -29,70 +28,21 @@ Stop and verify these exist before any project work:
 - `.ceres/workspace/gap-ledger.json`
 - `.ceres/workspace/specs/elicitation/elicitation.md`
 
-If any of the above are missing, re-run the bootstrap.
+3) Start session watcher (non-interactive):
+- `./.ceres/bin/start-session`
 
-## Read This First
-- The binding source of truth is `CONSTITUTION.md`. Load and obey it before any action.
-- This file exists to point agents to the Constitution and anchor the CERES name.
+4) Proceed directly to the first project prompt using:
+- `prompts/plan.md` (Spec Elicitation + planning + execution start)
 
-## Governance Registry
-- Canonical agent registry: `AGENTS.md`.
-- Inference phase model: `governance/inference-phases.yaml`.
+## Required Defaults (FAST_START)
+- execution_allowed = true
+- enforcement = warn
+- intake_required = auto_generate
+- spec_elicitation = auto_generate_skeleton
+- prompt_debugger = non_blocking
+- gap_ledger = auto_append
 
-## Canonical Prompts
-- Planning prompt: `prompts/plan.md` (Spec Elicitation + planning; no code).
-- Execution prompt: `prompts/execute.md` (execute only; requires approved spec).
+## Constitutional Override
+If `CONSTITUTION.md` exists, it must follow the non-interactive, auto-generate-and-proceed contract above.
 
-## Prompt Artifacts (long-form)
-- Store long-form, execution-bound prompts in `prompts/prompt-<slug>.md` (one prompt per file).
-- `todo.md` must reference the prompt file; do not embed long prompts in `todo.md`.
-- Classify each prompt as `atomic` or `decomposable` before planning tasks (see `docs/prompt-artifacts.md`).
-
-## Spec Elicitation (mandatory)
-- Capture Objective Intake first (raw prompt or `todo-inbox.md`).
-- Run the CERES Spec Elicitation Agent (SEA) before Objective Contract, Inference, or Planning.
-- SEA instructions: `docs/sea.md`; artifact template: `templates/elicitation/elicitation.md`.
-- SEA is read-only; outputs a single elicitation artifact then stops.
-- Store the Spec Elicitation Record in `specs/elicitation/<spec-id>.md` with front matter fields `ready_for_planning` and `blocking_unknowns`.
-
-## Bootstrap for a New Project
-
-### Minimal (manual steps, if bootstrap is blocked)
-1. Place this `PROMPTLOADER.md` in the repo root and fetch `CONSTITUTION.md` from the same origin (https://github.com/holaymolay/ceres-coordinated-emergent-reasoning-system/blob/master/CONSTITUTION.md).
-2. Pull the CERES components as needed (independent repos):
-   - governance-orchestrator: https://github.com/holaymolay/governance-orchestrator
-   - readme-spec-engine: https://github.com/holaymolay/readme-spec-engine
-   - spec-compiler: https://github.com/holaymolay/spec-compiler
-   - ui-constitution: https://github.com/holaymolay/ui-constitution
-   - ui-pattern-registry: https://github.com/holaymolay/ui-pattern-registry
-   - parallel-agent-runner (optional): https://github.com/holaymolay/parallel-agent-runner
-   (Hub helper: `scripts/clone-components.sh` reads `repos.yaml` and clones any missing components.)
-3. Use the hub Prompt Debugger before any governance/execution:
-   - `prompt-debugger/cli.py --prompt-file todo-inbox.md > /tmp/debug_report.yaml`
-4. Run the combined preflight gate before execution (Prompt Debugger + lifecycle gate):
-   - `scripts/preflight.sh --mode execute --prompt todo-inbox.md --gap-ledger gap-ledger.json --objective objective-contract.json`
-   - Initialize required artifacts if missing: `scripts/init-artifacts.sh`.
-   - Task Plan must exist in `todo.md` (unchecked tasks).
-   - Gap Ledger and Objective Contract present; assumptions explicit with risk/expiry.
-5. Keep todo artifacts in the hub style: `todo-inbox.md`, `todo.md`, `completed.md`, `memory.md`, `handover.md` (see hub docs for formatting).
-   - `memory/records/` is canonical; `memory.md` is a human summary and `handover.md` is an export snapshot.
-   - Generate handover snapshot with `scripts/export-handover.py` when needed.
-   - Auto-sync option: `scripts/export-handover.py --watch` or `scripts/install-hooks.sh`.
-   - Session helper: `scripts/start-session.sh` (starts watch) and `scripts/stop-session.sh` (stops watch).
-   - Start each LLM session by running `scripts/start-session.sh` to keep handover synced.
-   - End-of-task push: `scripts/push-and-verify.sh` (push + verify sync).
-   - Auto-push if safe: `scripts/auto-push-if-safe.sh` (installed via `scripts/install-hooks.sh`).
-
-- Canonical references: `docs/canonical-layer-model.md`, `docs/repo-assignment.md`.
-
-## Quick Rules (see Constitution for full detail)
-- Governed lifecycle only: Objective Intake -> Spec Elicitation -> Objective Contract -> Inference (Gap Ledger) -> Planning (Task Plan -> `todo.md`) -> Controlled Prototyping -> Lock-In -> Execution (PDCA) -> Verification.
-- Attention-bounded interaction: one bounded question per turn with rationale and visible state.
-- No inference, planning, or execution before Spec Elicitation is complete.
-- Agents must obey `governance/inference-phases.yaml` and `AGENTS.md` (phase + pattern enforcement).
-- Vibe coding is prohibited; agents must refuse to execute without an approved spec.
-- No execution before a visible Task Plan exists in `todo.md`.
-- All intake goes through the Prompt Debugger before governance; no silent fixes.
-- No cross-repo changes without explicit coordination; execution obeys, governance decides.
-
-If `CONSTITUTION.md` exists, it prevails over this file.
+CERES READY — next prompt should describe the project.

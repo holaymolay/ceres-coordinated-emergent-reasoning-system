@@ -26,7 +26,7 @@ properties:
       properties:
         mode:
           type: string
-          enum: [guided, standard, professional]
+          enum: [fast-start, guided, standard, professional]
         settings:
           $ref: "#/$defs/settings"
   profiles:
@@ -41,7 +41,7 @@ properties:
           minLength: 1
         base_mode:
           type: string
-          enum: [guided, standard, professional]
+          enum: [fast-start, guided, standard, professional]
         overrides:
           $ref: "#/$defs/settings_overrides"
   session_overrides:
@@ -119,6 +119,23 @@ $defs:
       safety_level:
         type: string
         enum: [baseline, hardened, maximal]
+      execution_allowed:
+        type: boolean
+      enforcement:
+        type: string
+        enum: [warn, strict]
+      intake_required:
+        type: string
+        enum: [auto-generate, manual]
+      spec_elicitation:
+        type: string
+        enum: [auto-generate-skeleton, manual]
+      prompt_debugger:
+        type: string
+        enum: [non-blocking, blocking]
+      gap_ledger:
+        type: string
+        enum: [auto-append, manual]
     required:
       - execution_continuity
       - autonomy_level
@@ -127,6 +144,12 @@ $defs:
       - failure_handling
       - progress_signaling
       - safety_level
+      - execution_allowed
+      - enforcement
+      - intake_required
+      - spec_elicitation
+      - prompt_debugger
+      - gap_ledger
   settings_overrides:
     type: object
     additionalProperties: false
@@ -152,3 +175,20 @@ $defs:
       safety_level:
         type: string
         enum: [baseline, hardened, maximal]
+      execution_allowed:
+        type: boolean
+      enforcement:
+        type: string
+        enum: [warn, strict]
+      intake_required:
+        type: string
+        enum: [auto-generate, manual]
+      spec_elicitation:
+        type: string
+        enum: [auto-generate-skeleton, manual]
+      prompt_debugger:
+        type: string
+        enum: [non-blocking, blocking]
+      gap_ledger:
+        type: string
+        enum: [auto-append, manual]

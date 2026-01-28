@@ -99,6 +99,9 @@ copy_if_missing() {
 clone_components() {
   local dest_root="$1"
   local repos_file="$ROOT/repos.yaml"
+  if [[ ! -f "$repos_file" && -f "$CORE_DIR/repos.yaml" ]]; then
+    repos_file="$CORE_DIR/repos.yaml"
+  fi
   local org="${COMPONENT_ORG:-holaymolay}"
   [[ -f "$repos_file" ]] || { info "repos.yaml not found; skipping components"; return; }
   mkdir -p "$dest_root"
@@ -135,6 +138,9 @@ init_workspace() {
 install_wrappers() {
   local home="$1"
   local bin_src="$ROOT/.ceres/bin"
+  if [[ ! -d "$bin_src" && -d "$CORE_DIR/.ceres/bin" ]]; then
+    bin_src="$CORE_DIR/.ceres/bin"
+  fi
   local bin_dest="$home/bin"
   if [[ ! -d "$bin_src" ]]; then
     info "Wrapper source $bin_src missing; skipping wrapper install"

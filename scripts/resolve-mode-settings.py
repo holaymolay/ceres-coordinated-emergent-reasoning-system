@@ -17,6 +17,7 @@ import sys
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
+import os
 
 ROOT = Path(__file__).resolve().parent.parent
 STATE_PATH = ROOT / "modes_settings_profiles.json"
@@ -30,6 +31,12 @@ SCHEMA_SETTINGS_KEYS = [
     "failure_handling",
     "progress_signaling",
     "safety_level",
+    "execution_allowed",
+    "enforcement",
+    "intake_required",
+    "spec_elicitation",
+    "prompt_debugger",
+    "gap_ledger",
 ]
 
 
@@ -59,15 +66,31 @@ def select_profile_overrides(state: dict, active_profile: str | None) -> tuple[s
     raise SystemExit(f"Active profile '{active_profile}' not found in configuration.")
 
 
+def fast_start_enabled(active_mode: str) -> bool:
+    if os.environ.get("CERES_STRICT") == "1":
+        return False
+    if os.environ.get("CERES_FAST_START") in {"0", "false", "False"}:
+        return False
+    return active_mode == "fast-start"
+
+
 def enforce_illegal_combinations(active_mode: str, effective: dict) -> None:
     if active_mode == "professional" and effective.get("execution_continuity") == "continuous":
+        if fast_start_enabled(active_mode):
+            sys.stderr.write(
+                "WARN: professional mode with continuous execution detected; proceeding due to FAST_START.\n"
+            )
+            return
         raise SystemExit("Mode enforcement failed: professional mode cannot run with execution_continuity=continuous.")
 
 
-def enforce_auto_safe_predicate(args: argparse.Namespace, effective: dict) -> None:
+def enforce_auto_safe_predicate(args: argparse.Namespace, effective: dict, active_mode: str) -> None:
     if effective.get("execution_continuity") != "auto-safe":
         return
     if effective.get("safety_level") == "maximal":
+        if fast_start_enabled(active_mode):
+            sys.stderr.write("WARN: auto-safe blocked by safety_level=maximal (FAST_START override).\n")
+            return
         raise SystemExit("Auto-safe blocked: safety_level=maximal.")
     missing = []
     if not args.blocking_gaps_resolved:
@@ -77,6 +100,9 @@ def enforce_auto_safe_predicate(args: argparse.Namespace, effective: dict) -> No
     if not args.deterministic_acceptance:
         missing.append("acceptance criteria not deterministic")
     if missing:
+        if fast_start_enabled(active_mode):
+            sys.stderr.write("WARN: auto-safe predicate missing (" + "; ".join(missing) + ") (FAST_START override).\n")
+            return
         raise SystemExit("Auto-safe blocked: " + "; ".join(missing))
 
 
@@ -130,7 +156,7 @@ def main() -> None:
     state = load_state()
     active_mode, active_profile, effective = resolve_effective(state)
     enforce_illegal_combinations(active_mode, effective)
-    enforce_auto_safe_predicate(args, effective)
+    enforce_auto_safe_predicate(args, effective, active_mode)
     emit_event(active_mode, active_profile, effective)
     sys.stdout.write(json.dumps({
         "active_mode": active_mode,

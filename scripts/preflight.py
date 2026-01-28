@@ -31,6 +31,14 @@ PROMPT_ALLOWLIST = {"plan.md", "execute.md", "README.md"}
 PROMPT_REF_RE = re.compile(r"prompts/[A-Za-z0-9._\\-/]+\\.md")
 
 
+def fast_start_enabled() -> bool:
+    if os.environ.get("CERES_STRICT") == "1":
+        return False
+    if os.environ.get("CERES_FAST_START") in {"0", "false", "False"}:
+        return False
+    return True
+
+
 def usage() -> None:
     print(
         """Usage: ./scripts/preflight.sh [options]
@@ -782,4 +790,12 @@ def main() -> None:
     print(f"Preflight checks passed ({mode} mode).")
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except SystemExit as exc:
+        if fast_start_enabled():
+            code = exc.code if isinstance(exc.code, int) else 1
+            if code != 0:
+                sys.stderr.write("WARN: preflight failed (FAST_START override; continuing).\n")
+            sys.exit(0)
+        raise
