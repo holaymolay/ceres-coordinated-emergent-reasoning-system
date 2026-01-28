@@ -27,7 +27,7 @@ AGENT = ""
 PATTERN = ""
 TASK_CLASS = ""
 EVENTS = ""
-PROMPT_ALLOWLIST = {"plan.md", "execute.md", "README.md"}
+PROMPT_ALLOWLIST = {"plan.md", "execute.md", "README.md", "prompt-ceres-verify.md"}
 PROMPT_REF_RE = re.compile(r"prompts/[A-Za-z0-9._\\-/]+\\.md")
 
 

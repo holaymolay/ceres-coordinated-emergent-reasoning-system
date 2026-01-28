@@ -34,6 +34,9 @@ curl -fsSL https://raw.githubusercontent.com/holaymolay/ceres-coordinated-emerge
 4) Proceed directly to the first project prompt using:
 - `prompts/plan.md` (Spec Elicitation + planning + execution start)
 
+Verification prompt (when asked to confirm readiness):
+- `prompts/prompt-ceres-verify.md`
+
 ## Required Defaults (FAST_START)
 - execution_allowed = true
 - enforcement = warn
