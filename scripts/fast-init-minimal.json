@@ -1,0 +1,16 @@
+{
+  "paths": [
+    ".ceres",
+    "AGENTS.md",
+    "CONSTITUTION.md",
+    "PROMPTLOADER.md",
+    "modes_settings_profiles.json",
+    "repos.yaml",
+    "governance",
+    "prompt-debugger",
+    "prompts",
+    "schemas",
+    "scripts",
+    "templates"
+  ]
+}

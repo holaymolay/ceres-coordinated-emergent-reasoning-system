@@ -18,6 +18,7 @@ logs/
 *.jsonl
 __pycache__/
 *.pyc
+dist/
 
 # Local research notes (ignored when untracked)
 dev_notes/

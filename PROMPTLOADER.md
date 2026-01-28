@@ -7,39 +7,12 @@ Umbrella name: **CERES — Coordinated Emergent Reasoning System**.
 Do not ask questions. Do not present options. Execute the bootstrap procedure and proceed.
 
 ## Procedure (run in order)
-1) Fast init from URL into `.ceres/core` (no git clone; extract only required files):
+1) Fast init from URL into `.ceres/core` (prebuilt fast tarball):
 
 ```bash
 mkdir -p .ceres/core
-curl -fsSL https://codeload.github.com/holaymolay/ceres-coordinated-emergent-reasoning-system/tar.gz/master -o /tmp/ceres.tgz
-python - <<'PY'
-import json, tarfile, sys, os
-from pathlib import Path
-
-tar_path = Path("/tmp/ceres.tgz")
-dest = Path(".ceres/core").resolve()
-with tarfile.open(tar_path, "r:*") as tar:
-    members = tar.getmembers()
-    root = members[0].name.split("/")[0]
-    manifest_member = f"{root}/scripts/fast-init-manifest.json"
-    manifest_file = tar.extractfile(manifest_member)
-    if manifest_file is None:
-        raise SystemExit("fast-init-manifest.json not found in tarball")
-    manifest = json.loads(manifest_file.read().decode("utf-8"))
-    paths = set(p.strip("/") for p in manifest.get("paths", []))
-    prefix = root + "/"
-    for member in members:
-        name = member.name
-        if not name.startswith(prefix):
-            continue
-        rel = name[len(prefix):].lstrip("/")
-        if not rel or rel.startswith("..") or "/.." in rel:
-            continue
-        top = rel.split("/", 1)[0]
-        if top in paths or rel in paths:
-            member.name = rel
-            tar.extract(member, path=dest)
-PY
+curl -fsSL https://github.com/holaymolay/ceres-coordinated-emergent-reasoning-system/releases/latest/download/ceres-fast.tar.gz -o /tmp/ceres-fast.tgz
+tar -xzf /tmp/ceres-fast.tgz -C .ceres/core --strip-components 1
 ```
 
 2) Initialize workspace/wrappers (no components for speed):
