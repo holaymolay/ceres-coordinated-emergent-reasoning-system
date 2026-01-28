@@ -36,6 +36,13 @@ To make CERES fully functional in a new repo, you must pull the hub and initiali
 scripts/bootstrap-workspace.sh --components
 ```
 
+If you do not yet have the hub scripts in the repo, use this one-liner to fetch and run the bootstrap:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/holaymolay/ceres-coordinated-emergent-reasoning-system/master/scripts/bootstrap-workspace.sh \
+  -o /tmp/ceres-bootstrap.sh && bash /tmp/ceres-bootstrap.sh --components
+```
+
 This installs:
 - `.ceres/core` (hub repo)
 - `.ceres/workspace` (todo/memory/elicitation/gap/objective artifacts)
