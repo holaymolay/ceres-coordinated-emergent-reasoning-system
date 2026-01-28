@@ -29,8 +29,8 @@ Umbrella name: **CERES — Coordinated Emergent Reasoning System** (final; no al
 
 ## Bootstrap for a New Project
 
-### Recommended (full hub bootstrap)
-Run the workspace bootstrap to pull the CERES hub and initialize a workspace with required artifacts:
+### Required (full hub bootstrap for functional CERES)
+To make CERES fully functional in a new repo, you must pull the hub and initialize a workspace:
 
 ```bash
 scripts/bootstrap-workspace.sh --components
@@ -41,6 +41,8 @@ This installs:
 - `.ceres/workspace` (todo/memory/elicitation/gap/objective artifacts)
 - `.ceres/components` (optional component repos)
 - wrapper scripts under `.ceres/bin`
+
+If you only copied `PROMPTLOADER.md` and `CONSTITUTION.md`, first pull the hub or fetch the bootstrap script from the hub repo, then run it. PROMPTLOADER alone does not include the runtime, schemas, or scripts needed for a functional system.
 
 ### Minimal (manual steps)
 1. Place this `PROMPTLOADER.md` in the repo root and fetch `CONSTITUTION.md` from the same origin (https://github.com/holaymolay/ceres-coordinated-emergent-reasoning-system/blob/master/CONSTITUTION.md).
