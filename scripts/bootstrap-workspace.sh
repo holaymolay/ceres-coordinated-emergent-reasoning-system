@@ -79,6 +79,17 @@ detect_root() {
   ROOT="$PWD"
 }
 
+normalize_root() {
+  if [[ "$ROOT" == *"/.ceres/"* || "$ROOT" == */.ceres ]]; then
+    local prefix
+    prefix="${ROOT%%/.ceres*}"
+    if [[ -n "$prefix" ]]; then
+      warn "Detected ROOT inside .ceres; normalizing to $prefix"
+      ROOT="$prefix"
+    fi
+  fi
+}
+
 ensure_git_worktree() {
   if git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     return
@@ -252,6 +263,7 @@ install_wrappers() {
 
 require_git
 detect_root
+normalize_root
 ROOT="$(CDPATH= cd -- "$ROOT" && pwd)"
 detect_core_ref
 ensure_git_worktree
