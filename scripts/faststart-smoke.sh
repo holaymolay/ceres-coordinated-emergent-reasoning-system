@@ -2,8 +2,17 @@
 set -euo pipefail
 
 ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
-CERES_HOME="$ROOT/.ceres"
-WORKSPACE="$CERES_HOME/workspace"
+if [[ "$ROOT" == *"/.ceres/"* || "$ROOT" == */.ceres ]]; then
+  prefix="${ROOT%%/.ceres*}"
+  if [[ -n "$prefix" ]]; then
+    ROOT="$prefix"
+  fi
+fi
+if [[ -n "${CERES_HOME:-}" && "$CERES_HOME" == */.ceres ]]; then
+  ROOT="$(CDPATH= cd -- "${CERES_HOME%/.ceres}" && pwd)"
+fi
+CERES_HOME="${CERES_HOME:-$ROOT/.ceres}"
+WORKSPACE="${CERES_WORKSPACE:-$CERES_HOME/workspace}"
 
 fail() { echo "FAIL: $*" >&2; exit 1; }
 

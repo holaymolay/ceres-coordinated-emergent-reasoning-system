@@ -29,7 +29,7 @@ resolve_script() {
     echo "$CORE_DIR/scripts/$candidate"
     return 0
   fi
-  if [[ -x "$CORE_DIR/scripts/${candidate%.py}.py" ]]; then
+  if [[ -f "$CORE_DIR/scripts/${candidate%.py}.py" ]]; then
     check_core_lock
     echo "$CORE_DIR/scripts/${candidate%.py}.py"
     return 0
@@ -38,7 +38,7 @@ resolve_script() {
     echo "$REPO_ROOT/scripts/$candidate"
     return 0
   fi
-  if [[ -x "$REPO_ROOT/scripts/${candidate%.py}.py" ]]; then
+  if [[ -f "$REPO_ROOT/scripts/${candidate%.py}.py" ]]; then
     echo "$REPO_ROOT/scripts/${candidate%.py}.py"
     return 0
   fi

@@ -2,6 +2,15 @@
 set -euo pipefail
 
 ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+if [[ "$ROOT" == *"/.ceres/"* || "$ROOT" == */.ceres ]]; then
+  prefix="${ROOT%%/.ceres*}"
+  if [[ -n "$prefix" ]]; then
+    ROOT="$prefix"
+  fi
+fi
+if [[ -n "${CERES_HOME:-}" && "$CERES_HOME" == */.ceres ]]; then
+  ROOT="$(CDPATH= cd -- "${CERES_HOME%/.ceres}" && pwd)"
+fi
 
 if [[ -f "$ROOT/scripts/auto-governance.py" ]]; then
   if command -v python3 >/dev/null 2>&1; then

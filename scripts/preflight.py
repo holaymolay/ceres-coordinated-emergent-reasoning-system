@@ -12,7 +12,28 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+def resolve_root() -> Path:
+    root = Path(__file__).resolve().parent.parent
+    env_home = os.environ.get("CERES_HOME")
+    if env_home:
+        try:
+            env_path = Path(env_home).resolve()
+            if env_path.name == ".ceres":
+                return env_path.parent
+        except Exception:
+            pass
+    if root.name == "core" and root.parent.name == ".ceres":
+        return root.parent.parent
+    if ".ceres" in root.parts:
+        try:
+            idx = root.parts.index(".ceres")
+            return Path(*root.parts[:idx])
+        except Exception:
+            pass
+    return root
+
+
+ROOT = resolve_root()
 
 MODE = "execute"
 PROMPT_FILE = "todo-inbox.md"
