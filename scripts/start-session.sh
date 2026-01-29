@@ -2,6 +2,15 @@
 set -euo pipefail
 
 ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+if [[ "$ROOT" == *"/.ceres/"* || "$ROOT" == */.ceres ]]; then
+  prefix="${ROOT%%/.ceres*}"
+  if [[ -n "$prefix" ]]; then
+    ROOT="$prefix"
+  fi
+fi
+if [[ -n "${CERES_HOME:-}" && "$CERES_HOME" == */.ceres ]]; then
+  ROOT="$(CDPATH= cd -- "${CERES_HOME%/.ceres}" && pwd)"
+fi
 CERES_HOME="${CERES_HOME:-$ROOT/.ceres}"
 
 # Auto-bootstrap if available (non-blocking).
@@ -15,7 +24,11 @@ elif [[ -z "${CERES_AUTObOOTSTRAP_RUNNING:-}" && -x "$ROOT/scripts/autobootstrap
   set -e
 fi
 
-LOG_DIR="logs"
+if [[ -n "${CERES_WORKSPACE:-}" && -d "$CERES_WORKSPACE" ]]; then
+  LOG_DIR="$CERES_WORKSPACE/logs"
+else
+  LOG_DIR="$ROOT/logs"
+fi
 PID_FILE="$LOG_DIR/handover-watch.pid"
 LOG_FILE="$LOG_DIR/handover-watch.log"
 

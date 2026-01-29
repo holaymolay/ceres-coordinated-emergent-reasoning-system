@@ -35,6 +35,18 @@ def resolve_root() -> Path:
 
 ROOT = resolve_root()
 
+
+def resolve_prompt_debugger() -> Path:
+    candidates = [ROOT / "prompt-debugger" / "cli.py"]
+    env_home = os.environ.get("CERES_HOME")
+    if env_home:
+        candidates.append(Path(env_home) / "core" / "prompt-debugger" / "cli.py")
+    candidates.append(ROOT / ".ceres" / "core" / "prompt-debugger" / "cli.py")
+    for path in candidates:
+        if path.is_file():
+            return path
+    raise SystemExit("Prompt debugger not found (expected prompt-debugger/cli.py).")
+
 MODE = "execute"
 PROMPT_FILE = "todo-inbox.md"
 REPORT_FILE = str(ROOT / "logs" / "prompt-debug-report.yaml")
@@ -487,8 +499,9 @@ def main() -> None:
         sys.exit(1)
 
     report_file.parent.mkdir(parents=True, exist_ok=True)
+    debugger = resolve_prompt_debugger()
     result = subprocess.run(
-        [str(ROOT / "prompt-debugger" / "cli.py"), "--prompt-file", str(prompt_file)],
+        [str(debugger), "--prompt-file", str(prompt_file)],
         stdout=report_file.open("w", encoding="utf-8"),
         stderr=subprocess.PIPE,
         text=True,

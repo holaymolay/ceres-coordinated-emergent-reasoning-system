@@ -11,6 +11,7 @@ fi
 if [[ -n "${CERES_HOME:-}" && "$CERES_HOME" == */.ceres ]]; then
   ROOT="$(CDPATH= cd -- "${CERES_HOME%/.ceres}" && pwd)"
 fi
+CERES_HOME="${CERES_HOME:-$ROOT/.ceres}"
 
 if [[ -f "$ROOT/scripts/auto-governance.py" ]]; then
   if command -v python3 >/dev/null 2>&1; then
@@ -230,7 +231,16 @@ if [[ ! -f "$PROMPT_FILE" ]]; then
   exit 1
 fi
 
-"$ROOT/prompt-debugger/cli.py" --prompt-file "$PROMPT_FILE" > "$REPORT_FILE"
+PROMPT_DEBUGGER="$ROOT/prompt-debugger/cli.py"
+if [[ ! -f "$PROMPT_DEBUGGER" && -f "$CERES_HOME/core/prompt-debugger/cli.py" ]]; then
+  PROMPT_DEBUGGER="$CERES_HOME/core/prompt-debugger/cli.py"
+fi
+if [[ ! -f "$PROMPT_DEBUGGER" ]]; then
+  echo "Prompt debugger not found: $PROMPT_DEBUGGER" >&2
+  exit 1
+fi
+
+python3 "$PROMPT_DEBUGGER" --prompt-file "$PROMPT_FILE" > "$REPORT_FILE"
 
 python - <<'PY' "$REPORT_FILE"
 import json

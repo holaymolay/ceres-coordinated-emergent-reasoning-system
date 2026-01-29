@@ -13,6 +13,11 @@ if [[ -n "${CERES_HOME:-}" && "$CERES_HOME" == */.ceres ]]; then
 fi
 CERES_HOME="${CERES_HOME:-$ROOT/.ceres}"
 WORKSPACE="${CERES_WORKSPACE:-$CERES_HOME/workspace}"
+if [[ -n "${CERES_WORKSPACE:-}" && -d "$CERES_WORKSPACE" ]]; then
+  LOG_DIR="$CERES_WORKSPACE/logs"
+else
+  LOG_DIR="$ROOT/logs"
+fi
 
 fail() { echo "FAIL: $*" >&2; exit 1; }
 
@@ -33,7 +38,7 @@ for path in \
   [[ -e "$path" ]] || fail "missing: $path"
 done
 
-PID_FILE="$ROOT/logs/handover-watch.pid"
+PID_FILE="$LOG_DIR/handover-watch.pid"
 if [[ -f "$PID_FILE" ]]; then
   PID="$(cat "$PID_FILE")"
   if [[ -n "$PID" ]] && kill -0 "$PID" 2>/dev/null; then
