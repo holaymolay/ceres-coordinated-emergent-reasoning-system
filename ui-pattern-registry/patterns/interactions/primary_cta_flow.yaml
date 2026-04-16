@@ -1,0 +1,63 @@
+schema_version: 0.1.0
+pattern_id: interaction_primary_cta_flow
+name: Primary CTA Flow
+category: interaction
+version: 0.1.0
+status: stable
+summary: Single decisive CTA with optional inline confirmation and fallback.
+description: Focused interaction pattern that routes users through one primary action with clear feedback and an optional alternate path.
+roles:
+  required_roles:
+    - trigger
+    - feedback
+  optional_roles:
+    - alternate_action
+    - follow_up
+structure:
+  max_nesting_depth: 0
+  required_parts:
+    - id: trigger
+      role: Initiate the primary action.
+      description: Single action control with deterministic outcome.
+      min_items: 1
+      max_items: 1
+    - id: feedback
+      role: Present immediate, concise status after activation.
+      description: Inline confirmation or error state tied to the trigger.
+      min_items: 1
+      max_items: 1
+  optional_parts:
+    - id: alternate_action
+      role: Offer a clearly secondary path (e.g., defer or learn more).
+      description: Secondary control with lower emphasis than the trigger.
+      min_items: 0
+      max_items: 1
+    - id: follow_up
+      role: Provide optional next-step prompt after success.
+      description: Contextual follow-up action or navigation.
+      min_items: 0
+      max_items: 1
+variants:
+  - id: confirmation_inline
+    summary: Inline confirmation state rendered in place of the trigger on success.
+    allowed_when:
+      - The action completes within the current surface without navigation.
+usage_constraints:
+  allowed_page_goals:
+    - conversion_prompt
+    - upsell_entry
+    - session_transition
+  allowed_interaction_density: low
+  forbidden_intents:
+    - multi_step_checkout
+    - bulk_editing
+  animation_allowed: true
+  composability:
+    allowed_child_categories: []
+    allowed_parent_categories:
+      - layout
+      - composition
+    allowed_child_pattern_ids: []
+    forbidden_child_pattern_ids: []
+    requires_parent_pattern_ids: []
+    incompatible_with: []

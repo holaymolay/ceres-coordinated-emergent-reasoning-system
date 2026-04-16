@@ -1,0 +1,41 @@
+apiVersion: concept/v1
+kind: Concept
+
+id: ui-pattern-registry
+name: UI Pattern Registry
+version: 0.1.0
+description: Machine-readable registry of allowable UI patterns for LLM-driven UI generation, covering structure and usage constraints only.
+
+governance:
+  specId: "999bd713-5142-49b2-92d9-f22b1ceea0f4"
+  skills: []
+
+purpose:
+  summary: Define and validate a finite vocabulary of structural UI patterns to reduce variance and prevent structural hallucination across LLM-driven renderers.
+  nonGoals:
+    - Provide visual styling tokens or design system primitives
+    - Implement rendering logic or framework-specific components
+    - Encode agent prompts or workflow orchestration
+
+owners:
+  - codex-cli
+
+handlers:
+  - id: pattern-schema
+    path: schemas/pattern.schema.json
+  - id: pattern-definitions
+    path: patterns/
+  - id: validation-script
+    path: scripts/validate-patterns.js
+  - id: documentation
+    path: docs/purpose.md
+
+validation:
+  patternSchema: schemas/pattern.schema.json
+
+state:
+  schema: null
+
+dependencies:
+  concepts: []
+  synchronizations: []

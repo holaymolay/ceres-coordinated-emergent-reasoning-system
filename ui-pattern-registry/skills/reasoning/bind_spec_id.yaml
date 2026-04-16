@@ -1,0 +1,16 @@
+skill_name: bind_spec_id
+skill_type: reasoning
+description: Bind exactly one approved spec ID to the task context before planning.
+inputs:
+  - user_request
+  - approved_spec_ids
+  - active_spec
+transformations:
+  - Select the single approved spec ID as the active spec reference.
+  - Drop any unapproved or duplicate spec references from context.
+guarantees:
+  - One approved spec ID is bound to the task context.
+  - All downstream reasoning references the bound spec ID.
+failure_conditions:
+  - No approved spec ID is provided.
+  - Multiple spec IDs are provided without a single approved binding.

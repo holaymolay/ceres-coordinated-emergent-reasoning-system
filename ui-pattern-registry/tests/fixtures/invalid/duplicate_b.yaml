@@ -1,0 +1,33 @@
+schema_version: 0.1.0
+pattern_id: fixture_duplicate_pattern
+name: Duplicate Pattern B
+category: composition
+version: 0.1.0
+status: draft
+description: Second instance sharing the same pattern_id to trigger duplication error.
+roles:
+  required_roles:
+    - primary_unit
+structure:
+  max_nesting_depth: 0
+  required_parts:
+    - id: primary_unit
+      role: Required structural unit.
+      description: Duplicate counterpart.
+      min_items: 1
+      max_items: 1
+usage_constraints:
+  allowed_page_goals:
+    - testing
+  allowed_interaction_density: low
+  forbidden_intents:
+    - none
+  animation_allowed: false
+  composability:
+    allowed_child_categories: []
+    allowed_parent_categories:
+      - composition
+    allowed_child_pattern_ids: []
+    forbidden_child_pattern_ids: []
+    requires_parent_pattern_ids: []
+    incompatible_with: []
