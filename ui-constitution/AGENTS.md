@@ -1,4 +1,4 @@
-**Hub entry:** Load CERES via the umbrella `PROMPTLOADER.md` + `CONSTITUTION.md` (hub repo) and use hub todo templates/init script when bootstrapping; this component stays independent and is pulled via hub clone/run scripts.
+**Hub entry:** Load CERES via the umbrella `PROMPTLOADER.md` + `CONSTITUTION.md` (hub repo) and use hub todo templates/init script when bootstrapping; this component is a directory in the CERES monorepo.
 
 
 Use `docs/wiki/index.md` strictly as a navigation layer; it summarizes (never overrides) the authoritative specs, Skills, Concepts, and Synchronizations defined in this file.
@@ -47,11 +47,11 @@ Use environment-specific config files when the stack supports them (e.g., `.env.
 ## Security Guidelines
 - Follow the security hardening playbook in `docs/security.md` for handling secrets, access control, dependency hygiene, and incident response.
 - Engage the Security Agent for any change that touches authentication, authorization, or data classification; document approvals in PR notes or `handover.md`.
-- For Codex automation, adhere to the governance framework in `docs/agents.md` so PDCA workflows, spec usage, and security controls stay aligned.
+- For automation, adhere to the governance framework in `docs/agents.md` so PDCA workflows, spec usage, and security controls stay aligned.
 
 ## Skills Layer
 
-Skills are reusable, first-class capability bundles. In this repository, Skills are deterministic, stateless tool packages (schema-defined JSON stdin/stdout) that execute without any LLM present; agents/LLMs select and parameterize Skills, while execution is handled by the Skill runtime implementation.
+Skills are reusable, first-class capability bundles. In this component, Skills are deterministic, stateless tool packages (schema-defined JSON stdin/stdout) that execute without any LLM present; agents/LLMs select and parameterize Skills, while execution is handled by the Skill runtime implementation.
 
 - Skills live under `/skills/` and must follow `/skills/_template/SKILL.template.md`.
 - Every Skill declares the Concept(s) it supports, the governing spec IDs, required Synchronization contracts, PDCA touchpoints, validation steps, and security notes.
@@ -300,11 +300,11 @@ This section summarizes project-specific agent responsibilities and orchestratio
 - **Dependencies**: Each agent declares dependencies to avoid hidden coupling.
 - **Context Ledgers**: Every agent maintains `docs/context/<agent>.md`; pruning/archival flows and inter-agent requests must follow `docs/context-management.md`.
 
-## Codex Task Execution Rules
-- Codex must never modify more than one Concept per commit.
+## Agent Task Execution Rules
+- Agents must never modify more than one Concept per commit.
 - Before implementation begins, search the Skill library and cite the selected Skill (or absence) in `todo/backlog/completed` entries, specs, and handover notes.
 - All LLM prompts must include the active Concept manifest and any referenced Synchronization contracts, plus the bound Skill instructions.
-- Codex must write generated logic only into the designated Concept folder.
+- Agents must write generated logic only into the designated Concept folder.
 - Any new cross-concept dependency must first produce a synchronization YAML for review.
 - Skills must be updated via PR (never in-line edits) and reviewed like specs/manifests.
 - Run the Reasoning Skills pipeline after Clarification Gate and before planning; the Planner may not override reasoning guarantees.
