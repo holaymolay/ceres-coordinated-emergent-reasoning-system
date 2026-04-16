@@ -11,12 +11,10 @@ ROOT=""
 DEFAULT_CORE_URL="${CORE_URL:-https://github.com/holaymolay/ceres-coordinated-emergent-reasoning-system.git}"
 DEFAULT_CORE_REF="${CORE_REF:-}"
 DEFAULT_WORKSPACE=".ceres/workspace"
-COMPONENTS=false
 CORE_URL="$DEFAULT_CORE_URL"
 CORE_REF="$DEFAULT_CORE_REF"
 WORKSPACE_REL="$DEFAULT_WORKSPACE"
 FORCE_CORE_REF=false
-NO_COMPONENTS=false
 GIT_WAS_INIT=false
 
 usage() {
@@ -27,8 +25,6 @@ Options:
   --core-url <url>        Core repo URL (default: https://github.com/holaymolay/ceres-coordinated-emergent-reasoning-system.git)
   --core-ref <ref>        Core tag/branch/commit to pin (default: remote HEAD)
   --workspace <path>      Workspace path (default: .ceres/workspace)
-  --components            Clone component repos from repos.yaml into .ceres/components
-  --no-components         Skip cloning components (faster init)
   --root <path>           Target repo root (default: git root or current directory)
   --force-core-ref        If core exists, reset checkout to the requested ref (otherwise leave as-is)
   -h|--help               Show this help
@@ -40,8 +36,6 @@ while [[ $# -gt 0 ]]; do
     --core-url) CORE_URL="$2"; shift 2;;
     --core-ref) CORE_REF="$2"; shift 2;;
     --workspace) WORKSPACE_REL="$2"; shift 2;;
-    --components) COMPONENTS=true; shift;;
-    --no-components) NO_COMPONENTS=true; shift;;
     --root) ROOT_OVERRIDE="$2"; shift 2;;
     --force-core-ref) FORCE_CORE_REF=true; shift;;
     -h|--help) usage; exit 0;;
@@ -152,38 +146,6 @@ copy_if_missing() {
   fi
 }
 
-clone_components() {
-  local dest_root="$1"
-  local repos_file="$ROOT/repos.yaml"
-  if [[ ! -f "$repos_file" && -f "$CORE_DIR/repos.yaml" ]]; then
-    repos_file="$CORE_DIR/repos.yaml"
-  fi
-  local org="${COMPONENT_ORG:-holaymolay}"
-  [[ -f "$repos_file" ]] || { info "repos.yaml not found; skipping components"; return; }
-  mkdir -p "$dest_root"
-  local max_jobs="${COMPONENTS_PARALLEL:-4}"
-  local jobs=0
-  awk '
-    /^- name:/ { name=$3 }
-    /local_path:/ { local_path=$2; print name "|" local_path }
-  ' "$repos_file" | while IFS='|' read -r NAME LOCAL_PATH; do
-    [[ -z "$NAME" || -z "$LOCAL_PATH" ]] && continue
-    local target="$dest_root/$LOCAL_PATH"
-    if [[ -d "$target/.git" ]]; then
-      info "Component present: $target"
-      continue
-    fi
-    local remote="https://github.com/${org}/${NAME}.git"
-    info "Cloning $NAME -> $target from $remote"
-    git clone "$remote" "$target" &
-    jobs=$((jobs + 1))
-    if [[ "$jobs" -ge "$max_jobs" ]]; then
-      wait -n 2>/dev/null || wait
-      jobs=$((jobs - 1))
-    fi
-  done
-  wait 2>/dev/null || true
-}
 
 init_workspace() {
   local workspace="$1"
@@ -272,7 +234,6 @@ CERES_HOME_DIR="$ROOT/.ceres"
 WORKSPACE_DIR="$(abs_path "$WORKSPACE_REL")"
 CORE_DIR="$CERES_HOME_DIR/core"
 CORE_LOCK="$CERES_HOME_DIR/core.lock"
-COMPONENTS_DIR="$CERES_HOME_DIR/components"
 CORE_SUBMODULE_PATH=".ceres/core"
 
 mkdir -p "$CERES_HOME_DIR"
@@ -305,10 +266,6 @@ fi
 write_core_lock "$CORE_DIR" "$CORE_LOCK" "$CORE_URL" "$CORE_REF"
 init_workspace "$WORKSPACE_DIR"
 install_wrappers "$CERES_HOME_DIR"
-
-if [[ "$COMPONENTS" == "true" ]]; then
-  clone_components "$COMPONENTS_DIR"
-fi
 
 info "Bootstrap complete."
 echo "CERES_HOME=$CERES_HOME_DIR"

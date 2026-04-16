@@ -1,16 +1,14 @@
-# Canonical Repo Assignment (Authoritative)
+# Canonical Layer Assignment (Authoritative)
 
-This is the mechanical mapping from layers to repos. No theory.
-Status note: Conceptual repos are explicitly marked as embedded until extracted.
+This is the mechanical mapping from layers to directories. All components live in a single monorepo.
 
-## 1) Umbrella Repo — Ecosystem Coordinator
-**CERES hub (this repo)**
+## 1) Hub (repo root)
 
 Owns / coordinates:
 - Layer 1 — Intent Intake
 - Layer 2 — Spec Elicitation (artifacts + prompts)
 - Layer 4 — Task Materialization & Visibility
-- Cross-cutting wiring between repos
+- Cross-cutting wiring between components
 
 Responsibilities:
 - Human-facing entry point (CLI, chat, inbox)
@@ -22,13 +20,12 @@ Responsibilities:
 - Zero business logic
 - Zero agent execution
 
-This repo answers:
+This layer answers:
 - What is happening and why?
 
 ---
 
-## 2) Governance & Orchestration Repo
-**governance-orchestrator**
+## 2) Governance & Orchestration — `governance-orchestrator/`
 
 Owns:
 - Layer 3 — Inference & Gap Analysis
@@ -42,14 +39,12 @@ Responsibilities:
 - Arbitration logic
 - Rejects invalid work early
 
-This repo answers:
+This layer answers:
 - Is this allowed, coherent, and correctly scoped?
 
 ---
 
-## 3) Execution / Agent Runtime Repo
-**Codex-facing runtime (model-specific)**
-Status: Embedded for now (execution occurs via external runtimes; no standalone repo yet).
+## 3) Execution / Agent Runtime (embedded)
 
 Owns:
 - Layer 6 — Execution (Agent Layer)
@@ -60,14 +55,12 @@ Responsibilities:
 - Single-concept enforcement
 - No authority over scope or routing
 
-This repo answers:
+This layer answers:
 - Execute this exact, approved task.
 
 ---
 
-## 4) Observability & Telemetry Repo
-**Embedded for now; extract later**
-Status: Embedded for now (hooks live in hub; extract once schemas stabilize).
+## 4) Observability & Telemetry (embedded in hub)
 
 Owns:
 - Layer 8 — Observability & Telemetry
@@ -76,19 +69,17 @@ Responsibilities:
 - Metrics
 - Logs
 - Drift detection
-- Cross-repo visibility
+- Cross-component visibility
 
 Hard rule:
 - Execution cannot silence this layer
 
-This repo answers:
+This layer answers:
 - What actually happened?
 
 ---
 
-## 5) Security & Access Repo
-**Policy + enforcement artifacts**
-Status: Embedded for now (policy artifacts remain in hub until enforcement exists).
+## 5) Security & Access (embedded in hub)
 
 Scope:
 - Cross-cutting enforcement invoked by every layer
@@ -99,14 +90,12 @@ Responsibilities:
 - Abort rules
 - Review gates
 
-This repo answers:
+This layer answers:
 - Is this permitted at all?
 
 ---
 
-## 6) Spec Library Repo
-**Immutable knowledge base**
-Status: Embedded for now (specs live across hub/components; extract after canonical catalog exists).
+## 6) Spec Library (embedded in hub)
 
 Owns:
 - Layer 9 — Spec Library & Memory
@@ -120,14 +109,27 @@ Responsibilities:
 Hard rule:
 - No execution without a spec reference
 
-This repo answers:
+This layer answers:
 - What does correct mean?
 
 ---
 
-## Critical invariant (do not violate)
-- The umbrella repo coordinates.
-- The governance repo decides.
-- The execution repo obeys.
+## Component directories
 
-If any repo both decides and executes, the system collapses.
+| Directory | Role |
+|---|---|
+| `governance-orchestrator/` | Governance & orchestration |
+| `readme-spec-engine/` | Spec-driven README generator/validator |
+| `spec-compiler/` | Intent-to-spec compiler pipeline |
+| `ui-constitution/` | Machine-readable UI constraints |
+| `ui-pattern-registry/` | Approved UI patterns for LLM-driven front ends |
+| `parallel-agent-runner/` | Parallel agent execution runner |
+
+---
+
+## Critical invariant (do not violate)
+- The hub coordinates.
+- The governance layer decides.
+- The execution layer obeys.
+
+If any layer both decides and executes, the system collapses.

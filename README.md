@@ -38,14 +38,15 @@ CERES is for people who want AI to help build real projects that last — not ju
 
 CERES is bootstrapped and used through an AI coding agent.
 
-To get started — including non-coder instructions using VS Code and Codex — follow the guided setup here:
+To get started with the current repo state:
 
-➡️ **Start with:** `GETTING_STARTED.md`
+➡️ **Start with:** `PROMPTLOADER.md` for bootstrap behavior  
+➡️ **Then read:** `DOCS.md` for the current documentation map
 
-That guide explains:
-- how to prepare a project folder
-- how the AI adopts CERES for that project
-- how to recover if something stops working
+Those documents explain:
+- how the AI adopts CERES for the project
+- where the authoritative governance docs live
+- which wrapper/bootstrap path is current
 ---
 
 ---
@@ -121,24 +122,22 @@ This structure is why CERES is good at long projects where normal AI usage break
 
 ## What this repo is
 
-This repository is the **CERES coordination hub**:
+This repository is the **CERES monorepo** — all components live here:
 - documentation and conventions
 - schemas and artifacts
 - lightweight scripts
-
-CERES is designed as an ecosystem: this hub is the entrypoint, and additional components can live as independent repos with their own release cycles.
+- all component directories
 
 ---
 
 ## Core components (high-level)
 
-CERES is built to support independent components like:
-
-- `governance-orchestrator` — governance/orchestration for coding agents  
-- `readme-spec-engine` — spec-driven README generator/validator  
-- `spec-compiler` — turns clarified intent into governed specs  
-- `ui-constitution` — machine-readable UI constraints  
-- `ui-pattern-registry` — approved UI patterns for LLM-driven front ends  
+- `governance-orchestrator/` — governance/orchestration for coding agents  
+- `readme-spec-engine/` — spec-driven README generator/validator  
+- `spec-compiler/` — turns clarified intent into governed specs  
+- `ui-constitution/` — machine-readable UI constraints  
+- `ui-pattern-registry/` — approved UI patterns for LLM-driven front ends  
+- `parallel-agent-runner/` — parallel agent execution runner  
 
 ---
 
