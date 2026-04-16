@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "1.0.0",
+  "intentId": "intent-001",
+  "intentVersion": "1.0.0",
+  "createdAt": "2025-01-01T00:00:00Z",
+  "page_goal": "convert",
+  "audience_sophistication": "medium",
+  "brand_traits": ["trustworthy", "precise", "calm"],
+  "interaction_density": "moderate",
+  "expressiveness_tolerance": "conservative",
+  "accessibility_floor": "wcag-2.2-aa"
+}

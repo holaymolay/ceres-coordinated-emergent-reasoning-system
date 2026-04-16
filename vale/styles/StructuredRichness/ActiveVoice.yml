@@ -1,0 +1,7 @@
+extends: existence
+message: "Prefer active voice."
+level: warning
+scope: sentence
+ignorecase: true
+tokens:
+  - "\\b(?:was|were|is|are|be|been|being)\\b\\s+\\b\\w+(?:ed|en)\\b"

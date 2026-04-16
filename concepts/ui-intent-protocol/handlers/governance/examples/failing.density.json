@@ -1,0 +1,124 @@
+{
+  "id": "intent-form-002",
+  "type": "form.create",
+  "schemaVersion": "1.0.0",
+  "purpose": {
+    "summary": "Collect extended profile data"
+  },
+  "components": {
+    "fields": [
+      {
+        "id": "field_1",
+        "label": "Field 1",
+        "kind": "text"
+      },
+      {
+        "id": "field_2",
+        "label": "Field 2",
+        "kind": "text"
+      },
+      {
+        "id": "field_3",
+        "label": "Field 3",
+        "kind": "text"
+      },
+      {
+        "id": "field_4",
+        "label": "Field 4",
+        "kind": "text"
+      },
+      {
+        "id": "field_5",
+        "label": "Field 5",
+        "kind": "text"
+      },
+      {
+        "id": "field_6",
+        "label": "Field 6",
+        "kind": "text"
+      },
+      {
+        "id": "field_7",
+        "label": "Field 7",
+        "kind": "text"
+      },
+      {
+        "id": "field_8",
+        "label": "Field 8",
+        "kind": "text"
+      },
+      {
+        "id": "field_9",
+        "label": "Field 9",
+        "kind": "text"
+      },
+      {
+        "id": "field_10",
+        "label": "Field 10",
+        "kind": "text"
+      },
+      {
+        "id": "field_11",
+        "label": "Field 11",
+        "kind": "text"
+      },
+      {
+        "id": "field_12",
+        "label": "Field 12",
+        "kind": "text"
+      },
+      {
+        "id": "field_13",
+        "label": "Field 13",
+        "kind": "text"
+      },
+      {
+        "id": "field_14",
+        "label": "Field 14",
+        "kind": "text"
+      },
+      {
+        "id": "field_15",
+        "label": "Field 15",
+        "kind": "text"
+      },
+      {
+        "id": "field_16",
+        "label": "Field 16",
+        "kind": "text"
+      },
+      {
+        "id": "field_17",
+        "label": "Field 17",
+        "kind": "text"
+      },
+      {
+        "id": "field_18",
+        "label": "Field 18",
+        "kind": "text"
+      },
+      {
+        "id": "field_19",
+        "label": "Field 19",
+        "kind": "text"
+      },
+      {
+        "id": "field_20",
+        "label": "Field 20",
+        "kind": "text"
+      }
+    ],
+    "columns": [],
+    "actions": [
+      {
+        "id": "submit",
+        "label": "Submit",
+        "intent": "submit"
+      }
+    ]
+  },
+  "formId": "profile-form",
+  "metadata": {
+    "designCapability": "baseline"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "body": null,
+  "errors": [
+    {
+      "code": "missing_description",
+      "message": "Missing required frontmatter field: description"
+    },
+    {
+      "code": "invalid_name_format",
+      "message": "name must be hyphen-case: lowercase letters, digits, and hyphens only"
+    }
+  ],
+  "frontmatter": {
+    "name": "not_valid_for_compat"
+  },
+  "ok": false,
+  "profile": "compat",
+  "source": {
+    "mode": "path",
+    "path": "fixtures/invalid/SKILL.md"
+  },
+  "warnings": []
+}

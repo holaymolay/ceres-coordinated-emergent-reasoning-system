@@ -1,0 +1,16 @@
+{
+  "body": null,
+  "errors": [],
+  "frontmatter": {
+    "description": "Example skill card used for deterministic parsing tests.",
+    "license": "Example license",
+    "name": "example-skill"
+  },
+  "ok": true,
+  "profile": "compat",
+  "source": {
+    "mode": "path",
+    "path": "fixtures/valid/SKILL.md"
+  },
+  "warnings": []
+}

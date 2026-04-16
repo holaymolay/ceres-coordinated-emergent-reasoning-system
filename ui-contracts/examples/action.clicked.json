@@ -1,0 +1,13 @@
+{
+  "id": "9d675d43-1370-4d9b-8c74-5b0dfdf7a2df",
+  "ts": "2025-12-24T18:05:00.000Z",
+  "uiSessionId": "session-123",
+  "intentId": "intent-form-create-001",
+  "type": "action.clicked",
+  "payload": {
+    "actionId": "submit",
+    "label": "Create profile"
+  },
+  "schemaVersion": "1.0.0",
+  "idempotencyKey": "action-submit:session-123:1"
+}

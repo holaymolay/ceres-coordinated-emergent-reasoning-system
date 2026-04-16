@@ -1,0 +1,36 @@
+apiVersion: sync/v1
+kind: Synchronization
+
+id: ui-event-sync
+name: UI Event Synchronization Template
+version: 1.0.0
+
+description: Route UI event inputs into Concept handlers via explicit mapping and constraints.
+
+trigger:
+  source: ui_event
+  field: type
+  match:
+    - form.submitted
+
+participants:
+  - concept: <concept-name>
+    handler: <handler-id>
+
+mapping:
+  source: ui_event
+  target:
+    schema: <concept-input-schema>
+    fields:
+      intentId: intentId
+      uiSessionId: uiSessionId
+      eventType: type
+      payload: payload
+
+constraints:
+  atomicity: true
+  idempotent: true
+  authScope: <required-scope>
+
+rules:
+  - UI events are inputs only; Concepts own state mutations.

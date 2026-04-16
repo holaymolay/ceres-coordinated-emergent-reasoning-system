@@ -1,0 +1,36 @@
+apiVersion: sync/v1
+kind: Synchronization
+
+id: ui-event-sync-profile
+name: UI Event Synchronization (Profile Create)
+version: 1.0.0
+
+description: Route profile form submissions into the profile Concept handler.
+
+trigger:
+  source: ui_event
+  field: type
+  match:
+    - form.submitted
+
+participants:
+  - concept: profile-management
+    handler: profile.create
+
+mapping:
+  source: ui_event
+  target:
+    schema: concepts/profile-management/handlers/create.schema.json
+    fields:
+      intentId: intentId
+      uiSessionId: uiSessionId
+      eventType: type
+      payload: payload
+
+constraints:
+  atomicity: true
+  idempotent: true
+  authScope: profiles:write
+
+rules:
+  - UI events are inputs only; Concepts own state mutations.

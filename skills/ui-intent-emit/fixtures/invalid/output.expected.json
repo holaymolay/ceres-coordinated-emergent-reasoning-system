@@ -1,0 +1,25 @@
+{
+  "ok": false,
+  "errors": [
+    {
+      "path": "schemaVersion",
+      "message": "Unsupported or missing schemaVersion"
+    },
+    {
+      "path": "id",
+      "message": "id must be a non-empty string"
+    },
+    {
+      "path": "purpose.summary",
+      "message": "purpose.summary must be a non-empty string"
+    },
+    {
+      "path": "formId",
+      "message": "formId must be a non-empty string"
+    },
+    {
+      "path": "components.fields",
+      "message": "form intents must include at least one field"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+extends: substitution
+message: "Prefer second person ('you') over first person plural."
+level: warning
+ignorecase: true
+swap:
+  "\\bwe\\b": "you"
+  "\\bwe're\\b": "you're"
+  "\\bour\\b": "your"
+  "\\bours\\b": "yours"
+  "\\bus\\b": "you"

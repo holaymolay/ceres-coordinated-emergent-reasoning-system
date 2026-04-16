@@ -1,0 +1,26 @@
+{
+  "id": "intent-alert-001",
+  "type": "alert.show",
+  "schemaVersion": "1.0.0",
+  "purpose": {
+    "summary": "Warn about missing settings"
+  },
+  "components": {
+    "fields": [],
+    "columns": [],
+    "actions": [
+      {
+        "id": "dismiss",
+        "label": "Dismiss",
+        "intent": "dismiss"
+      }
+    ]
+  },
+  "severity": "warning",
+  "content": {
+    "body": "<div>Missing settings</div>"
+  },
+  "metadata": {
+    "designCapability": "baseline"
+  }
+}

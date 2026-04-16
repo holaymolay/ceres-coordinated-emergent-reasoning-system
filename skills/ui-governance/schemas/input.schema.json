@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ui_governance input",
+  "type": "object",
+  "properties": {
+    "intent": { "type": "object" },
+    "capability": {
+      "type": "string",
+      "enum": ["utility", "baseline", "expressive", "custom"]
+    },
+    "raw_output": { "type": "string" }
+  },
+  "required": ["intent"],
+  "additionalProperties": false
+}

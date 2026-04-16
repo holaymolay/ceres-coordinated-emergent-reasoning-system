@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["algorithm", "root", "treeDigest", "fileCount", "files"],
+  "properties": {
+    "algorithm": { "type": "string", "minLength": 1 },
+    "root": { "type": "string", "minLength": 1 },
+    "treeDigest": { "type": "string", "pattern": "^[0-9a-f]+$" },
+    "fileCount": { "type": "integer", "minimum": 0 },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "digest", "size"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "digest": { "type": "string", "pattern": "^[0-9a-f]+$" },
+          "size": { "type": "integer", "minimum": 0 }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
+

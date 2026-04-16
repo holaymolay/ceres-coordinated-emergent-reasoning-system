@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ui_intent.emit output",
+  "type": "object",
+  "properties": {
+    "ok": { "type": "boolean" },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "message": { "type": "string" }
+        },
+        "required": ["path", "message"],
+        "additionalProperties": false
+      }
+    },
+    "intent": { "type": "object" },
+    "schemaVersion": { "type": "string" }
+  },
+  "required": ["ok", "errors"],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": { "properties": { "ok": { "const": true } } },
+      "then": {
+        "required": ["intent", "schemaVersion"],
+        "properties": { "errors": { "maxItems": 0 } }
+      }
+    }
+  ]
+}

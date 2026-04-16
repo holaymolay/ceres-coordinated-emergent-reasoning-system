@@ -1,0 +1,32 @@
+{
+  "id": "intent-page-001",
+  "type": "page.create",
+  "schemaVersion": "1.0.0",
+  "purpose": {
+    "summary": "Show account overview"
+  },
+  "components": {
+    "fields": [],
+    "columns": [],
+    "actions": [
+      {
+        "id": "primary",
+        "label": "Create",
+        "intent": "confirm"
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "componentIds": ["summary"]
+    }
+  ],
+  "layout": {
+    "pattern": "two-column"
+  },
+  "metadata": {
+    "designCapability": "utility"
+  }
+}

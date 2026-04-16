@@ -1,0 +1,279 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UI Intent Schema",
+  "oneOf": [
+    { "$ref": "#/definitions/pageCreateIntent" },
+    { "$ref": "#/definitions/formCreateIntent" },
+    { "$ref": "#/definitions/tableCreateIntent" },
+    { "$ref": "#/definitions/modalOpenIntent" },
+    { "$ref": "#/definitions/alertShowIntent" },
+    { "$ref": "#/definitions/ctaRequestIntent" }
+  ],
+  "definitions": {
+    "purpose": {
+      "type": "object",
+      "properties": {
+        "summary": { "type": "string", "minLength": 1 },
+        "userGoal": { "type": "string" }
+      },
+      "required": ["summary"],
+      "additionalProperties": false
+    },
+    "content": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "summary": { "type": "string" },
+        "body": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "hooks": {
+      "type": "object",
+      "properties": {
+        "submit": { "type": "string" },
+        "confirm": { "type": "string" },
+        "cancel": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "layout": {
+      "type": "object",
+      "properties": {
+        "pattern": {
+          "type": "string",
+          "enum": [
+            "single-column",
+            "two-column",
+            "table-with-toolbar",
+            "modal-centered",
+            "alert-inline",
+            "cta-inline"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "field": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "kind": {
+          "type": "string",
+          "enum": ["text", "select", "number", "date", "checkbox", "textarea"]
+        },
+        "required": { "type": "boolean" },
+        "options": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "placeholder": { "type": "string" },
+        "helpText": { "type": "string" }
+      },
+      "required": ["id", "label", "kind"],
+      "additionalProperties": false
+    },
+    "column": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "dataType": {
+          "type": "string",
+          "enum": ["text", "number", "date", "status"]
+        }
+      },
+      "required": ["id", "label", "dataType"],
+      "additionalProperties": false
+    },
+    "action": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "intent": {
+          "type": "string",
+          "enum": ["submit", "confirm", "cancel", "navigate", "dismiss"]
+        }
+      },
+      "required": ["id", "label", "intent"],
+      "additionalProperties": false
+    },
+    "components": {
+      "type": "object",
+      "properties": {
+        "fields": { "type": "array", "items": { "$ref": "#/definitions/field" } },
+        "columns": { "type": "array", "items": { "$ref": "#/definitions/column" } },
+        "actions": { "type": "array", "items": { "$ref": "#/definitions/action" } }
+      },
+      "required": ["fields", "columns", "actions"],
+      "additionalProperties": false
+    },
+    "pageSection": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "componentIds": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["id", "componentIds"],
+      "additionalProperties": false
+    },
+    "base": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "schemaVersion": { "const": "1.0.0" },
+        "purpose": { "$ref": "#/definitions/purpose" },
+        "components": { "$ref": "#/definitions/components" },
+        "hooks": { "$ref": "#/definitions/hooks" },
+        "layout": { "$ref": "#/definitions/layout" },
+        "content": { "$ref": "#/definitions/content" },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "required": ["id", "schemaVersion", "purpose", "components"],
+      "additionalProperties": false
+    },
+    "pageCreateIntent": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "page.create" },
+        "sections": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/pageSection" },
+          "minItems": 1
+        },
+        "id": { "type": "string", "minLength": 1 },
+        "schemaVersion": { "const": "1.0.0" },
+        "purpose": { "$ref": "#/definitions/purpose" },
+        "components": { "$ref": "#/definitions/components" },
+        "hooks": { "$ref": "#/definitions/hooks" },
+        "layout": { "$ref": "#/definitions/layout" },
+        "content": { "$ref": "#/definitions/content" },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "required": ["id", "type", "schemaVersion", "purpose", "components", "sections"],
+      "additionalProperties": false
+    },
+    "formCreateIntent": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "form.create" },
+        "formId": { "type": "string", "minLength": 1 },
+        "fieldOrder": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "id": { "type": "string", "minLength": 1 },
+        "schemaVersion": { "const": "1.0.0" },
+        "purpose": { "$ref": "#/definitions/purpose" },
+        "components": { "$ref": "#/definitions/components" },
+        "hooks": { "$ref": "#/definitions/hooks" },
+        "layout": { "$ref": "#/definitions/layout" },
+        "content": { "$ref": "#/definitions/content" },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "required": ["id", "type", "schemaVersion", "purpose", "components", "formId"],
+      "additionalProperties": false
+    },
+    "tableCreateIntent": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "table.create" },
+        "tableId": { "type": "string", "minLength": 1 },
+        "rowKey": { "type": "string" },
+        "dataSourceId": { "type": "string" },
+        "id": { "type": "string", "minLength": 1 },
+        "schemaVersion": { "const": "1.0.0" },
+        "purpose": { "$ref": "#/definitions/purpose" },
+        "components": { "$ref": "#/definitions/components" },
+        "hooks": { "$ref": "#/definitions/hooks" },
+        "layout": { "$ref": "#/definitions/layout" },
+        "content": { "$ref": "#/definitions/content" },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "required": ["id", "type", "schemaVersion", "purpose", "components", "tableId"],
+      "additionalProperties": false
+    },
+    "modalOpenIntent": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "modal.open" },
+        "modalId": { "type": "string" },
+        "id": { "type": "string", "minLength": 1 },
+        "schemaVersion": { "const": "1.0.0" },
+        "purpose": { "$ref": "#/definitions/purpose" },
+        "components": { "$ref": "#/definitions/components" },
+        "hooks": { "$ref": "#/definitions/hooks" },
+        "layout": { "$ref": "#/definitions/layout" },
+        "content": { "$ref": "#/definitions/content" },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "required": ["id", "type", "schemaVersion", "purpose", "components"],
+      "additionalProperties": false
+    },
+    "alertShowIntent": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "alert.show" },
+        "severity": {
+          "type": "string",
+          "enum": ["info", "warning", "error", "success"]
+        },
+        "id": { "type": "string", "minLength": 1 },
+        "schemaVersion": { "const": "1.0.0" },
+        "purpose": { "$ref": "#/definitions/purpose" },
+        "components": { "$ref": "#/definitions/components" },
+        "hooks": { "$ref": "#/definitions/hooks" },
+        "layout": { "$ref": "#/definitions/layout" },
+        "content": { "$ref": "#/definitions/content" },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "required": ["id", "type", "schemaVersion", "purpose", "components", "severity"],
+      "additionalProperties": false
+    },
+    "ctaRequestIntent": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "cta.request" },
+        "ctaId": { "type": "string" },
+        "id": { "type": "string", "minLength": 1 },
+        "schemaVersion": { "const": "1.0.0" },
+        "purpose": { "$ref": "#/definitions/purpose" },
+        "components": { "$ref": "#/definitions/components" },
+        "hooks": { "$ref": "#/definitions/hooks" },
+        "layout": { "$ref": "#/definitions/layout" },
+        "content": { "$ref": "#/definitions/content" },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "required": ["id", "type", "schemaVersion", "purpose", "components"],
+      "additionalProperties": false
+    }
+  }
+}

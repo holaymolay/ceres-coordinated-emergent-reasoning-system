@@ -1,0 +1,10 @@
+extends: existence
+message: "Avoid ambiguous language; be specific."
+level: warning
+ignorecase: true
+tokens:
+  - "\\bmay\\b"
+  - "\\bmight\\b"
+  - "\\bcould\\b"
+  - "\\bperhaps\\b"
+  - "\\bmaybe\\b"

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ui_intent.emit input",
+  "type": "object",
+  "properties": {
+    "intent": { "type": "object" }
+  },
+  "required": ["intent"],
+  "additionalProperties": false
+}

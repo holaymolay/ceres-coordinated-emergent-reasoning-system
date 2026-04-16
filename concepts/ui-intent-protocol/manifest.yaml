@@ -1,0 +1,44 @@
+apiVersion: concept/v1
+kind: Concept
+
+id: ui-intent-protocol
+name: UI Intent Protocol
+version: 0.1.0
+description: Agent-to-UI intent schema, adapter contract, and reference renderer infrastructure.
+
+governance:
+  specId: "d520edbb-18e7-4b29-834c-6756329b2c81"
+  skills:
+    - ui_intent.emit
+    - ui_governance
+
+purpose:
+  summary: Provide a minimal, extensible UI intent layer with adapter-governed rendering.
+  nonGoals:
+    - Full design system
+    - Visual styling authored by agents
+
+owners:
+  - codex-cli
+
+handlers:
+  - id: intent-schema
+    path: handlers/intent/intent-schema.ts
+  - id: adapter-contract
+    path: handlers/adapter/adapter-contract.ts
+  - id: tailwind-adapter
+    path: handlers/adapter/tailwind-adapter.tsx
+  - id: reference-renderer
+    path: handlers/reference/render.ts
+  - id: governance-validator
+    path: handlers/governance/validate.ts
+
+validation:
+  intentSchema: handlers/intent/intent.schema.json
+
+state:
+  schema: state.schema.json
+
+dependencies:
+  concepts: []
+  synchronizations: []
