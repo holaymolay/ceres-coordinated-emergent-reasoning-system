@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Intent Schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "intentId": { "type": "string", "minLength": 1 },
+    "intentVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "page_goal": { "type": "string", "enum": ["convert", "explain", "operate"] },
+    "audience_sophistication": {
+      "type": "string",
+      "enum": ["low", "medium", "expert"]
+    },
+    "brand_traits": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1,
+      "maxItems": 5,
+      "uniqueItems": true
+    },
+    "interaction_density": {
+      "type": "string",
+      "enum": ["sparse", "moderate", "dense"]
+    },
+    "expressiveness_tolerance": {
+      "type": "string",
+      "enum": ["conservative", "expressive"]
+    },
+    "accessibility_floor": {
+      "type": "string",
+      "enum": ["wcag-2.1-aa", "wcag-2.2-aa", "section-508"]
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "intentId",
+    "intentVersion",
+    "createdAt",
+    "page_goal",
+    "audience_sophistication",
+    "brand_traits",
+    "interaction_density",
+    "expressiveness_tolerance",
+    "accessibility_floor"
+  ],
+  "additionalProperties": false
+}

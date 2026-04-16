@@ -1,0 +1,10 @@
+extends: substitution
+message: "Use the approved term '%s'."
+level: warning
+ignorecase: true
+swap:
+  "structured richness": "Structured Richness"
+  "ui intent": "UI intent"
+  "ui-intent": "UI intent"
+  "pdca": "PDCA"
+  "repo": "repository"

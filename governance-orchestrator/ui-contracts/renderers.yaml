@@ -1,0 +1,7 @@
+renderers:
+  - id: tailwind-react
+    entrypoint: concepts/ui-intent-protocol/handlers/reference/render.ts
+    adapter: concepts/ui-intent-protocol/handlers/adapter/tailwind-adapter.tsx
+    intentFixture: skills/ui-intent-emit/examples/form.create.json
+    invalidIntentFixture: skills/ui-intent-emit/fixtures/invalid/input.json
+    eventFixture: ui-contracts/examples/form.submitted.json

@@ -1,0 +1,35 @@
+apiVersion: concept/v1
+kind: Concept
+
+id: design-intent-schema
+name: Design Intent Schema
+version: 0.1.0
+description: Deterministic design intent contract for agent routing and UX goal alignment.
+
+governance:
+  specId: "193e018f-6875-4276-b503-2af48f6ec37b"
+  skills: []
+
+purpose:
+  summary: Define a machine-readable design intent contract that governs why a frontend exists and what it optimizes for.
+  nonGoals:
+    - UI rendering rules
+    - Visual styling tokens or components
+    - Frontend framework implementation details
+
+owners:
+  - codex-cli
+
+handlers:
+  - id: intent-validator
+    path: handlers/intent/validate.py
+
+validation:
+  intentSchema: ../../schemas/design-intent.schema.json
+
+state:
+  schema: state.schema.json
+
+dependencies:
+  concepts: []
+  synchronizations: []

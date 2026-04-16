@@ -1,0 +1,23 @@
+{
+  "id": "intent-table-create-001",
+  "type": "table.create",
+  "schemaVersion": "1.0.0",
+  "purpose": {
+    "summary": "Review recent activity",
+    "userGoal": "Scan the latest updates"
+  },
+  "content": {
+    "title": "Recent activity"
+  },
+  "tableId": "activity-table",
+  "rowKey": "activity_id",
+  "payload": {},
+  "components": {
+    "fields": [],
+    "columns": [
+      { "id": "timestamp", "label": "Timestamp", "dataType": "date" },
+      { "id": "activity", "label": "Activity", "dataType": "text" }
+    ],
+    "actions": []
+  }
+}

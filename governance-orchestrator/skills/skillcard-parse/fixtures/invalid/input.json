@@ -1,0 +1,5 @@
+{
+  "path": "fixtures/invalid/SKILL.md",
+  "includeBody": false,
+  "profile": "compat"
+}

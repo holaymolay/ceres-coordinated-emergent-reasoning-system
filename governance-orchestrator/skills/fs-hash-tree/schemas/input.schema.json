@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["root"],
+  "properties": {
+    "root": { "type": "string", "minLength": 1 },
+    "algorithm": {
+      "type": "string",
+      "enum": ["sha256", "sha1", "md5"],
+      "default": "sha256"
+    },
+    "exclude": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    }
+  },
+  "additionalProperties": false
+}
+

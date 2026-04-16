@@ -1,0 +1,36 @@
+apiVersion: sync/v1
+kind: Synchronization
+
+id: ui-event-sync-action-clicked
+name: UI Event Synchronization (Action Clicked)
+version: 1.0.0
+
+description: Route action click events into the profile Concept handler.
+
+trigger:
+  source: ui_event
+  field: type
+  match:
+    - action.clicked
+
+participants:
+  - concept: profile-management
+    handler: profile.action
+
+mapping:
+  source: ui_event
+  target:
+    schema: concepts/profile-management/handlers/action.schema.json
+    fields:
+      intentId: intentId
+      uiSessionId: uiSessionId
+      eventType: type
+      payload: payload
+
+constraints:
+  atomicity: true
+  idempotent: true
+  authScope: profiles:write
+
+rules:
+  - UI events are inputs only; Concepts own state mutations.

@@ -1,0 +1,13 @@
+{
+  "intent": {
+    "id": "",
+    "type": "form.create",
+    "schemaVersion": "0.9.0",
+    "purpose": {},
+    "components": {
+      "fields": [],
+      "columns": [],
+      "actions": []
+    }
+  }
+}

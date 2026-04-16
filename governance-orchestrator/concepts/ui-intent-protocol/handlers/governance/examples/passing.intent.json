@@ -1,0 +1,39 @@
+{
+  "id": "intent-form-001",
+  "type": "form.create",
+  "schemaVersion": "1.0.0",
+  "purpose": {
+    "summary": "Collect onboarding details"
+  },
+  "components": {
+    "fields": [
+      {
+        "id": "first_name",
+        "label": "First name",
+        "kind": "text"
+      },
+      {
+        "id": "last_name",
+        "label": "Last name",
+        "kind": "text"
+      },
+      {
+        "id": "start_date",
+        "label": "Start date",
+        "kind": "date"
+      }
+    ],
+    "columns": [],
+    "actions": [
+      {
+        "id": "submit",
+        "label": "Submit",
+        "intent": "submit"
+      }
+    ]
+  },
+  "formId": "onboarding-form",
+  "metadata": {
+    "designCapability": "baseline"
+  }
+}

@@ -1,0 +1,59 @@
+apiVersion: skill/v1
+kind: Skill
+
+id: skillcard.index
+name: Index Skill Cards
+version: 1.0.0
+description: Discover and summarize SKILL.md Skill Cards under a directory.
+
+governance:
+  specId: "354620f4-e4c8-4d64-89da-a58bbfec8ef6"
+  oneSkillPerCommit: true
+  concepts: []
+  synchronizations: []
+
+runtime:
+  type: command
+  command:
+    - python3
+    - impl/run.py
+  cwd: "."
+  timeoutMs: 60000
+
+io:
+  inputSchema: schemas/input.schema.json
+  outputSchema: schemas/output.schema.json
+  input:
+    transport: stdin
+    encoding: json
+  output:
+    transport: stdout
+    encoding: json
+
+determinism:
+  network: forbidden
+  time: forbidden
+  randomness: forbidden
+
+security:
+  access:
+    filesystem:
+      read:
+        - "**/SKILL.md"
+      write: []
+    env:
+      read: []
+    subprocess:
+      allowed: false
+    network:
+      allowed: false
+
+observability:
+  logs:
+    format: jsonl
+    destination: stderr
+  runReport:
+    enabled: true
+
+x-notes:
+  note: "Parses a restricted YAML subset (simple key/value scalars) for deterministic, dependency-free indexing."

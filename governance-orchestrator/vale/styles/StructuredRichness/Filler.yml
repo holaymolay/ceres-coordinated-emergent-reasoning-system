@@ -1,0 +1,10 @@
+extends: existence
+message: "Remove filler or tighten phrasing."
+level: warning
+ignorecase: true
+tokens:
+  - "this document"
+  - "in order to"
+  - "simply"
+  - "very"
+  - "just"

@@ -1,0 +1,16 @@
+skill_name: enforce_single_concept
+skill_type: reasoning
+description: Ensure exactly one Concept manifest is active for the task context.
+inputs:
+  - user_request
+  - active_concept_manifest
+  - concept_registry
+transformations:
+  - Select the single active Concept manifest for this run.
+  - Remove any additional Concept references from context.
+guarantees:
+  - Exactly one Concept manifest is active.
+  - Zero cross-concept reasoning is permitted.
+failure_conditions:
+  - No Concept manifest is active.
+  - Multiple Concept manifests are active.

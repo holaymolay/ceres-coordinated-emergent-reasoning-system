@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "1.0.0",
+  "intentId": "",
+  "intentVersion": "1",
+  "createdAt": "not-a-date",
+  "audience_sophistication": "low",
+  "brand_traits": [
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six"
+  ],
+  "interaction_density": "dense",
+  "expressiveness_tolerance": "wild",
+  "accessibility_floor": "wcag-3"
+}

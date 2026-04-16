@@ -1,0 +1,41 @@
+{
+  "intent": {
+    "id": "intent-form-create-001",
+    "type": "form.create",
+    "schemaVersion": "1.0.0",
+    "purpose": {
+      "summary": "Collect basic profile information",
+      "userGoal": "Create a profile"
+    },
+    "content": {
+      "title": "Create profile",
+      "summary": "Enter the essentials"
+    },
+    "formId": "profile-create",
+    "components": {
+      "fields": [
+        {
+          "id": "first_name",
+          "label": "First name",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "kind": "select",
+          "options": ["Designer", "Engineer"]
+        }
+      ],
+      "columns": [],
+      "actions": [
+        { "id": "submit", "label": "Create profile", "intent": "submit" },
+        { "id": "cancel", "label": "Cancel", "intent": "cancel" }
+      ]
+    },
+    "hooks": {
+      "submit": "profile.create",
+      "cancel": "profile.cancel"
+    }
+  }
+}

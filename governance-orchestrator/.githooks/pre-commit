@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Optional hook: enable with `git config core.hooksPath .githooks`.
+# Recommended to catch documentation issues before CI.
+
+scripts/docs-quality.sh

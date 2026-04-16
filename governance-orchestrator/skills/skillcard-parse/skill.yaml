@@ -1,0 +1,59 @@
+apiVersion: skill/v1
+kind: Skill
+
+id: skillcard.parse
+name: Parse Skill Card
+version: 1.0.0
+description: Parse and validate SKILL.md YAML frontmatter (Anthropic/Claude Skills, OpenAI Codex Skills).
+
+governance:
+  specId: "b1ff11cb-dc41-4fc9-aaff-c23a2ad7ea86"
+  oneSkillPerCommit: true
+  concepts: []
+  synchronizations: []
+
+runtime:
+  type: command
+  command:
+    - python3
+    - impl/run.py
+  cwd: "."
+  timeoutMs: 60000
+
+io:
+  inputSchema: schemas/input.schema.json
+  outputSchema: schemas/output.schema.json
+  input:
+    transport: stdin
+    encoding: json
+  output:
+    transport: stdout
+    encoding: json
+
+determinism:
+  network: forbidden
+  time: forbidden
+  randomness: forbidden
+
+security:
+  access:
+    filesystem:
+      read:
+        - "**/SKILL.md"
+      write: []
+    env:
+      read: []
+    subprocess:
+      allowed: false
+    network:
+      allowed: false
+
+observability:
+  logs:
+    format: jsonl
+    destination: stderr
+  runReport:
+    enabled: true
+
+x-notes:
+  note: "Intentionally parses a restricted YAML subset (simple key/value scalars) for deterministic, dependency-free execution."

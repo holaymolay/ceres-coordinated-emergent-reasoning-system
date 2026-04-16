@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ui-intent-protocol state",
+  "type": "object",
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "notes": { "type": "string" }
+  },
+  "additionalProperties": false
+}

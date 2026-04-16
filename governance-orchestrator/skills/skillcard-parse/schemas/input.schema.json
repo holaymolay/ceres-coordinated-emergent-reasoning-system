@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "skillcard.parse input",
+  "type": "object",
+  "properties": {
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*\\.{2}).+SKILL\\.md$"
+    },
+    "text": { "type": "string", "minLength": 1 },
+    "includeBody": { "type": "boolean" },
+    "profile": {
+      "type": "string",
+      "enum": ["compat", "anthropic-v1", "openai-codex-v1"]
+    }
+  },
+  "additionalProperties": false,
+  "oneOf": [
+    { "required": ["path"], "not": { "required": ["text"] } },
+    { "required": ["text"], "not": { "required": ["path"] } }
+  ]
+}

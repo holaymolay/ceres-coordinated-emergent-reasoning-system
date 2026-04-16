@@ -1,0 +1,37 @@
+{
+  "invalid": 1,
+  "profile": "compat",
+  "root": "REPLACE_ME",
+  "skillcards": [
+    {
+      "errors": [],
+      "frontmatter": {
+        "description": "Alpha fixture skill card.",
+        "name": "alpha-skill"
+      },
+      "ok": true,
+      "path": "skill-a/SKILL.md",
+      "warnings": []
+    },
+    {
+      "errors": [
+        {
+          "code": "missing_description",
+          "message": "Missing required frontmatter field: description"
+        },
+        {
+          "code": "invalid_name_format",
+          "message": "name must be hyphen-case: lowercase letters, digits, and hyphens only"
+        }
+      ],
+      "frontmatter": {
+        "name": "not_valid_for_compat"
+      },
+      "ok": false,
+      "path": "skill-b/SKILL.md",
+      "warnings": []
+    }
+  ],
+  "total": 2,
+  "valid": 1
+}
