@@ -1,6 +1,3 @@
-# Ignore all child repositories (CERES ecosystem components)
-
-governance-orchestrator/
 # CERES generated artifacts
 objective-contract.json
 gap-ledger.json
