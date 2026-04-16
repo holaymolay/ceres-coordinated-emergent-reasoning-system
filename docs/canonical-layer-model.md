@@ -133,7 +133,7 @@ Exit criteria: Tasks authorized and assigned; execution permission granted.
 **Actual doing**
 
 Agents:
-- Codex / Claude Code / Gemini Code
+- Any spec-bound execution agent (Claude Code, Codex, Gemini Code, etc.)
 - Specialized agents (UI, DB, infra, etc.)
 
 Hard rules:
