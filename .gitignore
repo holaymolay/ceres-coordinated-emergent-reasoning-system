@@ -3,7 +3,6 @@
 governance-orchestrator/
 readme-spec-engine/
 spec-compiler/
-ui-constitution/
 # CERES generated artifacts
 objective-contract.json
 gap-ledger.json
