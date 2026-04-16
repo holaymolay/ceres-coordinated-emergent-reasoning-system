@@ -1,0 +1,14 @@
+skill_name: forbid_cross_concept_reasoning
+skill_type: reasoning
+description: Prevent any symbols, paths, or logic outside the active Concept during planning.
+inputs:
+  - active_concept_manifest
+  - task_context
+transformations:
+  - Filter context to symbols, paths, and rules that belong to the active Concept.
+  - Flag any cross-concept references for review.
+guarantees:
+  - No symbols, paths, or logic outside the active Concept are referenced.
+  - Planning scope remains within the active Concept boundary.
+failure_conditions:
+  - Cross-concept symbols, paths, or logic are detected in the context.

@@ -1,0 +1,4 @@
+reasoning:
+  - bind_spec_id
+  - enforce_single_concept
+  - forbid_cross_concept_reasoning

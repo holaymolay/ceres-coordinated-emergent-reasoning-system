@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+venv_dir="${SKILLCTL_VENV:-$repo_root/.venv-skillctl}"
+
+if [[ -x "$venv_dir/bin/python" ]]; then
+  exec "$venv_dir/bin/python" "$repo_root/scripts/skillctl.py" "$@"
+fi
+
+exec python3 "$repo_root/scripts/skillctl.py" "$@"
+

@@ -1,0 +1,39 @@
+project_name: "example-advanced"
+one_sentence_value_prop: "Spec-driven README generation with strict constraints and explicit audience segmentation."
+audience:
+  include:
+    - "Platform teams enforcing README governance."
+    - "Automation agents producing standardized docs."
+  exclude:
+    - "Teams wanting free-form README authoring."
+    - "Docs that require subjective editorial review."
+problem_statement: "Inconsistent README formats create audit gaps and slow onboarding."
+solution_summary: "The generator produces deterministic README artifacts from specs and validates every section against declared constraints."
+outcomes:
+  - "Predictable README structure across repos."
+  - "Automated validation of declared constraints."
+  - "Transparent diffs between current and regenerated content."
+quick_start:
+  - "python -m venv .venv && source .venv/bin/activate"
+  - "pip install -r requirements.txt"
+  - "python src/generate_readme.py --spec README_SPEC.yaml --output README.md"
+  - "python src/validate_readme.py --spec README_SPEC.yaml --readme README.md"
+repo_map:
+  - path: "README_SPEC.yaml"
+    description: "Project-specific spec input."
+  - path: "spec/"
+    description: "Reusable section, rule, and tone definitions."
+  - path: "src/"
+    description: "Command-line entrypoints and core engine."
+  - path: "examples/"
+    description: "Sample specs for reference."
+non_goals:
+  - "Not a marketing copy generator."
+  - "Not an enforcement system; enforcement happens elsewhere."
+  - "Not a repo-specific policy engine."
+constraints:
+  max_length: 6000
+  banned_terms:
+    - "amazing"
+    - "revolutionary"
+  tone_profile: "direct"
