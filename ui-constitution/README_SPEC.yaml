@@ -1,0 +1,38 @@
+project_name: "ui-constitution"
+one_sentence_value_prop: "Machine-readable Visual Constitution that defines enforceable constraints for LLM-generated UI systems."
+audience:
+  include:
+    - "Compiler and CI pipeline integrators who need deterministic visual rules."
+    - "Frontend renderers that validate visual constraints before output."
+  exclude:
+    - "Teams looking for UI components or framework-specific tokens."
+    - "Projects seeking prompts or agent workflows."
+problem_statement: "Without enforceable constraints, LLM-generated UIs drift in style, violate accessibility floors, and become inconsistent across iterations."
+solution_summary: "Publish a schema-governed constitution that encodes hard visual limits (typography, spacing, color, motion, assets) for deterministic validation."
+outcomes:
+  - "Provide JSON Schema documents for each visual domain with explicit bounds."
+  - "Enable automated validation in CI and rendering pipelines."
+  - "Define versioned, machine-enforceable rules with clear violation semantics."
+quick_start:
+  - "Read docs/purpose.md to understand scope and intent."
+  - "Validate a constitution document against constitution/constitution.schema.json."
+  - "Consult docs/enforcement-model.md for violation handling semantics."
+repo_map:
+  - path: "constitution/"
+    description: "JSON Schema documents that define the Visual Constitution."
+  - path: "docs/"
+    description: "Purpose, enforcement, versioning, and governance documentation."
+  - path: "specs/"
+    description: "Task specs and governance artifacts for changes."
+  - path: "skills/reasoning/"
+    description: "Reasoning manifests required by the governance framework."
+  - path: "scripts/"
+    description: "Workflow and run-record helper scripts."
+non_goals:
+  - "Not a UI component library."
+  - "Not a renderer or design system implementation."
+  - "Not a prompt collection or agent framework."
+constraints:
+  max_length: 5200
+  banned_terms: []
+  tone_profile: "neutral"

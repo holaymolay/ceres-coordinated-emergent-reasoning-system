@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ui-constitution.local/schemas/spacing.schema.json",
+  "title": "Spacing Constraints",
+  "type": "object",
+  "description": "Discrete spacing scale and vertical rhythm limits.",
+  "additionalProperties": false,
+  "properties": {
+    "spacing_scale": {
+      "type": "array",
+      "description": "Discrete spacing values only; no arbitrary values.",
+      "const": [4, 8, 12, 16, 24, 32, 40, 48, 64],
+      "items": { "type": "number" }
+    },
+    "min_spacing": {
+      "type": "number",
+      "description": "Minimum allowed spacing value.",
+      "const": 4
+    },
+    "max_spacing": {
+      "type": "number",
+      "description": "Maximum allowed spacing value.",
+      "const": 64
+    },
+    "vertical_rhythm_unit": {
+      "type": "number",
+      "description": "Base unit for vertical rhythm.",
+      "const": 4
+    },
+    "vertical_rhythm_strict": {
+      "type": "boolean",
+      "description": "Vertical rhythm must follow the base unit.",
+      "const": true
+    }
+  },
+  "required": [
+    "spacing_scale",
+    "min_spacing",
+    "max_spacing",
+    "vertical_rhythm_unit",
+    "vertical_rhythm_strict"
+  ]
+}

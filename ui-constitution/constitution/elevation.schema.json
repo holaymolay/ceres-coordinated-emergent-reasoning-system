@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ui-constitution.local/schemas/elevation.schema.json",
+  "title": "Elevation and Depth Constraints",
+  "type": "object",
+  "description": "Maximum elevation levels and shadow usage limits.",
+  "additionalProperties": false,
+  "properties": {
+    "elevation_levels": {
+      "type": "array",
+      "description": "Discrete elevation levels.",
+      "const": [0, 1, 2, 3, 4],
+      "items": { "type": "integer" }
+    },
+    "max_elevation_level": {
+      "type": "integer",
+      "description": "Maximum elevation level.",
+      "const": 4
+    },
+    "shadow_styles": {
+      "type": "array",
+      "description": "Allowed shadow styles.",
+      "const": ["none", "ambient", "direct"],
+      "items": { "type": "string" }
+    },
+    "max_shadows_per_surface": {
+      "type": "integer",
+      "description": "Maximum shadow layers per surface.",
+      "const": 1
+    },
+    "prohibited_combinations": {
+      "type": "array",
+      "description": "Explicitly prohibited elevation + shadow combinations.",
+      "const": [
+        { "elevation_level": 0, "shadow_style": "ambient" },
+        { "elevation_level": 0, "shadow_style": "direct" }
+      ],
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "elevation_level": { "type": "integer" },
+          "shadow_style": { "type": "string" }
+        },
+        "required": ["elevation_level", "shadow_style"]
+      }
+    }
+  },
+  "required": [
+    "elevation_levels",
+    "max_elevation_level",
+    "shadow_styles",
+    "max_shadows_per_surface",
+    "prohibited_combinations"
+  ]
+}
