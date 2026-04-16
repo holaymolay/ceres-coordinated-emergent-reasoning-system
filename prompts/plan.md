@@ -6,6 +6,10 @@ Phase: planning (per `governance/inference-phases.yaml`).
 ## Purpose
 Produce governance artifacts and apply automatic governance toggles based on workspace health signals.
 
+## Quick Context
+- Read `.ceres/workspace/STATE.md` first for current spec, gaps, focus, and source hashes.
+- Consult authoritative files only when STATE.md is absent, a source hash is stale, or the task demands deeper context.
+
 ## Authority & Scope
 - Planning + immediate handoff to execution. No blocking on missing artifacts.
 - Tool-use is permitted for artifact generation and execution kickoff.

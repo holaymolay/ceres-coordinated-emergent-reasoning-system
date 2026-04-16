@@ -219,6 +219,12 @@ def main(argv: List[str] | None = None) -> int:
     else:
         print("No new completed entries to record.")
 
+    digest_script = ROOT / "scripts" / "generate-state-digest.py"
+    if digest_script.exists():
+        code, out, err = run(["python3", str(digest_script)])
+        if out:
+            print(out)
+
     return 0
 
 
