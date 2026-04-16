@@ -20,5 +20,11 @@ __pycache__/
 *.pyc
 dist/
 
+# Bootstrap artifact — created in consumer repos by PROMPTLOADER.md.
+# In this source repo the root files are canonical; .ceres/core/ is redundant
+# and should not be tracked.
+.ceres/core/
+.ceres/core.lock
+
 # Local research notes (ignored when untracked)
 dev_notes/
