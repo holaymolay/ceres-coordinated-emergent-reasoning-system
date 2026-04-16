@@ -1,0 +1,30 @@
+{
+  "name": "ui-pattern-registry",
+  "version": "0.1.0",
+  "description": "Machine-readable UI pattern registry and validation tooling for LLM-driven front-end systems.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint": "eslint scripts tests --ext .js",
+    "validate": "node scripts/validate-patterns.js",
+    "test": "npm run validate && node --test tests/**/*.test.js"
+  },
+  "keywords": [
+    "ui-patterns",
+    "schema",
+    "llm"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "glob": "^13.0.0",
+    "yaml": "^2.8.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "eslint": "^9.39.2",
+    "globals": "^16.5.0"
+  }
+}

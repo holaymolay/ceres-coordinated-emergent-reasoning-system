@@ -1,0 +1,282 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ui-pattern-registry/schemas/pattern.schema.json",
+  "title": "UI Pattern Definition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "pattern_id",
+    "name",
+    "category",
+    "version",
+    "status",
+    "description",
+    "roles",
+    "structure",
+    "usage_constraints"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": ["0.1.0"]
+    },
+    "pattern_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$",
+      "description": "Stable identifier used across renderers and validation."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "category": {
+      "type": "string",
+      "enum": ["layout", "composition", "interaction"]
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "stable", "deprecated"]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Structural description only (no styling)."
+    },
+    "summary": {
+      "type": "string",
+      "description": "Concise single-line summary of the pattern."
+    },
+    "roles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_roles"],
+      "properties": {
+        "required_roles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "uniqueItems": true
+        },
+        "optional_roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "structure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_parts", "max_nesting_depth"],
+      "properties": {
+        "max_nesting_depth": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "required_parts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/part"
+          }
+        },
+        "optional_parts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/part"
+          }
+        }
+      }
+    },
+    "variants": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/variant"
+      }
+    },
+    "usage_constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed_page_goals",
+        "allowed_interaction_density",
+        "forbidden_intents",
+        "animation_allowed",
+        "composability"
+      ],
+      "properties": {
+        "allowed_page_goals": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "allowed_interaction_density": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "forbidden_intents": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "animation_allowed": {
+          "type": "boolean"
+        },
+        "composability": {
+          "$ref": "#/definitions/composability"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "part": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "role", "description"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "min_items": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 1
+        },
+        "max_items": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "variant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "summary"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "structure_overrides": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "max_nesting_depth": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "required_parts": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/part"
+              }
+            },
+            "optional_parts": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/part"
+              }
+            }
+          }
+        },
+        "allowed_when": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "composability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_child_categories", "allowed_parent_categories"],
+      "properties": {
+        "allowed_child_categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["layout", "composition", "interaction"]
+          },
+          "uniqueItems": true
+        },
+        "allowed_parent_categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["layout", "composition", "interaction"]
+          },
+          "uniqueItems": true
+        },
+        "allowed_child_pattern_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "uniqueItems": true
+        },
+        "forbidden_child_pattern_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "uniqueItems": true
+        },
+        "requires_parent_pattern_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "uniqueItems": true
+        },
+        "incompatible_with": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

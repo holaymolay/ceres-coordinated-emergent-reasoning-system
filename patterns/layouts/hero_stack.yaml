@@ -1,0 +1,73 @@
+schema_version: 0.1.0
+pattern_id: layout_hero_stack
+name: Hero Stack
+category: layout
+version: 0.1.0
+status: stable
+summary: Top-of-page hero band stacked above supporting body content.
+description: Vertical layout that opens with a hero band and flows into supporting body regions without lateral splits.
+roles:
+  required_roles:
+    - hero_band
+    - supporting_body
+  optional_roles:
+    - secondary_callouts
+    - supplemental_media
+structure:
+  max_nesting_depth: 2
+  required_parts:
+    - id: hero_band
+      role: Introduce the page promise and primary action.
+      description: The leading section containing headline-level content and a primary CTA cluster.
+      min_items: 1
+      max_items: 1
+    - id: supporting_body
+      role: Expand on the hero promise with structured content blocks.
+      description: Stacked region for compositions such as card groups, feature lists, or form clusters.
+      min_items: 1
+      max_items: 1
+  optional_parts:
+    - id: secondary_callouts
+      role: Highlight ancillary value points beneath the hero band.
+      description: Short callout blocks that can sit between hero and primary body content.
+      min_items: 0
+      max_items: 2
+    - id: supplemental_media
+      role: Provide optional media adjacent to the hero headline.
+      description: Media container that may flank hero copy while keeping the stack orientation intact.
+      min_items: 0
+      max_items: 1
+variants:
+  - id: hero_with_cta_split
+    summary: Hero band with dual primary CTAs aligned within the hero cluster.
+    allowed_when:
+      - Two parallel page goals require equal prominence.
+    structure_overrides:
+      required_parts:
+        - id: hero_band
+          role: Introduce the page promise and dual CTAs.
+          description: Hero band configured for two primary actions with clear hierarchy and spacing rules owned externally.
+          min_items: 1
+          max_items: 1
+usage_constraints:
+  allowed_page_goals:
+    - product_overview
+    - campaign_landing
+    - feature_summary
+  allowed_interaction_density: low
+  forbidden_intents:
+    - checkout_flow
+    - dense_data_entry
+  animation_allowed: false
+  composability:
+    allowed_child_categories:
+      - composition
+      - interaction
+    allowed_parent_categories:
+      - layout
+    allowed_child_pattern_ids:
+      - composition_card_group
+      - composition_form_cluster
+    forbidden_child_pattern_ids: []
+    requires_parent_pattern_ids: []
+    incompatible_with: []

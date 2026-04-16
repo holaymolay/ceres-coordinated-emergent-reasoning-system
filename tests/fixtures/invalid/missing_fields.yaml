@@ -1,0 +1,19 @@
+schema_version: 0.1.0
+name: Incomplete Pattern
+category: layout
+version: 0.1.0
+status: draft
+description: Missing mandatory identifiers and structural requirements.
+roles:
+  required_roles: []
+structure:
+  max_nesting_depth: 0
+  required_parts: []
+usage_constraints:
+  allowed_page_goals: []
+  allowed_interaction_density: low
+  forbidden_intents: []
+  animation_allowed: false
+  composability:
+    allowed_child_categories: []
+    allowed_parent_categories: []

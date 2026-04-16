@@ -1,0 +1,202 @@
+{
+  "skillcards": [
+    {
+      "errors": [],
+      "frontmatter": {
+        "description": "Creating algorithmic art using p5.js with seeded randomness and interactive parameter exploration. Use this when users request creating art using code, generative art, algorithmic art, flow fields, or particle systems. Create original algorithmic art rather than copying existing artists' work to avoid copyright violations.",
+        "license": "Complete terms in LICENSE.txt",
+        "name": "algorithmic-art"
+      },
+      "ok": true,
+      "upstreamPath": "skills/algorithmic-art/SKILL.md",
+      "url": "https://github.com/anthropics/skills/blob/00756142ab04c82a447693cf373c4e0c554d1005/skills/algorithmic-art/SKILL.md",
+      "warnings": []
+    },
+    {
+      "errors": [],
+      "frontmatter": {
+        "description": "Applies Anthropic's official brand colors and typography to any sort of artifact that may benefit from having Anthropic's look-and-feel. Use it when brand colors or style guidelines, visual formatting, or company design standards apply.",
+        "license": "Complete terms in LICENSE.txt",
+        "name": "brand-guidelines"
+      },
+      "ok": true,
+      "upstreamPath": "skills/brand-guidelines/SKILL.md",
+      "url": "https://github.com/anthropics/skills/blob/00756142ab04c82a447693cf373c4e0c554d1005/skills/brand-guidelines/SKILL.md",
+      "warnings": []
+    },
+    {
+      "errors": [],
+      "frontmatter": {
+        "description": "Create beautiful visual art in .png and .pdf documents using design philosophy. You should use this skill when the user asks to create a poster, piece of art, design, or other static piece. Create original visual designs, never copying existing artists' work to avoid copyright violations.",
+        "license": "Complete terms in LICENSE.txt",
+        "name": "canvas-design"
+      },
+      "ok": true,
+      "upstreamPath": "skills/canvas-design/SKILL.md",
+      "url": "https://github.com/anthropics/skills/blob/00756142ab04c82a447693cf373c4e0c554d1005/skills/canvas-design/SKILL.md",
+      "warnings": []
+    },
+    {
+      "errors": [],
+      "frontmatter": {
+        "description": "Guide users through a structured workflow for co-authoring documentation. Use when user wants to write documentation, proposals, technical specs, decision docs, or similar structured content. This workflow helps users efficiently transfer context, refine content through iteration, and verify the doc works for readers. Trigger when user mentions writing docs, creating proposals, drafting specs, or similar documentation tasks.",
+        "name": "doc-coauthoring"
+      },
+      "ok": true,
+      "upstreamPath": "skills/doc-coauthoring/SKILL.md",
+      "url": "https://github.com/anthropics/skills/blob/00756142ab04c82a447693cf373c4e0c554d1005/skills/doc-coauthoring/SKILL.md",
+      "warnings": []
+    },
+    {
+      "errors": [],
+      "frontmatter": {
+        "description": "Comprehensive document creation, editing, and analysis with support for tracked changes, comments, formatting preservation, and text extraction. When Claude needs to work with professional documents (.docx files) for: (1) Creating new documents, (2) Modifying or editing content, (3) Working with tracked changes, (4) Adding comments, or any other document tasks",
+        "license": "Proprietary. LICENSE.txt has complete terms",
+        "name": "docx"
+      },
+      "ok": true,
+      "upstreamPath": "skills/docx/SKILL.md",
+      "url": "https://github.com/anthropics/skills/blob/00756142ab04c82a447693cf373c4e0c554d1005/skills/docx/SKILL.md",
+      "warnings": []
+    },
+    {
+      "errors": [],
+      "frontmatter": {
+        "description": "Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics.",
+        "license": "Complete terms in LICENSE.txt",
+        "name": "frontend-design"
+      },
+      "ok": true,
+      "upstreamPath": "skills/frontend-design/SKILL.md",
+      "url": "https://github.com/anthropics/skills/blob/00756142ab04c82a447693cf373c4e0c554d1005/skills/frontend-design/SKILL.md",
+      "warnings": []
+    },
+    {
+      "errors": [],
+      "frontmatter": {
+        "description": "A set of resources to help me write all kinds of internal communications, using the formats that my company likes to use. Claude should use this skill whenever asked to write some sort of internal communications (status reports, leadership updates, 3P updates, company newsletters, FAQs, incident reports, project updates, etc.).",
+        "license": "Complete terms in LICENSE.txt",
+        "name": "internal-comms"
+      },
+      "ok": true,
+      "upstreamPath": "skills/internal-comms/SKILL.md",
+      "url": "https://github.com/anthropics/skills/blob/00756142ab04c82a447693cf373c4e0c554d1005/skills/internal-comms/SKILL.md",
+      "warnings": []
+    },
+    {
+      "errors": [],
+      "frontmatter": {
+        "description": "Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).",
+        "license": "Complete terms in LICENSE.txt",
+        "name": "mcp-builder"
+      },
+      "ok": true,
+      "upstreamPath": "skills/mcp-builder/SKILL.md",
+      "url": "https://github.com/anthropics/skills/blob/00756142ab04c82a447693cf373c4e0c554d1005/skills/mcp-builder/SKILL.md",
+      "warnings": []
+    },
+    {
+      "errors": [],
+      "frontmatter": {
+        "description": "Comprehensive PDF manipulation toolkit for extracting text and tables, creating new PDFs, merging/splitting documents, and handling forms. When Claude needs to fill in a PDF form or programmatically process, generate, or analyze PDF documents at scale.",
+        "license": "Proprietary. LICENSE.txt has complete terms",
+        "name": "pdf"
+      },
+      "ok": true,
+      "upstreamPath": "skills/pdf/SKILL.md",
+      "url": "https://github.com/anthropics/skills/blob/00756142ab04c82a447693cf373c4e0c554d1005/skills/pdf/SKILL.md",
+      "warnings": []
+    },
+    {
+      "errors": [],
+      "frontmatter": {
+        "description": "Presentation creation, editing, and analysis. When Claude needs to work with presentations (.pptx files) for: (1) Creating new presentations, (2) Modifying or editing content, (3) Working with layouts, (4) Adding comments or speaker notes, or any other presentation tasks",
+        "license": "Proprietary. LICENSE.txt has complete terms",
+        "name": "pptx"
+      },
+      "ok": true,
+      "upstreamPath": "skills/pptx/SKILL.md",
+      "url": "https://github.com/anthropics/skills/blob/00756142ab04c82a447693cf373c4e0c554d1005/skills/pptx/SKILL.md",
+      "warnings": []
+    },
+    {
+      "errors": [],
+      "frontmatter": {
+        "description": "Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Claude's capabilities with specialized knowledge, workflows, or tool integrations.",
+        "license": "Complete terms in LICENSE.txt",
+        "name": "skill-creator"
+      },
+      "ok": true,
+      "upstreamPath": "skills/skill-creator/SKILL.md",
+      "url": "https://github.com/anthropics/skills/blob/00756142ab04c82a447693cf373c4e0c554d1005/skills/skill-creator/SKILL.md",
+      "warnings": []
+    },
+    {
+      "errors": [],
+      "frontmatter": {
+        "description": "Knowledge and utilities for creating animated GIFs optimized for Slack. Provides constraints, validation tools, and animation concepts. Use when users request animated GIFs for Slack like \"make me a GIF of X doing Y for Slack.\"",
+        "license": "Complete terms in LICENSE.txt",
+        "name": "slack-gif-creator"
+      },
+      "ok": true,
+      "upstreamPath": "skills/slack-gif-creator/SKILL.md",
+      "url": "https://github.com/anthropics/skills/blob/00756142ab04c82a447693cf373c4e0c554d1005/skills/slack-gif-creator/SKILL.md",
+      "warnings": []
+    },
+    {
+      "errors": [],
+      "frontmatter": {
+        "description": "Toolkit for styling artifacts with a theme. These artifacts can be slides, docs, reportings, HTML landing pages, etc. There are 10 pre-set themes with colors/fonts that you can apply to any artifact that has been creating, or can generate a new theme on-the-fly.",
+        "license": "Complete terms in LICENSE.txt",
+        "name": "theme-factory"
+      },
+      "ok": true,
+      "upstreamPath": "skills/theme-factory/SKILL.md",
+      "url": "https://github.com/anthropics/skills/blob/00756142ab04c82a447693cf373c4e0c554d1005/skills/theme-factory/SKILL.md",
+      "warnings": []
+    },
+    {
+      "errors": [],
+      "frontmatter": {
+        "description": "Suite of tools for creating elaborate, multi-component claude.ai HTML artifacts using modern frontend web technologies (React, Tailwind CSS, shadcn/ui). Use for complex artifacts requiring state management, routing, or shadcn/ui components - not for simple single-file HTML/JSX artifacts.",
+        "license": "Complete terms in LICENSE.txt",
+        "name": "web-artifacts-builder"
+      },
+      "ok": true,
+      "upstreamPath": "skills/web-artifacts-builder/SKILL.md",
+      "url": "https://github.com/anthropics/skills/blob/00756142ab04c82a447693cf373c4e0c554d1005/skills/web-artifacts-builder/SKILL.md",
+      "warnings": []
+    },
+    {
+      "errors": [],
+      "frontmatter": {
+        "description": "Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+        "license": "Complete terms in LICENSE.txt",
+        "name": "webapp-testing"
+      },
+      "ok": true,
+      "upstreamPath": "skills/webapp-testing/SKILL.md",
+      "url": "https://github.com/anthropics/skills/blob/00756142ab04c82a447693cf373c4e0c554d1005/skills/webapp-testing/SKILL.md",
+      "warnings": []
+    },
+    {
+      "errors": [],
+      "frontmatter": {
+        "description": "Comprehensive spreadsheet creation, editing, and analysis with support for formulas, formatting, data analysis, and visualization. When Claude needs to work with spreadsheets (.xlsx, .xlsm, .csv, .tsv, etc) for: (1) Creating new spreadsheets with formulas and formatting, (2) Reading or analyzing data, (3) Modify existing spreadsheets while preserving formulas, (4) Data analysis and visualization in spreadsheets, or (5) Recalculating formulas",
+        "license": "Proprietary. LICENSE.txt has complete terms",
+        "name": "xlsx"
+      },
+      "ok": true,
+      "upstreamPath": "skills/xlsx/SKILL.md",
+      "url": "https://github.com/anthropics/skills/blob/00756142ab04c82a447693cf373c4e0c554d1005/skills/xlsx/SKILL.md",
+      "warnings": []
+    }
+  ],
+  "source": {
+    "commit": "00756142ab04c82a447693cf373c4e0c554d1005",
+    "name": "anthropic/skills",
+    "profile": "anthropic-v1",
+    "repo": "https://github.com/anthropics/skills.git",
+    "skillCount": 16
+  }
+}

@@ -1,0 +1,62 @@
+schema_version: 0.1.0
+pattern_id: composition_card_group
+name: Card Group
+category: composition
+version: 0.1.0
+status: stable
+summary: Reusable group of uniform cards arranged in a grid or stack.
+description: Composition that clusters repeatable card units with consistent affordances and spacing owned by the renderer.
+roles:
+  required_roles:
+    - item_card
+  optional_roles:
+    - section_header
+    - section_footer
+structure:
+  max_nesting_depth: 1
+  required_parts:
+    - id: item_card
+      role: Encapsulate a discrete unit of content with a clear affordance.
+      description: Repeatable card container sized consistently within the group.
+      min_items: 2
+      max_items: 12
+  optional_parts:
+    - id: section_header
+      role: Label the group and provide brief context.
+      description: Optional header sitting above the card collection.
+      min_items: 0
+      max_items: 1
+    - id: section_footer
+      role: Offer supplemental navigation or secondary CTA related to the group.
+      description: Optional footer aligned beneath the cards.
+      min_items: 0
+      max_items: 1
+variants:
+  - id: list_stack
+    summary: Single-column stack for narrow viewports or narrative sequences.
+    allowed_when:
+      - Page width or narrative requires vertical scanning.
+  - id: grid_gallery
+    summary: Grid-focused presentation for visually led cards.
+    allowed_when:
+      - The content benefits from at least two columns without detail overflow.
+usage_constraints:
+  allowed_page_goals:
+    - feature_highlights
+    - resource_library
+    - related_content
+  allowed_interaction_density: medium
+  forbidden_intents:
+    - data_table_substitution
+  animation_allowed: true
+  composability:
+    allowed_child_categories:
+      - interaction
+    allowed_parent_categories:
+      - layout
+      - composition
+    allowed_child_pattern_ids:
+      - interaction_primary_cta_flow
+    forbidden_child_pattern_ids: []
+    requires_parent_pattern_ids: []
+    incompatible_with: []

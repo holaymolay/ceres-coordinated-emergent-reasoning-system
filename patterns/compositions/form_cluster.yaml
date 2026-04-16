@@ -1,0 +1,65 @@
+schema_version: 0.1.0
+pattern_id: composition_form_cluster
+name: Form Cluster
+category: composition
+version: 0.1.0
+status: stable
+summary: Grouped form controls with a single action bar and supporting context.
+description: Composition for focused data entry with aligned fields, helper copy, and a primary action region.
+roles:
+  required_roles:
+    - input_fields
+    - action_bar
+  optional_roles:
+    - title
+    - helper_text
+structure:
+  max_nesting_depth: 1
+  required_parts:
+    - id: input_fields
+      role: Collect related user inputs.
+      description: Ordered stack of form controls sharing a single submission context.
+      min_items: 2
+      max_items: 12
+    - id: action_bar
+      role: Present primary and secondary form actions.
+      description: Control row for submit/cancel interactions.
+      min_items: 1
+      max_items: 1
+  optional_parts:
+    - id: title
+      role: Label the form cluster.
+      description: Short text heading above the input group.
+      min_items: 0
+      max_items: 1
+    - id: helper_text
+      role: Provide contextual instructions or validation guidance.
+      description: Concise helper copy aligned with the entire form cluster.
+      min_items: 0
+      max_items: 2
+variants:
+  - id: inline_action_bar
+    summary: Action bar placed inline with final inputs.
+    allowed_when:
+      - Forms with fewer than five controls and minimal validation complexity.
+usage_constraints:
+  allowed_page_goals:
+    - lead_capture
+    - settings_update
+    - gated_download
+  allowed_interaction_density: medium
+  forbidden_intents:
+    - multi_step_wizard
+    - long_running_workflows
+  animation_allowed: false
+  composability:
+    allowed_child_categories:
+      - interaction
+    allowed_parent_categories:
+      - layout
+      - composition
+    allowed_child_pattern_ids:
+      - interaction_primary_cta_flow
+    forbidden_child_pattern_ids: []
+    requires_parent_pattern_ids: []
+    incompatible_with: []

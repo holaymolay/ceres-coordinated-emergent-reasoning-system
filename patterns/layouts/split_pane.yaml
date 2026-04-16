@@ -1,0 +1,59 @@
+schema_version: 0.1.0
+pattern_id: layout_split_pane
+name: Split Pane
+category: layout
+version: 0.1.0
+status: stable
+summary: Two-column layout with a dominant primary pane and a supporting secondary pane.
+description: Horizontal split layout that keeps two adjacent content regions synchronized without nested lateral splits.
+roles:
+  required_roles:
+    - primary_pane
+    - secondary_pane
+  optional_roles:
+    - sticky_support
+structure:
+  max_nesting_depth: 1
+  required_parts:
+    - id: primary_pane
+      role: House the main narrative or interactive element.
+      description: The dominant column intended for the core story or task surface.
+      min_items: 1
+      max_items: 1
+    - id: secondary_pane
+      role: Provide contextual support for the primary pane.
+      description: Supporting column for summaries, filters, or complementary navigation.
+      min_items: 1
+      max_items: 1
+  optional_parts:
+    - id: sticky_support
+      role: Keep a slim support rail aligned to the secondary pane.
+      description: Sticky region for progress, anchors, or key context that remains visible while scrolling.
+      min_items: 0
+      max_items: 1
+variants:
+  - id: balanced_split
+    summary: Even 50/50 split when both panes hold symmetrical weight.
+    allowed_when:
+      - Two sibling flows require balanced visibility.
+usage_constraints:
+  allowed_page_goals:
+    - product_comparison
+    - docs_plus_navigation
+    - guided_configuration
+  allowed_interaction_density: medium
+  forbidden_intents:
+    - full_screen_media
+  animation_allowed: false
+  composability:
+    allowed_child_categories:
+      - composition
+      - interaction
+    allowed_parent_categories:
+      - layout
+    allowed_child_pattern_ids:
+      - composition_card_group
+      - composition_form_cluster
+    forbidden_child_pattern_ids: []
+    requires_parent_pattern_ids: []
+    incompatible_with: []
