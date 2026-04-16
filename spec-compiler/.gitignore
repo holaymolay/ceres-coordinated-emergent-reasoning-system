@@ -1,0 +1,17 @@
+node_modules
+dist
+coverage
+.env*
+npm-debug.log*
+yarn-error.log*
+pnpm-lock.yaml
+ai_workflow_revisions/
+.DS_Store
+*.swp
+*.tmp
+# Compiler artifacts (user-provided or generated)
+intent/
+clarification/
+specs/
+validation/
+synthesis/

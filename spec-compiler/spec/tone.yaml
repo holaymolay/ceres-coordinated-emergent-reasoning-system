@@ -1,0 +1,26 @@
+schema_version: 1
+profiles:
+  neutral:
+    description: "Plain, factual, low-flair tone for technical documentation."
+    disallowed_terms:
+      - "amazing"
+      - "incredible"
+      - "revolutionary"
+      - "world-class"
+      - "best-in-class"
+    section_intros:
+      outcomes: "Expected outcomes:"
+      quick_start: "Run these steps:"
+      non_goals: "This tool explicitly avoids:"
+      constraints: "Hard constraints:"
+  direct:
+    description: "Concise and imperative wording."
+    disallowed_terms:
+      - "maybe"
+      - "might"
+      - "could"
+    section_intros:
+      outcomes: "Outcomes:"
+      quick_start: "Do this:"
+      non_goals: "Do not expect:"
+      constraints: "Must follow:"
