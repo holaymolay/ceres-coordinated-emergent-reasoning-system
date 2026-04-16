@@ -161,10 +161,24 @@ def emit_event(status: str, issues: List[str]) -> None:
     os.system(f"{helper} --type auto_governance --status {status} --message \"auto governance\" --context '{payload}'")
 
 
+def run_harness_detection(workspace: Path) -> Dict[str, Any]:
+    harness_path = workspace / "harness.json"
+    detect_script = ROOT / "scripts" / "detect-harness.py"
+    if detect_script.exists():
+        os.system(f"python3 {detect_script}")
+    if harness_path.exists():
+        try:
+            return load_json(harness_path)
+        except Exception:
+            pass
+    return {}
+
+
 def main() -> int:
     if not STATE_PATH.exists():
         return 0
     workspace = workspace_root()
+    run_harness_detection(workspace)
     issues = detect_issues(workspace)
     strict = bool(issues)
     state = load_json(STATE_PATH)

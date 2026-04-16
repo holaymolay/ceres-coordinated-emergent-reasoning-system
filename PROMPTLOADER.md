@@ -7,18 +7,30 @@ Umbrella name: **CERES — Coordinated Emergent Reasoning System**.
 Do not ask questions. Do not present options. Execute the bootstrap procedure and proceed.
 
 ## Procedure (run in order)
-1) Fast init from URL into `.ceres/core` (prebuilt fast tarball; no nested .ceres):
+1) Fast init — install CERES core into `.ceres/core` using the first method that succeeds:
 
+**a) Git submodule (preferred for repos already under git):**
 ```bash
-mkdir -p .ceres/core
-curl -fsSL https://github.com/holaymolay/ceres-coordinated-emergent-reasoning-system/releases/latest/download/ceres-fast.tar.gz -o /tmp/ceres-fast.tgz
-tar -xzf /tmp/ceres-fast.tgz -C .ceres/core --strip-components 1
+git submodule add https://github.com/holaymolay/ceres-coordinated-emergent-reasoning-system.git .ceres/core 2>/dev/null || true
 ```
 
-2) Initialize workspace/wrappers (no components for speed):
+**b) Git clone (if submodule fails or git is available but repo is fresh):**
+```bash
+git clone --depth 1 https://github.com/holaymolay/ceres-coordinated-emergent-reasoning-system.git .ceres/core 2>/dev/null || true
+```
+
+**c) Tarball download (fallback if network + curl/wget available):**
+```bash
+mkdir -p .ceres/core
+curl -fsSL https://github.com/holaymolay/ceres-coordinated-emergent-reasoning-system/releases/latest/download/ceres-fast.tar.gz -o /tmp/ceres-fast.tgz && tar -xzf /tmp/ceres-fast.tgz -C .ceres/core --strip-components 1
+```
+
+If `.ceres/core` already exists, skip step 1 entirely.
+
+2) Initialize workspace/wrappers:
 
 ```bash
-./.ceres/core/scripts/bootstrap-workspace.sh --root "$PWD" --no-components
+./.ceres/core/scripts/bootstrap-workspace.sh --root "$PWD"
 ```
 
 3) Run autobootstrap (must succeed without questions):
@@ -27,10 +39,15 @@ tar -xzf /tmp/ceres-fast.tgz -C .ceres/core --strip-components 1
 ./.ceres/bin/autobootstrap
 ```
 
-4) Ensure these exist (create/repair silently if missing):
-- `.ceres/core`
+4) Detect harness (non-blocking):
+
+```bash
+python3 ./.ceres/core/scripts/detect-harness.py 2>/dev/null || true
+```
+
+5) Ensure these exist (create/repair silently if missing):
 - `.ceres/bin`
-- `.ceres/components`
+- either `.ceres/core` or root-level fallback scripts resolvable by `.ceres/bin/_paths.sh`
 - `.ceres/workspace/todo-inbox.md`
 - `.ceres/workspace/todo.md`
 - `.ceres/workspace/completed.md`
@@ -40,10 +57,10 @@ tar -xzf /tmp/ceres-fast.tgz -C .ceres/core --strip-components 1
 - `.ceres/workspace/gap-ledger.json`
 - `.ceres/workspace/specs/elicitation/elicitation.md`
 
-5) Start session watcher (non-interactive):
+6) Start session watcher (non-interactive):
 - `./.ceres/bin/start-session`
 
-6) Proceed directly to the first project prompt using:
+7) Proceed directly to the first project prompt using:
 - `prompts/plan.md` (Spec Elicitation + planning + execution start)
 
 Verification prompt (when asked to confirm readiness):
@@ -55,10 +72,10 @@ Routing rule:
 ## Required Defaults (FAST_START)
 - execution_allowed = true
 - enforcement = warn
-- intake_required = auto_generate
-- spec_elicitation = auto_generate_skeleton
-- prompt_debugger = non_blocking
-- gap_ledger = auto_append
+- intake_required = auto-generate
+- spec_elicitation = auto-generate-skeleton
+- prompt_debugger = non-blocking
+- gap_ledger = auto-append
 
 ## Constitutional Override
 If `CONSTITUTION.md` exists, it must follow the non-interactive, auto-generate-and-proceed contract above.
