@@ -1,0 +1,22 @@
+project_name: "example-minimal"
+one_sentence_value_prop: "Minimal spec for a deterministic README generator."
+audience:
+  include:
+    - "Small teams who want a basic README scaffold."
+  exclude:
+    - "Teams seeking marketing copy."
+problem_statement: "README expectations are unclear without explicit structure."
+solution_summary: "Generate a simple README from a minimal spec and validate it deterministically."
+outcomes:
+  - "Generate a short README with required sections."
+quick_start:
+  - "python src/generate_readme.py --spec README_SPEC.yaml"
+repo_map:
+  - path: "src/"
+    description: "Core generator and validator scripts."
+non_goals:
+  - "Not a linter."
+constraints:
+  max_length: 2000
+  banned_terms: []
+  tone_profile: "neutral"

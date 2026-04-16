@@ -1,0 +1,7 @@
+.venv-skillctl/
+ai_workflow_revisions/*
+!ai_workflow_revisions/README.md
+__pycache__/
+*.code-workspace
+.project-dashboard.json
+artifacts/

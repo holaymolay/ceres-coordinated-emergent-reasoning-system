@@ -1,0 +1,57 @@
+apiVersion: skill/v1
+kind: Skill
+
+id: example.echo
+name: Example Echo (Template)
+version: 0.1.0
+description: Template Skill that echoes JSON stdin to stdout.
+
+governance:
+  specId: "SPEC-REPLACE-ME"
+  oneSkillPerCommit: true
+  concepts: []
+  synchronizations: []
+
+runtime:
+  type: command
+  command:
+    - sh
+    - impl/run.sh
+  cwd: "."
+  timeoutMs: 60000
+
+io:
+  inputSchema: schemas/input.schema.json
+  outputSchema: schemas/output.schema.json
+  input:
+    transport: stdin
+    encoding: json
+  output:
+    transport: stdout
+    encoding: json
+
+determinism:
+  network: forbidden
+  time: forbidden
+  randomness: forbidden
+
+security:
+  access:
+    filesystem:
+      read: []
+      write: []
+    env:
+      read: []
+    subprocess:
+      allowed: false
+    network:
+      allowed: false
+
+observability:
+  logs:
+    format: jsonl
+    destination: stderr
+  runReport:
+    enabled: true
+
+x-notes: {}

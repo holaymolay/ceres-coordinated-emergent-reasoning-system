@@ -1,0 +1,44 @@
+project_name: "readme-spec-engine"
+one_sentence_value_prop: "Deterministic spec-to-artifact README generator and validator driven by explicit requirements."
+audience:
+  include:
+    - "Repo maintainers who want README quality tied to explicit specs."
+    - "Agents or scripts that need deterministic README generation."
+  exclude:
+    - "Teams looking for marketing copy generation."
+    - "Repos that want enforcement baked into the generator."
+problem_statement: "README quality is often treated as subjective, making governance inconsistent and hard to audit. Without explicit structure, intent, and constraints, README changes drift and enforcement becomes ad hoc."
+solution_summary: "readme-spec-engine converts explicit specs plus repo metadata into a deterministic README artifact and validates it against declared structure, audience, and constraints; enforcement and policy decisions live elsewhere. Workflow baseline snapshot: ai_workflow_revisions/rev_001_current (local)."
+outcomes:
+  - "Generate README.md deterministically from README_SPEC.yaml."
+  - "Validate README.md against declared structure, audience, and constraints."
+  - "Produce a semantic diff between current and regenerated README."
+  - "Keep README rules inspectable in YAML."
+quick_start:
+  - "python -m venv .venv && source .venv/bin/activate"
+  - "pip install -r requirements.txt"
+  - "python src/generate_readme.py --spec README_SPEC.yaml --output README.md"
+  - "python src/validate_readme.py --spec README_SPEC.yaml --readme README.md"
+  - "python src/diff_readme.py --spec README_SPEC.yaml --readme README.md"
+repo_map:
+  - path: "README_SPEC.yaml"
+    description: "Authoritative input spec for README generation."
+  - path: "spec/"
+    description: "YAML rules for sections, validation, and tone."
+  - path: "src/"
+    description: "CLI scripts for generate, validate, and diff."
+  - path: "examples/"
+    description: "Minimal and advanced spec examples."
+  - path: "CLI.md"
+    description: "CLI usage and flags."
+non_goals:
+  - "Not a linter for arbitrary README content."
+  - "Not marketing automation or copywriting."
+  - "Not an enforcement mechanism; enforcement happens elsewhere."
+  - "Not tied to any single repository's conventions."
+constraints:
+  max_length: 5200
+  banned_terms:
+    - "magic"
+    - "automagic"
+  tone_profile: "neutral"
