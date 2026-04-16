@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ui-constitution.local/schemas/motion.schema.json",
+  "title": "Motion and Animation Constraints",
+  "type": "object",
+  "description": "Allowed motion states, duration bounds, and easing limits.",
+  "additionalProperties": false,
+  "properties": {
+    "allowed_states": {
+      "type": "array",
+      "description": "Allowed animation state categories.",
+      "const": ["enter", "exit", "state-change", "feedback", "progress"],
+      "items": { "type": "string" }
+    },
+    "disallowed_states": {
+      "type": "array",
+      "description": "Disallowed animation state categories.",
+      "const": ["decorative-loop", "ambient-loop", "auto-play"],
+      "items": { "type": "string" }
+    },
+    "duration_ms_bounds": {
+      "type": "object",
+      "description": "Minimum and maximum animation duration in milliseconds.",
+      "additionalProperties": false,
+      "properties": {
+        "min": { "type": "integer", "const": 80 },
+        "max": { "type": "integer", "const": 600 }
+      },
+      "required": ["min", "max"]
+    },
+    "easing_functions": {
+      "type": "array",
+      "description": "Allowed easing functions.",
+      "const": ["linear", "ease", "ease-in", "ease-out", "ease-in-out"],
+      "items": { "type": "string" }
+    },
+    "motion_off_switch_required": {
+      "type": "boolean",
+      "description": "Explicit motion off-switch is required.",
+      "const": true
+    },
+    "reduced_motion_behavior": {
+      "type": "string",
+      "description": "Required reduced-motion behavior.",
+      "enum": ["disable", "simplify"]
+    }
+  },
+  "required": [
+    "allowed_states",
+    "disallowed_states",
+    "duration_ms_bounds",
+    "easing_functions",
+    "motion_off_switch_required",
+    "reduced_motion_behavior"
+  ]
+}

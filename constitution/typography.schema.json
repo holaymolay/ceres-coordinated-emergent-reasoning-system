@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ui-constitution.local/schemas/typography.schema.json",
+  "title": "Typography Constraints",
+  "type": "object",
+  "description": "Machine-enforceable typography limits.",
+  "additionalProperties": false,
+  "properties": {
+    "font_size_scale": {
+      "type": "array",
+      "description": "Finite, enumerated font-size scale.",
+      "const": [12, 14, 16, 18, 20, 24, 30, 36, 48, 60, 72],
+      "items": { "type": "number" }
+    },
+    "line_height_bounds": {
+      "type": "object",
+      "description": "Global line-height bounds (unitless).",
+      "additionalProperties": false,
+      "properties": {
+        "min": { "type": "number", "const": 1.2 },
+        "max": { "type": "number", "const": 1.6 }
+      },
+      "required": ["min", "max"]
+    },
+    "max_distinct_sizes_per_page": {
+      "type": "integer",
+      "description": "Upper limit on distinct font sizes per page.",
+      "const": 8
+    },
+    "heading_sizes": {
+      "type": "array",
+      "description": "Enumerated heading sizes; must not overlap body sizes.",
+      "const": [24, 30, 36, 48, 60, 72],
+      "items": { "type": "number" }
+    },
+    "body_sizes": {
+      "type": "array",
+      "description": "Enumerated body sizes; must not overlap heading sizes.",
+      "const": [12, 14, 16, 18, 20],
+      "items": { "type": "number" }
+    }
+  },
+  "required": [
+    "font_size_scale",
+    "line_height_bounds",
+    "max_distinct_sizes_per_page",
+    "heading_sizes",
+    "body_sizes"
+  ]
+}

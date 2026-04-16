@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ui-constitution.local/schemas/assets.schema.json",
+  "title": "Asset Boundary Constraints",
+  "type": "object",
+  "description": "Icon and image usage constraints with explicit boundaries.",
+  "additionalProperties": false,
+  "properties": {
+    "icon_set": {
+      "type": "object",
+      "description": "Declared icon set metadata.",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+        "source": { "type": "string", "enum": ["local", "third-party"] },
+        "license": { "type": "string", "minLength": 1 }
+      },
+      "required": ["name", "version", "source", "license"]
+    },
+    "image_usage": {
+      "type": "object",
+      "description": "Image usage constraints.",
+      "additionalProperties": false,
+      "properties": {
+        "allowed_types": {
+          "type": "array",
+          "const": ["photo", "illustration", "diagram", "screenshot"],
+          "items": { "type": "string" }
+        },
+        "allowed_formats": {
+          "type": "array",
+          "const": ["jpg", "png", "webp", "svg"],
+          "items": { "type": "string" }
+        },
+        "max_images_per_page": {
+          "type": "integer",
+          "const": 6
+        }
+      },
+      "required": ["allowed_types", "allowed_formats", "max_images_per_page"]
+    },
+    "aspect_ratios_allowed": {
+      "type": "array",
+      "description": "Allowed image aspect ratios.",
+      "const": ["1:1", "4:3", "3:2", "16:9", "2:3", "9:16"],
+      "items": { "type": "string" }
+    },
+    "aspect_ratio_enforced": {
+      "type": "boolean",
+      "description": "Aspect ratio enforcement is required.",
+      "const": true
+    },
+    "decorative_assets_allowed": {
+      "type": "boolean",
+      "description": "Decorative-only assets are prohibited unless explicitly allowed.",
+      "const": false
+    }
+  },
+  "required": [
+    "icon_set",
+    "image_usage",
+    "aspect_ratios_allowed",
+    "aspect_ratio_enforced",
+    "decorative_assets_allowed"
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ui-constitution.local/schemas/radius.schema.json",
+  "title": "Radius and Shape Constraints",
+  "type": "object",
+  "description": "Allowed radius values and variance limits.",
+  "additionalProperties": false,
+  "properties": {
+    "radius_values": {
+      "type": "array",
+      "description": "Discrete radius values.",
+      "const": [0, 2, 4, 6, 8, 12, 16],
+      "items": { "type": "number" }
+    },
+    "max_radius_variants_per_surface": {
+      "type": "integer",
+      "description": "Maximum radius variants per surface type.",
+      "const": 2
+    },
+    "surface_type_variance": {
+      "type": "object",
+      "description": "Maximum radius variance per surface type.",
+      "additionalProperties": false,
+      "properties": {
+        "container": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "max_radius_variance": { "type": "number", "const": 8 }
+          },
+          "required": ["max_radius_variance"]
+        },
+        "control": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "max_radius_variance": { "type": "number", "const": 6 }
+          },
+          "required": ["max_radius_variance"]
+        },
+        "overlay": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "max_radius_variance": { "type": "number", "const": 8 }
+          },
+          "required": ["max_radius_variance"]
+        }
+      },
+      "required": ["container", "control", "overlay"]
+    }
+  },
+  "required": [
+    "radius_values",
+    "max_radius_variants_per_surface",
+    "surface_type_variance"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ui-constitution.local/schemas/constitution.schema.json",
+  "title": "Visual Constitution",
+  "type": "object",
+  "description": "Top-level Visual Constitution schema.",
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Constitution version (semver).",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "typography": { "$ref": "typography.schema.json" },
+    "spacing": { "$ref": "spacing.schema.json" },
+    "color": { "$ref": "color.schema.json" },
+    "elevation": { "$ref": "elevation.schema.json" },
+    "radius": { "$ref": "radius.schema.json" },
+    "motion": { "$ref": "motion.schema.json" },
+    "assets": { "$ref": "assets.schema.json" }
+  },
+  "required": [
+    "version",
+    "typography",
+    "spacing",
+    "color",
+    "elevation",
+    "radius",
+    "motion",
+    "assets"
+  ]
+}
