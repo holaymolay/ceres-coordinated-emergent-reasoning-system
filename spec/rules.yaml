@@ -1,0 +1,38 @@
+schema_version: 1
+validation:
+  require_h1: true
+  section_order_strict: true
+  heading_levels:
+    title: 1
+    sections: 2
+  audience_labels:
+    include: "Include"
+    exclude: "Exclude"
+  quick_start:
+    ordered: true
+  repo_map_table:
+    required: true
+    columns:
+      - "Path"
+      - "Description"
+      - "Exists"
+    exists_values:
+      true: "yes"
+      false: "no"
+  constraints:
+    require_all_fields: true
+    labels:
+      max_length: "Max length"
+      banned_terms: "Banned terms"
+      tone_profile: "Tone profile"
+  term_matching:
+    case_sensitive: false
+    whole_word: false
+  metadata:
+    repo_map_paths_must_exist: true
+    metadata_ignore:
+      - ".git"
+      - "__pycache__"
+      - ".venv"
+      - "ai_workflow_revisions"
+      - "runs"

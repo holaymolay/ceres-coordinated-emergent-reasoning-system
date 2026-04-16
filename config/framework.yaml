@@ -1,0 +1,25 @@
+concepts:
+  - id: spec-generation-framework
+    name: Spec Generation Framework
+    description: Deterministic compiler that converts human intent into governed specifications.
+synchronizations:
+  - id: governance-alignment
+    description: Ensure outputs comply with the context-engineering governance contract.
+  - id: run-records
+    description: Persist deterministic run receipts for auditability.
+security_defaults:
+  - Local filesystem only; no external service calls or secret material in artifacts.
+  - Deterministic execution; disable automatic retries or unstated fallbacks.
+  - No application-code generation; specifications only.
+allowed_paths:
+  - src/**
+  - tests/**
+  - intent/**
+  - clarification/**
+  - specs/**
+  - validation/**
+  - synthesis/**
+disallowed_actions:
+  - Generate application code.
+  - Invoke LLMs inside the compiler pipeline.
+  - Bypass validation or governance gates.

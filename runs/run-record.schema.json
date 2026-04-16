@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Run Record",
+  "type": "object",
+  "properties": {
+    "run_id": { "type": "string", "minLength": 1 },
+    "timestamp": { "type": "string", "minLength": 1 },
+    "concept_id": { "type": "string", "minLength": 1 },
+    "skill_id": { "type": "string", "minLength": 1 },
+    "spec_id": { "type": "string", "minLength": 1 },
+    "files_touched": { "type": "array", "items": { "type": "string" } },
+    "commands_executed": { "type": "array", "items": { "type": "string" } },
+    "outcome": { "type": "string", "enum": ["pass", "fail"] },
+    "fix_loop_count": { "type": "integer", "minimum": 0 },
+    "synchronizations_used": { "type": "array", "items": { "type": "string" } },
+    "execution_profile": { "type": "string", "enum": ["SAFE", "FAST"] },
+    "fast_mode_scope": { "type": "string", "minLength": 1 }
+  },
+  "required": [
+    "run_id",
+    "timestamp",
+    "concept_id",
+    "skill_id",
+    "spec_id",
+    "files_touched",
+    "commands_executed",
+    "outcome",
+    "fix_loop_count",
+    "synchronizations_used"
+  ],
+  "additionalProperties": false
+}

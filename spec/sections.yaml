@@ -1,0 +1,76 @@
+schema_version: 1
+sections:
+  - id: title
+    title_template: "{project_name}"
+    heading_level: 1
+    required: true
+    source: spec
+    field: project_name
+    render: title
+  - id: value_prop
+    title: "Why This Exists"
+    heading_level: 2
+    required: true
+    source: spec
+    field: one_sentence_value_prop
+    render: paragraph
+  - id: audience
+    title: "Audience"
+    heading_level: 2
+    required: true
+    source: spec
+    field: audience
+    render: audience
+  - id: problem
+    title: "Problem"
+    heading_level: 2
+    required: true
+    source: spec
+    field: problem_statement
+    render: paragraph
+  - id: solution
+    title: "Solution"
+    heading_level: 2
+    required: true
+    source: spec
+    field: solution_summary
+    render: paragraph
+  - id: outcomes
+    title: "Outcomes"
+    heading_level: 2
+    required: true
+    source: spec
+    field: outcomes
+    render: list
+    intro_key: outcomes
+  - id: quick_start
+    title: "Quick Start"
+    heading_level: 2
+    required: true
+    source: spec
+    field: quick_start
+    render: ordered_list
+    intro_key: quick_start
+  - id: repo_map
+    title: "Repository Map"
+    heading_level: 2
+    required: true
+    source: spec
+    field: repo_map
+    render: repo_map_table
+  - id: non_goals
+    title: "Non-Goals"
+    heading_level: 2
+    required: true
+    source: spec
+    field: non_goals
+    render: list
+    intro_key: non_goals
+  - id: constraints
+    title: "Constraints"
+    heading_level: 2
+    required: true
+    source: spec
+    field: constraints
+    render: constraints_list
+    intro_key: constraints

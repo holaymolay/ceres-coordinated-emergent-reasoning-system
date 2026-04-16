@@ -1,0 +1,52 @@
+{
+  "status": "passed",
+  "generated_at": "2025-12-28T07:52:39.649Z",
+  "renderer": {
+    "name": "golden-renderer",
+    "version": "0.1.0",
+    "target": "html"
+  },
+  "rules": [
+    {
+      "id": "renderer-manifest.schema",
+      "passed": true,
+      "message": "Renderer manifest matches contracts/renderer-contract.schema.json."
+    },
+    {
+      "id": "renderer-registry.schema",
+      "passed": true,
+      "message": "Renderer registry matches contracts/renderer-registry.schema.json."
+    },
+    {
+      "id": "renderer-contract.declared.rule",
+      "passed": true,
+      "message": "Renderer declares the active renderer contract."
+    },
+    {
+      "id": "renderer-registration.rule",
+      "passed": true,
+      "message": "Renderer is registered for this target and version."
+    },
+    {
+      "id": "renderer-contract.registry.rule",
+      "passed": true,
+      "message": "Renderer registry contract matches the manifest contract."
+    },
+    {
+      "id": "token-usage.declared.rule",
+      "passed": true,
+      "message": "Token usage is fully declared."
+    },
+    {
+      "id": "constitution-compliance.rule",
+      "passed": true,
+      "message": "No constitution violations reported."
+    },
+    {
+      "id": "deterministic-output.rule",
+      "passed": true,
+      "message": "Renderer output is marked deterministic and free of nondeterminism markers."
+    }
+  ],
+  "errors": []
+}

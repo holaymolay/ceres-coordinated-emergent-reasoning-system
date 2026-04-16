@@ -1,0 +1,10 @@
+{
+  "id": "golden-intent",
+  "version": "1.0.0",
+  "density": {
+    "max_interactions_per_view": 6
+  },
+  "allowed_patterns": {
+    "hero.section": ["landing"]
+  }
+}
